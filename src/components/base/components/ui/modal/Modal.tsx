@@ -5,6 +5,7 @@ import React, {
   cloneElement, useMemo, useCallback, ReactElement, useState, useEffect, MouseEvent,
 } from "react";
 import classnames from "classnames";
+import styles from './Modal.module.css'
 import useForkRef from "../../../hooks/useForkRef";
 import createChainedFunction from "../../../utils/createChainedFunction";
 import {Overlay, Window} from "../../atomic";
@@ -14,7 +15,6 @@ interface IModal {
   disableScrollLock?: boolean;
   open?: boolean;
   disableBackgroundClick?: boolean;
-  disableBackgroundColor?: boolean;
   onClose?: () => void;
   children: ReactElement;
 }
@@ -29,7 +29,6 @@ export const Modal = forwardRef<HTMLDivElement, IModal & HTMLAttributes<HTMLDivE
     disableFocusLock = false,
     disableScrollLock = false,
     disableBackgroundClick = false,
-    disableBackgroundColor = false,
     open: defaultOpen = false,
     onClose,
     ...rest
@@ -105,8 +104,7 @@ export const Modal = forwardRef<HTMLDivElement, IModal & HTMLAttributes<HTMLDivE
       <Overlay
         onClick={handleBackgroundClick}
         className={classnames({
-          "tw-hidden": !open,
-          "ac-modal__background": !disableBackgroundColor,
+          [styles.hidden]: !open,
         })}
       />
       {cloneElement(children, childProps)}

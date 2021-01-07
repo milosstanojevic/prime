@@ -8,8 +8,7 @@ import {ArticleRoutes} from "../../features/articles";
 import {OrderRoutes} from "../../features/orders";
 import {UserRoutes} from "../../features/users";
 import {TransportRoutes} from "../../features/transports";
-
-const showComponentsPage = process.env.NODE_ENV === 'development';
+import {isInDevelopmentMode} from "./utils";
 
 export const Base = () => (
   <Router>
@@ -20,7 +19,7 @@ export const Base = () => (
     <TransportRoutes />
     <OrderRoutes />
     <UserRoutes />
-    {showComponentsPage ? (
+    {isInDevelopmentMode ? (
       <Route exact path="/components" component={ComponentsPage} />
     ) : null}
   </Router>

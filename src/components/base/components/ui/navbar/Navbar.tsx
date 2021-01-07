@@ -5,6 +5,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import classnames from 'classnames';
 import styles from './Navbar.module.css';
 import {Menu} from "../menu";
+import {isInDevelopmentMode} from "../../../utils";
 
 export const Navbar = () => {
   const [showResponsiveMenu, setShowResponsiveMenu] = useState(false);
@@ -30,6 +31,19 @@ export const Navbar = () => {
           [styles.active_responsive]: showResponsiveMenu,
         })}
       >
+        {isInDevelopmentMode ? (
+          <li>
+            <NavLink
+              activeClassName={styles.active}
+              href=""
+              className={styles.nav_links}
+              exact
+              to="/components"
+            >
+              Components
+            </NavLink>
+          </li>
+        ): null}
         <li>
           <NavLink
             activeClassName={styles.active}
