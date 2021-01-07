@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SlideFromTop /> should render 1`] = `
+<span
+  style="visibility:hidden;transition-property:opacity, transform;transition-timing-function:linear ease-out;transform:translateY(-100%);opacity:0;transition-duration:.2s"
+>
+  Test
+</span>
+`;
+
+exports[`<SlideFromTop /> should render as entered 1`] = `
+<span
+  style="transition-property:opacity, transform;transition-timing-function:linear ease-out;transform:translateY(-100%);opacity:0;transition-duration:.2s"
+>
+  Test
+</span>
+`;

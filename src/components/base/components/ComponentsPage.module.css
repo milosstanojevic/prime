@@ -1,0 +1,23 @@
+.components {
+  margin: 10px;
+}
+
+.component_item {
+  margin: 15px 40px;
+}
+
+.label {
+  margin-bottom: 10px;
+  font-size: large;
+  font-weight: bold;
+  display: block;
+  opacity: 0.4;
+}
+
+.form {
+  width: 50%;
+}
+
+.advanced_menu_wrapper {
+  position: relative;
+}
