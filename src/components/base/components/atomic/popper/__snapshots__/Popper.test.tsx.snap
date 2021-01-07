@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Popper/> should not render 1`] = `ShallowWrapper {}`;
+
+exports[`<Popper/> should not render because it's exited 1`] = `ShallowWrapper {}`;
+
+exports[`<Popper/> should not render with transition on 1`] = `ShallowWrapper {}`;
+
+exports[`<Popper/> should render 1`] = `ShallowWrapper {}`;
+
+exports[`<Popper/> should render with props 1`] = `ShallowWrapper {}`;
+
+exports[`<Popper/> should render without transition 1`] = `ShallowWrapper {}`;

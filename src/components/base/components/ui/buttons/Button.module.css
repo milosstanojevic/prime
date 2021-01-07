@@ -1,32 +1,33 @@
 .button {
-  cursor: pointer;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 16px;
-}
-
-button:focus {
-  outline: 0;
+  display:inline-block;
+  padding:0.6em 1.2em;
+  margin:0 0.3em 0.3em 0;
+  border-radius:2em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  text-align:center;
+  transition: all 0.2s;
+  border: none;
 }
 
 .primary {
-  background: #2376ae;
-  color: #fef;
+  color:#FFFFFF;
+  background-color:#4eb5f1;
 }
 
 .primary:hover {
-  background: darkblue;
-  color: whitesmoke;
+  background-color:#4095c6;
 }
 
 .secondary {
-  background: whitesmoke;
-  color: darkgrey;
+  background: gray;
+  color:#FFFFFF;
 }
 
 .secondary:hover {
   background: darkgrey;
-  color: whitesmoke;
 }
 
 button:disabled,

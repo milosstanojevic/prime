@@ -6,7 +6,8 @@
   color: black;
   line-height: 1.25;
   padding: 5px;
-  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-available;
 }
 
 .input:focus {
