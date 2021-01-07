@@ -4,6 +4,6 @@ import {TransportsPage} from "../TransportsPage";
 
 export const TransportRoutes = () => (
   <>
-    <Route exact path="/transports" component={TransportsPage} />
+    <Route exact path="/transport-routes" component={TransportsPage} />
   </>
 );
