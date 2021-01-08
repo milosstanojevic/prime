@@ -15,8 +15,8 @@ export const WarehouseFormContainer: FC<IWarehouseFormContainer> = ({
   onSubmit,
   onCancel,
 }) => {
-
   const dispatch = useDispatch()
+
   const handleSubmit = useCallback((warehouse) => {
     dispatch(addWarehouse(warehouse))
     typeof onSubmit === 'function' && onSubmit()
@@ -24,7 +24,7 @@ export const WarehouseFormContainer: FC<IWarehouseFormContainer> = ({
 
   const warehouse = useSelector(
     (state: RootState) => {
-      const item = state.warehouses.find(warehouse => warehouse.id === id)
+      const item = state.warehouses.items.find(warehouse => warehouse.id === id)
       if (item) {
         return item;
       }

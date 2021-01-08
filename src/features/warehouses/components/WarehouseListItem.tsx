@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, memo} from 'react';
 import { Link } from 'react-router-dom';
 import {Warehouse} from "../types";
 import styles from './WarehouseListItem.module.css';
@@ -11,7 +11,7 @@ interface IWarehouseListItem extends Warehouse {
   onTrash?: (id: number) => void,
 }
 
-export const WarehouseListItem: FC<IWarehouseListItem> = ({
+export const WarehouseListItem = memo<IWarehouseListItem> (({
   id,
   name,
   description = '',
@@ -32,38 +32,41 @@ export const WarehouseListItem: FC<IWarehouseListItem> = ({
   }, [id, onTrash])
 
   return (
-    <Link
-      to={{ pathname: `/warehouse/${id}/articles` }}
+    <div
       className={styles.item}
     >
       <div className={styles.item_element}>{id}</div>
-      <div className={styles.item_element}>{name}</div>
+      <div className={styles.item_element}>
+        <Link
+          to={{ pathname: `/warehouse/${id}/articles` }}
+        >
+          {name}
+        </Link>
+      </div>
       <div className={styles.item_element}>{address}</div>
       <div className={styles.item_element}>
         <p dangerouslySetInnerHTML={{ __html: description }} />
       </div>
       <div className={styles.item_element}>
         <Menu
-          target={<FontAwesomeIcon icon={faBars} />}
+          target={<div><FontAwesomeIcon icon={faBars} /></div>}
         >
           <div className={styles.menu}>
-            <button
-              type="button"
+            <div
               onClick={handleEdit}
               className={styles.menu_item}
             >
               Edit
-            </button>
-            <button
-              type="button"
+            </div>
+            <div
               onClick={handleTrash}
               className={styles.menu_item}
             >
               Trash
-            </button>
+            </div>
           </div>
         </Menu>
       </div>
-    </Link>
+    </div>
   )
-}
+})

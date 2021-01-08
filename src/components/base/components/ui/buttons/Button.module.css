@@ -12,6 +12,11 @@
   border: none;
 }
 
+.button:focus {
+  background: #2376ae;
+  outline: 0;
+}
+
 .primary {
   color:#FFFFFF;
   background-color:#4eb5f1;

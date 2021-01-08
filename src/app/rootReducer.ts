@@ -1,5 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import warehouseSlice from "../features/warehouses/slices/warehouseSlice";
+import { warehouseSlice } from "../features/warehouses";
 
 const rootReducer = combineReducers({
   warehouses: warehouseSlice.reducer,

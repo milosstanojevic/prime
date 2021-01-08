@@ -1,10 +1,13 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import styles from './WarehousePage.module.css'
 import {Button, Modal} from "../../../components";
 import {WarehouseList} from "./WarehouseList";
 import {WarehouseFormContainer} from "./WarehouseFormContainer";
+import {fetchWarehouses} from "../actions";
 
 export const WarehousesPage = () => {
+  const dispatch = useDispatch()
   const [show, setShow] = useState(false)
   const [editId, setEditId] = useState(0)
   const [trashId, setTrashId] = useState(0)
@@ -30,6 +33,10 @@ export const WarehousesPage = () => {
     setTrashId(0)
   }, [])
 
+  useEffect(() => {
+    dispatch(fetchWarehouses())
+  }, [dispatch])
+
   return (
     <div className={styles.page}>
       <div className={styles.page_header}>
@@ -43,7 +50,7 @@ export const WarehousesPage = () => {
       <WarehouseList onEdit={handleEdit} onTrash={handleTrash}/>
       <Modal open={show || editId > 0} onClose={handleCloseModal}>
         <div className={styles.modal_form_wrapper}>
-          <WarehouseFormContainer id={editId} />
+          <WarehouseFormContainer id={editId} onCancel={handleCloseModal} onSubmit={handleCloseModal}/>
         </div>
       </Modal>
       <Modal open={trashId > 0} onClose={handleCloseTrashModal}>

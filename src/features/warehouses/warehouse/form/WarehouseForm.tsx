@@ -99,6 +99,7 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
           Submit
         </Button>
         <Button
+          type="button"
           mode="secondary"
           onClick={onCancel}
         >

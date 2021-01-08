@@ -16,7 +16,7 @@
   padding: 15px;
 }
 
-.modal_form_wrapper {
+.modal_form_wrapper, .modal_trash_wrapper {
   position: absolute;
   z-index: 1;
   width: 600px;

@@ -3,6 +3,7 @@ import { RootState } from 'app/rootReducer';
 import { useSelector } from 'react-redux';
 import styles from './WarehouseList.module.css'
 import { WarehouseListItem } from "./WarehouseListItem";
+import {Loading} from "../../../components";
 
 interface IWarehouseList {
   onEdit?: (id: number) => void,
@@ -14,10 +15,14 @@ export const WarehouseList: FC<IWarehouseList> = ({
   onTrash,
 }) => {
   const warehouses = useSelector(
-    (state: RootState) => state.warehouses
+    (state: RootState) => state.warehouses.items
   );
 
-  return (
+  const isLoading = useSelector(
+    (state: RootState) => state.warehouses.isLoading
+  );
+
+  return !isLoading ? (
     <div className={styles.warehouse_list}>
       {warehouses.map(warehouse => (
         <WarehouseListItem
@@ -31,5 +36,7 @@ export const WarehouseList: FC<IWarehouseList> = ({
         />
       ))}
     </div>
-  );
+  ): (
+    <Loading/>
+  )
 }
