@@ -21,14 +21,16 @@
 }
 
 .menu {
+  background: whitesmoke;
+  border-radius: 8px;
   color: #c16ecf;
 }
 
 .menu_item {
   padding: 10px 20px;
+  cursor: pointer;
 }
 
 .menu_item:hover {
-  color: #fef;
-  background: #2376ae;
+  color: #2376ae;
 }

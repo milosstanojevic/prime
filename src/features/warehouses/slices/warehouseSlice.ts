@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Warehouse } from 'features/warehouses/types';
 import {NormalizerWarehouseRequest, NormalizerWarehousesRequest} from "../actions";
 

@@ -13,12 +13,7 @@ import { Placement } from "@popperjs/core";
 import useForkRef from "../../../hooks/useForkRef";
 import {Popper} from "../../atomic/popper";
 import {Overlay, Window} from "../../atomic";
-
-interface ElementWithRef<T> extends ReactElement {
-  ref?: Ref<T>;
-}
-
-export type MenuMode = "normal" | "wider" | "tiny";
+import {ElementWithRef} from "./types";
 
 interface IMenu {
   /** Menu content */

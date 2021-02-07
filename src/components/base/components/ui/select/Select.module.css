@@ -1,0 +1,15 @@
+.select_wrapper {
+  padding: 10px;
+  background: whitesmoke;
+  border-radius: 8px;
+  min-width: 200px;
+}
+
+.select_search {
+  padding: 5px;
+}
+
+.select_options {
+  overflow-y: auto;
+  max-height: 220px;
+}

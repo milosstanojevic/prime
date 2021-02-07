@@ -2,7 +2,7 @@ import React, {FC, useCallback} from "react";
 import {ArticleForm} from "../article";
 import {useSelector, useDispatch} from "react-redux";
 import {RootState} from "../../../app";
-import {addArticle} from "../actions";
+import {addArticle, editArticle} from "../actions";
 
 interface IArticleFormContainer {
   id?: number,
@@ -18,9 +18,9 @@ export const ArticleFormContainer: FC<IArticleFormContainer> = ({
   const dispatch = useDispatch()
 
   const handleSubmit = useCallback((article) => {
-    dispatch(addArticle(article))
+    id && id > 0 ? dispatch(editArticle(id, article)) : dispatch(addArticle(article))
     typeof onSubmit === 'function' && onSubmit()
-  }, [dispatch, onSubmit])
+  }, [dispatch, onSubmit, id])
 
   const article = useSelector(
     (state: RootState) => {

@@ -1,10 +1,10 @@
-import React, {FC, useCallback, memo} from 'react';
+import React, { useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
-import {Warehouse} from "../types";
-import styles from './WarehouseListItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import {Menu} from "../../../components";
+import { Menu } from "../../../components";
+import { Warehouse } from "../types";
+import styles from './WarehouseListItem.module.css';
 
 interface IWarehouseListItem extends Warehouse {
   onEdit?: (id: number) => void,

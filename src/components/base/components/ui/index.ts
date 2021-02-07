@@ -5,3 +5,4 @@ export * from './modal';
 export * from './navbar';
 export * from './pending';
 export * from './textarea';
+export * from './select';

@@ -85,9 +85,8 @@ export const ArticleForm: FC<IArticleForm> = ({
       </div>
       <div className={styles.article_form_element}>
         <Input
-          type="number"
           placeholder="Barcode..."
-          name="bar_code"
+          name="barCode"
           id="barcode"
           onChange={handleChange}
           value={articleForm.barCode}

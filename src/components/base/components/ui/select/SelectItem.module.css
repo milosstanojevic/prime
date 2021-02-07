@@ -1,0 +1,12 @@
+.select_item_wrapper {
+  margin-top: 5px;
+  display: flex;
+  padding: 5px;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.select_item_wrapper:hover {
+  background: lightblue;
+  border-radius: 8px;
+}

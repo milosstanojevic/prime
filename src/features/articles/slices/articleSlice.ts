@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {NormalizerArticleRequest, NormalizerArticlesRequest} from "../actions";
 import {Article} from "../types";
 
@@ -35,5 +35,14 @@ export const articleSlice = createSlice({
       state.items.push(article)
       state.isLoading = false
     },
+    editArticle: (state, { payload }: PayloadAction<NormalizerArticleRequest>) => {
+      const articleId = payload.result
+      const editedArticle = payload.entities.articles[articleId]
+      const index = state.items.findIndex(article => article.id === articleId)
+      state.items[index] = editedArticle
+    },
+    deleteArticle: (state, { payload }) => {
+      console.log(payload, 'idemo bre')
+    }
   }
 });

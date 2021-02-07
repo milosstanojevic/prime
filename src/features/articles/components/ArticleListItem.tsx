@@ -19,6 +19,7 @@ export const ArticleListItem = memo<IArticleListItem> (({
   onEdit,
   onTrash,
 }) => {
+
   const handleEdit = useCallback(() => {
     if (id && id > 0 && typeof onEdit === 'function') {
       onEdit(id)

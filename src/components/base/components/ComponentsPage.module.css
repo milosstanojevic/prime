@@ -21,3 +21,15 @@
 .advanced_menu_wrapper {
   position: relative;
 }
+
+.modal_wrapper {
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  background: greenyellow;
+  border-radius: 8px;
+}
