@@ -1,5 +1,5 @@
 import React, { useCallback, useState, FC } from 'react';
-import {Button, Input, Textarea} from "../../../../components";
+import {Button, Input, Select, Textarea} from "../../../../components";
 import styles from './ArticleForm.module.css'
 import {Article} from "../../types";
 
@@ -49,6 +49,10 @@ export const ArticleForm: FC<IArticleForm> = ({
     []
   );
 
+  const handleUnitChange = useCallback((unit) => {
+    setArticleForm(prevState => ({ ...prevState, unit }))
+  }, [])
+
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
@@ -90,6 +94,18 @@ export const ArticleForm: FC<IArticleForm> = ({
           id="barcode"
           onChange={handleChange}
           value={articleForm.barCode}
+        />
+      </div>
+      <div className={styles.article_form_element}>
+        <Select
+          target={<Button>Unit: {articleForm.unit}</Button>}
+          options={[
+            { id: 'Kg', name: 'Kg' },
+            { id: 'gr', name: 'gr' },
+            { id: 'T', name: 'T' },
+          ]}
+          onChange={handleUnitChange}
+          selectedOptionId={articleForm.unit}
         />
       </div>
       <div className={styles.buttons}>

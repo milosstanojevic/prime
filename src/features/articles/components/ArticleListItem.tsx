@@ -2,7 +2,7 @@ import React, { useCallback, memo } from 'react';
 import styles from './ArticleListItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Menu } from "../../../components";
+import {formatDate, Menu} from "../../../components";
 import { Article } from "../types";
 
 interface IArticleListItem extends Article {
@@ -16,6 +16,8 @@ export const ArticleListItem = memo<IArticleListItem> (({
   description = '',
   barCode,
   unit,
+  createdAt,
+  updatedAt,
   onEdit,
   onTrash,
 }) => {
@@ -42,6 +44,8 @@ export const ArticleListItem = memo<IArticleListItem> (({
       </div>
       <div className={styles.item_element}>{barCode}</div>
       <div className={styles.item_element}>{unit}</div>
+      <div className={styles.item_element}>{createdAt && createdAt > 0 ? formatDate(createdAt * 1000, 'PPpp') : 'Undefined'}</div>
+      <div className={styles.item_element}>{updatedAt && updatedAt > 0 ? formatDate(updatedAt * 1000, 'PPpp') : 'Undefined'}</div>
       <div className={styles.item_element}>
         <p dangerouslySetInnerHTML={{ __html: description }} />
       </div>

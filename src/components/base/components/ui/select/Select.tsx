@@ -12,7 +12,7 @@ interface ISelect {
   /** Target element */
   target?: ElementWithRef<Element>;
   /** Selected option id */
-  selectedOptionId?: number;
+  selectedOptionId?: number|string;
   /** On change */
   onChange?: (id: number) => void;
   /** Disable close select on action */

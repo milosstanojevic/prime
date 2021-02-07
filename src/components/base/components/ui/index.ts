@@ -6,3 +6,4 @@ export * from './navbar';
 export * from './pending';
 export * from './textarea';
 export * from './select';
+export * from './date';

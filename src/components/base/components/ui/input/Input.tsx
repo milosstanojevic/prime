@@ -4,8 +4,6 @@ import styles from './Input.module.css'
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>((
   {
     className = "",
-    type = "text",
-    disabled = false,
     ...rest
   },
   ref
@@ -13,8 +11,6 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
   return (
     <input
       ref={ref}
-      type={type}
-      disabled={disabled}
       className={`${styles.input} ${className}`}
       {...rest}
     />

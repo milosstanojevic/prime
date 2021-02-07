@@ -4,8 +4,8 @@ import {Radio} from "../input";
 import styles from './SelectItem.module.css'
 
 interface ISelectItem extends SelectOption {
-  onClick?: (id: number) => void,
-  selectedId?: number,
+  onClick?: (id: number|string) => void,
+  selectedId?: number|string,
 }
 
 export const SelectItem: FC<ISelectItem> = ({

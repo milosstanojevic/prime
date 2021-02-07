@@ -24,6 +24,7 @@ const getPayload = (article: Article) => {
     name: article.name,
     description: article.description,
     bar_code: article.barCode,
+    unit: article.unit,
   }
 }
 
