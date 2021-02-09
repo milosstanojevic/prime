@@ -1,4 +1,4 @@
-import React, { useCallback, useState, FC } from 'react';
+import React, {useCallback, useState, FC, useMemo} from 'react';
 import {Button, Input, Select, Textarea} from "../../../../components";
 import styles from './ArticleForm.module.css'
 import {Article} from "../../types";
@@ -49,8 +49,8 @@ export const ArticleForm: FC<IArticleForm> = ({
     []
   );
 
-  const handleUnitChange = useCallback((unit) => {
-    setArticleForm(prevState => ({ ...prevState, unit }))
+  const handleUnitChange = useCallback((units) => {
+    setArticleForm(prevState => ({ ...prevState, unit: units[0] }))
   }, [])
 
   const handleSubmit = useCallback(
@@ -62,6 +62,13 @@ export const ArticleForm: FC<IArticleForm> = ({
     },
     [onSubmit, articleForm]
   );
+
+  const unitForm = useMemo(() => {
+    if (articleForm.unit) {
+      return [articleForm.unit]
+    }
+    return []
+  }, [articleForm.unit])
 
   return (
     <form
@@ -105,7 +112,8 @@ export const ArticleForm: FC<IArticleForm> = ({
             { id: 'T', name: 'T' },
           ]}
           onChange={handleUnitChange}
-          selectedOptionId={articleForm.unit}
+          selectedOptionIds={unitForm}
+          disableSearch
         />
       </div>
       <div className={styles.buttons}>

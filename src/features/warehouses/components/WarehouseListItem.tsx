@@ -2,7 +2,7 @@ import React, { useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Menu } from "../../../components";
+import {Bubble, Menu} from "../../../components";
 import { Warehouse } from "../types";
 import styles from './WarehouseListItem.module.css';
 
@@ -51,7 +51,7 @@ export const WarehouseListItem = memo<IWarehouseListItem> (({
         <Menu
           target={<div><FontAwesomeIcon icon={faBars} /></div>}
         >
-          <div className={styles.menu}>
+          <Bubble className={styles.menu}>
             <div
               onClick={handleEdit}
               className={styles.menu_item}
@@ -64,7 +64,7 @@ export const WarehouseListItem = memo<IWarehouseListItem> (({
             >
               Trash
             </div>
-          </div>
+          </Bubble>
         </Menu>
       </div>
     </div>

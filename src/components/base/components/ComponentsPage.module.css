@@ -22,6 +22,12 @@
   position: relative;
 }
 
+.menu_item {
+  padding: 10px;
+  cursor: pointer;
+  color: lightblue;
+}
+
 .modal_wrapper {
   position: absolute;
   z-index: 1;

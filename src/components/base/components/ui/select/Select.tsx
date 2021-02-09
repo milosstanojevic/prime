@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
-import { SelectOption } from "./types";
-import { Menu } from "../menu";
-import { ElementWithRef } from "../menu/types";
-import { SelectItem } from "./SelectItem";
-import { Input } from "../input";
+import React, {FC, useCallback, useMemo, useState} from 'react';
+import {SelectMode, SelectOption} from "./types";
+import {Menu} from "../menu";
+import {ElementWithRef} from "../menu/types";
+import {SelectItem} from "./SelectItem";
+import {Input} from "../input";
 import styles from './Select.module.css'
 
 interface ISelect {
@@ -12,25 +12,34 @@ interface ISelect {
   /** Target element */
   target?: ElementWithRef<Element>;
   /** Selected option id */
-  selectedOptionId?: number|string;
+  selectedOptionIds?: Array<number|string>;
   /** On change */
-  onChange?: (id: number) => void;
+  onChange?: (ids: Array<number|string>) => void,
   /** Disable close select on action */
-  disableCloseOnAction?: boolean;
+  closeOnAction?: boolean;
   /** Is select open */
   open?: boolean;
   /** Search placeholder */
   searchPlaceholder?: string;
+  /** Mode: single or multi */
+  mode?: SelectMode;
+  /** Default option name */
+  defaultOption?: string;
+  /** Disable search */
+  disableSearch?: boolean;
 }
 
 export const Select: FC<ISelect> = ({
   options,
   target,
-  selectedOptionId,
+  selectedOptionIds = [],
   onChange,
-  disableCloseOnAction = false,
+  closeOnAction = false,
   open: defaultOpen = false,
   searchPlaceholder = 'Search...',
+  mode = SelectMode.single,
+  defaultOption = '',
+  disableSearch = false,
 }) => {
   const [open, setOpen] = useState(defaultOpen)
   const [search, setSearch] = useState('')
@@ -44,12 +53,26 @@ export const Select: FC<ISelect> = ({
     setSearch('')
   }, [])
 
-  const handleChange = useCallback((id) => {
-    typeof onChange === 'function' && onChange(id)
-    if (!disableCloseOnAction) {
+  const handleChange = useCallback((newId) => {
+    if (typeof onChange === 'function') {
+      if (mode === SelectMode.multiple) {
+        const index = selectedOptionIds.findIndex(item => item === newId)
+        const newSelectedIds = index === -1
+          ? [...selectedOptionIds, newId]
+          : selectedOptionIds.filter(item => item !== newId)
+        onChange(newSelectedIds)
+      } else {
+        onChange([newId])
+      }
+    }
+    if (closeOnAction) {
       handleClose()
     }
-  }, [disableCloseOnAction, handleClose, onChange])
+  }, [onChange, closeOnAction, mode, selectedOptionIds, handleClose])
+
+  const handleDefaultOptionChange = useCallback(() => {
+    typeof onChange === 'function' && onChange([])
+  }, [onChange])
 
   const handleSearchChange = useCallback((e) => {
     const newSearch = e.target.value
@@ -77,15 +100,25 @@ export const Select: FC<ISelect> = ({
       onOpen={handleOpen}
     >
       <div className={styles.select_wrapper}>
-        <div className={styles.select_search}>
-          <Input
-            autoFocus
-            placeholder={searchPlaceholder}
-            value={search}
-            onChange={handleSearchChange}
-          />
-        </div>
+        {!disableSearch ? (
+          <div className={styles.select_search}>
+            <Input
+              autoFocus
+              placeholder={searchPlaceholder}
+              value={search}
+              onChange={handleSearchChange}
+            />
+          </div>
+        ): null}
         <div className={styles.select_options}>
+          {defaultOption?.length ? (
+            <SelectItem
+              checked={selectedOptionIds?.length === 0}
+              id={0}
+              name={defaultOption}
+              onClick={handleDefaultOptionChange}
+            />
+          ) : null}
           {filteredOptions.map(option => (
             <SelectItem
               key={option.id}
@@ -93,7 +126,7 @@ export const Select: FC<ISelect> = ({
               name={option.name}
               avatar={option.avatar}
               onClick={handleChange}
-              selectedId={selectedOptionId}
+              checked={selectedOptionIds.some(selectedId => selectedId === option.id)}
             />
           ))}
         </div>

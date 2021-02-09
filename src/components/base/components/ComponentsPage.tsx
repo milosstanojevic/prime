@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 import styles from './ComponentsPage.module.css';
-import {Checkbox, Input, Button, Modal, Menu, Select} from "./ui";
+import {Checkbox, Input, Button, Modal, Menu, Select, Bubble, SelectMode} from "./ui";
 
 const options = [
   {
@@ -47,7 +47,8 @@ const options = [
 
 const ComponentsPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectId, setSelectId] = useState(undefined);
+  const [selectIds, setSelectIds] = useState([]);
+  const [selectMultipleIds, setSelectMultipleIds] = useState([]);
 
   const openModal = useCallback(() => {
     setShowModal(true);
@@ -57,8 +58,29 @@ const ComponentsPage = () => {
     setShowModal(false);
   }, []);
 
-  const handleSelectChange = useCallback((id) => {
-    setSelectId(id)
+  const handleSelectChange = useCallback((ids) => {
+    setSelectIds(ids)
+  }, [])
+
+  const singleSelect = useMemo(() => {
+    if (selectIds.length) {
+      const option = options.find(({ id }) => id === selectIds[0])
+      return <Button>{option ? option.name : 'Not found'}</Button>
+    }
+    return <Button>Single Select...</Button>
+  }, [selectIds])
+
+  const multiSelect = useMemo(() => {
+    if (selectMultipleIds.length) {
+      const selectedOptions = options.filter(({ id }) => selectMultipleIds.some(selectedId => selectedId === id))
+      const names = selectedOptions.map(({ name }) => name).toString()
+      return <Button>{names}</Button>
+    }
+    return <Button>Multi Select...</Button>
+  }, [selectMultipleIds])
+
+  const handleMultipleSelectChange = useCallback((ids) => {
+    setSelectMultipleIds(ids)
   }, [])
 
   return (
@@ -79,19 +101,31 @@ const ComponentsPage = () => {
         <Menu
           target={<div>Some target element (Click text)</div>}
         >
-          <div className={styles.menu_wrapper}>
-            <div>Option 1</div>
-            <div>Option 2</div>
-          </div>
+          <Bubble>
+            <div className={styles.menu_item}>Option 1</div>
+            <div className={styles.menu_item}>Option 2</div>
+          </Bubble>
         </Menu>
       </div>
       <div className={styles.component_item}>
-        <div className={styles.label}>Select</div>
+        <div className={styles.label}>Single Select</div>
         <Select
           options={options}
-          target={<span>Select...</span>}
+          target={singleSelect}
           onChange={handleSelectChange}
-          selectedOptionId={selectId}
+          selectedOptionIds={selectIds}
+          defaultOption="Select None"
+        />
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>Multi Select</div>
+        <Select
+          options={options}
+          target={multiSelect}
+          onChange={handleMultipleSelectChange}
+          selectedOptionIds={selectMultipleIds}
+          mode={SelectMode.multiple}
+          defaultOption="Select None"
         />
       </div>
       <div className={styles.component_item}>

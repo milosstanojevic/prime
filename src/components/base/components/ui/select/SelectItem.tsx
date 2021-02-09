@@ -1,11 +1,11 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useMemo} from 'react';
 import {SelectOption} from "./types";
 import {Radio} from "../input";
 import styles from './SelectItem.module.css'
 
 interface ISelectItem extends SelectOption {
   onClick?: (id: number|string) => void,
-  selectedId?: number|string,
+  checked?: boolean
 }
 
 export const SelectItem: FC<ISelectItem> = ({
@@ -13,18 +13,20 @@ export const SelectItem: FC<ISelectItem> = ({
   name,
   avatar,
   onClick,
-  selectedId,
+  checked = false,
 }) => {
+
   const handleClick = useCallback(() => {
     typeof onClick === 'function' && onClick(id)
   }, [id, onClick])
+
   return (
     <div className={styles.select_item_wrapper} onClick={handleClick}>
       {avatar ? (
         <div>{avatar}</div>
       ): null}
       <div>{name}</div>
-      <Radio defaultChecked={id === selectedId}/>
+      <Radio checked={checked} onChange={handleClick}/>
     </div>
   )
 };

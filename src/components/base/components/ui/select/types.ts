@@ -3,3 +3,8 @@ export interface SelectOption {
   name: string,
   avatar?: string,
 }
+
+export enum SelectMode {
+  single = 'single',
+  multiple = 'multiple',
+}
