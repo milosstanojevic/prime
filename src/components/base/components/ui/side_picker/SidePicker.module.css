@@ -1,0 +1,64 @@
+.side_picker_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.icon_wrapper {
+  padding: 3px 6px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.icon_wrapper:hover {
+  color: #3498db;
+  border-color: #3498db;
+}
+
+.icon_wrapper:focus {
+  outline: thin gray;
+}
+
+.icon {
+  fill: currentColor;
+}
+
+.side_picker_dropdown {
+  text-align: center;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  width: 10rem;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.side_picker_dropdown:hover {
+  background: whitesmoke;
+}
+
+.side_picker_dropdown_target {
+  cursor: pointer;
+  position: relative;
+  border: none;
+  margin: 0;
+  background: inherit;
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.side_picker_dropdown_target:focus {
+  outline: thin gray;
+}
+
+.rounded_left {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.rounded_right {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}

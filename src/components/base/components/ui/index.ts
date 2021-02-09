@@ -8,3 +8,5 @@ export * from './textarea';
 export * from './select';
 export * from './date';
 export * from './bubble';
+export * from './side_picker';
+export * from './date_picker';

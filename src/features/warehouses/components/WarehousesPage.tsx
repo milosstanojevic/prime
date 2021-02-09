@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import styles from './WarehousePage.module.css'
+import styles from './WarehousesPage.module.css'
 import {Button, Modal} from "../../../components";
 import {WarehouseList} from "./WarehouseList";
 import {WarehouseFormContainer} from "./WarehouseFormContainer";

@@ -1,6 +1,17 @@
 import React, {useState, useCallback, useMemo} from 'react';
 import styles from './ComponentsPage.module.css';
-import {Checkbox, Input, Button, Modal, Menu, Select, Bubble, SelectMode} from "./ui";
+import {
+  Checkbox,
+  Input,
+  Button,
+  Modal,
+  Menu,
+  Select,
+  Bubble,
+  SelectMode,
+  SidePicker,
+  DatePicker,
+} from "./ui";
 
 const options = [
   {
@@ -49,6 +60,7 @@ const ComponentsPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectIds, setSelectIds] = useState([]);
   const [selectMultipleIds, setSelectMultipleIds] = useState([]);
+  const [sidePickerId, setSidePickerId] = useState(0);
 
   const openModal = useCallback(() => {
     setShowModal(true);
@@ -81,6 +93,10 @@ const ComponentsPage = () => {
 
   const handleMultipleSelectChange = useCallback((ids) => {
     setSelectMultipleIds(ids)
+  }, [])
+
+  const handleSidePickerChange = useCallback((id) => {
+    setSidePickerId(id)
   }, [])
 
   return (
@@ -127,6 +143,18 @@ const ComponentsPage = () => {
           mode={SelectMode.multiple}
           defaultOption="Select None"
         />
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>Side Picker</div>
+        <SidePicker
+          options={options}
+          onChange={handleSidePickerChange}
+          selectedId={sidePickerId}
+        />
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>Date Picker</div>
+        <DatePicker/>
       </div>
       <div className={styles.component_item}>
         <div className={styles.label}>Modal</div>

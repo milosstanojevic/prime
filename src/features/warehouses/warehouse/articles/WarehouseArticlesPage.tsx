@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 
-interface IWarehouseArticles {
+interface IWarehouseArticlesPage {
   id: number;
 }
 
-export const WarehouseArticles: FC<IWarehouseArticles> = ({
+export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({
   id,
 }) => {
   return (

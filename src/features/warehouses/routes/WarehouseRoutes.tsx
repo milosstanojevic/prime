@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import {WarehouseMembers, WarehouseTransports, WarehouseArticles} from "../warehouse";
+import {WarehouseMembers, WarehouseTransports, WarehouseArticlesPage} from "../warehouse";
 import {WarehousesPage} from "../components";
 
 export const WarehouseRoutes = () => (
@@ -9,7 +9,7 @@ export const WarehouseRoutes = () => (
     <Route
       path="/warehouse/:id/articles"
       render={({ match, ...props }) => (
-        <WarehouseArticles
+        <WarehouseArticlesPage
           {...props}
           id={Number(match.params.id)}
         />

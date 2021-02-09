@@ -1,1 +1,1 @@
-export * from './WarehouseArticles';
+export * from './WarehouseArticlesPage';
