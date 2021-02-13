@@ -1,7 +1,7 @@
 import React, { useCallback, useState, FC } from 'react';
-import {Button, Input, Textarea} from "../../../../components";
+import {Button, Input, Textarea} from "../../../components";
 import styles from './WarehouseForm.module.css'
-import {Warehouse} from "../../types";
+import {Warehouse} from "../../warehouses/types";
 
 interface IWarehouseForm extends Warehouse {
   className?: string,

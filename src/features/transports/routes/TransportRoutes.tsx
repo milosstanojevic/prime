@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import {TransportsPage} from "../TransportsPage";
+import { TransportsPage } from "../components";
 
 export const TransportRoutes = () => (
   <>

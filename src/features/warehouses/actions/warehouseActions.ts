@@ -1,7 +1,7 @@
-import {AppDispatch, AppThunk} from "../../../app";
-import {Warehouse} from "../types";
+import { AppDispatch, AppThunk } from "../../../app";
+import { Warehouse } from "../types";
 import { warehouseSlice } from "../slices";
-import {request} from "../../../api";
+import { request } from "../../../api";
 import { schemas } from "../schemas"
 
 export interface NormalizerWarehousesRequest {

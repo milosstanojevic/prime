@@ -1,8 +1,8 @@
-import React, {FC, useCallback} from "react";
-import {WarehouseForm} from "../warehouse";
-import {useSelector, useDispatch} from "react-redux";
-import {RootState} from "../../../app";
-import {addWarehouse} from "../actions";
+import React, { FC, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../app";
+import { addWarehouse } from "../actions";
+import { WarehouseForm } from "../../warehouse";
 
 interface IWarehouseFormContainer {
   id?: number,

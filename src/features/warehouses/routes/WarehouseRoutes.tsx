@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import {WarehouseMembers, WarehouseTransports, WarehouseArticlesPage} from "../warehouse";
-import {WarehousesPage} from "../components";
+import { WarehousesPage } from "../components";
+import { WarehouseArticlesPage } from "../../warehouse_articles";
+import { WarehouseMembers } from "../../warehouse_members";
+import { WarehouseTransports } from "../../warehouse_transports";
 
 export const WarehouseRoutes = () => (
   <>
