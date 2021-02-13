@@ -22,7 +22,7 @@ const { actions } = warehouseRegalSlice
 
 export const addWarehouseRegal = (id: number, newWarehouseRegal: Regal): AppThunk => async (dispatch: AppDispatch) => {
   try {
-    const response: Object = await request(`warehouses/${id}/articles`, {
+    const response: Object = await request(`warehouses/${id}/regals`, {
       schema: schemas.REGAL,
       method: 'POST',
       payload: newWarehouseRegal,
