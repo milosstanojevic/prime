@@ -42,3 +42,13 @@ export const fetchWarehouses = (): AppThunk => async (dispatch:AppDispatch) => {
     dispatch(actions.hasError())
   }
 }
+
+export const fetchWarehouse = (id: number): AppThunk => async (dispatch:AppDispatch) => {
+  dispatch(actions.startLoading())
+  try {
+    const response: Object = await request(`warehouses/${id}`, {schema: schemas.WAREHOUSE})
+    dispatch(actions.warehouseSuccess(response as NormalizerWarehouseRequest))
+  } catch (error) {
+    dispatch(actions.hasError())
+  }
+}

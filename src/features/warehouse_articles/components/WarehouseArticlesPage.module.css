@@ -1,0 +1,62 @@
+.side_picker {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.side_picker_wrapper {
+  display: flex;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px 20px;
+}
+
+.warehouse_nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.menu_wrapper {
+  margin-left: 15px;
+}
+
+.menu {
+  cursor: pointer;
+}
+
+.menu_item {
+  padding: 10px 20px;
+}
+
+.menu_item:hover {
+  color: #fef;
+  background: #2376ae;
+}
+
+.icon {
+  fill: currentColor;
+  cursor: pointer;
+}
+
+.regal_modal {
+  padding: 15px;
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+}

@@ -1,0 +1,21 @@
+
+.item_wrapper {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.item_wrapper:hover {
+  background: #ddd;
+  cursor: default;
+}
+
+.item_wrapper span {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.close_icon {
+  margin-left: auto;
+  cursor: pointer;
+}

@@ -1,4 +1,6 @@
-export interface WarehouseArticle {
+import {Article} from "../articles/types";
+
+export interface WarehouseArticle extends Article {
   id?: number,
   warehouseId?: number,
   articleId?: number,

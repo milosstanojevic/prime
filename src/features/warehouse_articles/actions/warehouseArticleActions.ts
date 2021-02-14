@@ -18,6 +18,14 @@ export interface NormalizerWarehouseArticleRequest {
   };
 }
 
+const getPayload = (warehouseArticle: WarehouseArticle) => {
+  return {
+    article_id: warehouseArticle.articleId,
+    regal_id: warehouseArticle.regalId,
+    regal_position_id: warehouseArticle.regalPositionId,
+  }
+}
+
 const { actions } = warehouseArticleSlice
 
 export const addWarehouseArticle = (id: number, newWarehouseArticle: WarehouseArticle): AppThunk => async (dispatch: AppDispatch) => {
@@ -25,7 +33,7 @@ export const addWarehouseArticle = (id: number, newWarehouseArticle: WarehouseAr
     const response: Object = await request(`warehouses/${id}/article`, {
       schema: schemas.WAREHOUSE_ARTICLE,
       method: 'POST',
-      payload: newWarehouseArticle,
+      payload: getPayload(newWarehouseArticle),
     })
     dispatch(actions.addWarehouseArticle(response as NormalizerWarehouseArticleRequest))
   } catch (error) {

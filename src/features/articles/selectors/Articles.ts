@@ -1,6 +1,18 @@
 import { RootState } from "../../../app";
+import {createSelector} from "@reduxjs/toolkit";
+import {Article} from "../types";
 
 export const getAllArticles = (state: RootState) => state.articles.items
+
+export const getAllArticlesArray = createSelector(
+  getAllArticles,
+  (articles) => {
+    const data: Article[] = []
+    Object.values(articles).forEach(article => data.push(article))
+    return data
+  }
+)
+
 export const getArticleById = (state: RootState, id: number|undefined) => {
   if (!id) {
     return {

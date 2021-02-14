@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Warehouse } from 'features/warehouses/types';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Warehouse} from 'features/warehouses/types';
 import {NormalizerWarehouseRequest, NormalizerWarehousesRequest} from "../actions";
 
 interface IWarehouseReducer {
@@ -24,6 +24,15 @@ export const warehouseSlice = createSlice({
     warehousesSuccess: (state, { payload }: PayloadAction<NormalizerWarehousesRequest>) => {
       state.items = Object.values(payload.entities.warehouses)
       state.isLoading = false;
+    },
+    warehouseSuccess: (state, { payload }: PayloadAction<NormalizerWarehouseRequest>) => {
+      const warehouseId = payload.result
+      const warehouse = payload.entities.warehouses[warehouseId]
+      const index = state.items.findIndex(({ id }) => id === warehouseId)
+
+      index === -1 ? state.items.push(warehouse) : state.items[index] = warehouse
+
+      state.isLoading = false
     },
     hasError: (state) => {
       state.error = true

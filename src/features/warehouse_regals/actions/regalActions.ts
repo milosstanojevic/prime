@@ -36,7 +36,7 @@ export const addWarehouseRegal = (id: number, newWarehouseRegal: Regal): AppThun
 export const fetchWarehouseRegals = (id: number): AppThunk => async (dispatch:AppDispatch) => {
   dispatch(actions.startLoading())
   try {
-    const response: Object = await request(`warehouses/${id}/regals`, {schema: schemas.REGAL})
+    const response: Object = await request(`warehouses/${id}/regals`, {schema: schemas.REGALS})
     dispatch(actions.warehouseRegalSuccess(response as NormalizerRegalsRequest))
   } catch (error) {
     dispatch(actions.hasError())

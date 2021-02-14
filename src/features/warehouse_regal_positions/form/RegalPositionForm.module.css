@@ -1,0 +1,18 @@
+.regal_position_form_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.regal_position_form_element {
+  margin-bottom: 10px;
+}
+
+.buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit_button {
+  margin-right: 15px;
+}
