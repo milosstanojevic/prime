@@ -23,6 +23,7 @@ const getPayload = (warehouseArticle: WarehouseArticle) => {
     article_id: warehouseArticle.articleId,
     regal_id: warehouseArticle.regalId,
     regal_position_id: warehouseArticle.regalPositionId,
+    quantity: warehouseArticle.quantity,
   }
 }
 

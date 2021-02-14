@@ -33,8 +33,8 @@ export const WarehouseArticleForm: FC<IWarehouseArticleForm> = ({
     setQuantity(0)
   }, [])
 
-  const handleChange = useCallback((id) => {
-    setArticleId(id)
+  const handleChange = useCallback((ids) => {
+    setArticleId(ids[0])
   }, [])
 
   const handleAdd = useCallback((e) => {
