@@ -1,0 +1,23 @@
+.page {
+  margin: 10px;
+}
+
+.page_header {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.transport_list {
+  display: flex;
+  flex-direction: column;
+}
+
+.transport_modal {
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

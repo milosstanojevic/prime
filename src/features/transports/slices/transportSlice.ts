@@ -21,7 +21,7 @@ export const transportSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    transportSuccess: (state, { payload }: PayloadAction<NormalizerTransportsRequest>) => {
+    transportsSuccess: (state, { payload }: PayloadAction<NormalizerTransportsRequest>) => {
       state.items = Object.values(payload.entities.transports)
       state.isLoading = false;
     },
@@ -35,5 +35,17 @@ export const transportSlice = createSlice({
       state.items.push(transport)
       state.isLoading = false
     },
+    transportSuccess: (state, { payload }: PayloadAction<NormalizerTransportRequest>) => {
+      const transportId = payload.result
+      const transport = payload.entities.transports[transportId]
+      const index = state.items.findIndex(({ id }) => id === transportId)
+
+      index === -1 ? state.items.push(transport) : state.items[index] = transport
+
+      state.isLoading = false
+    },
+    clearTransports: (state) => {
+      state.items = []
+    }
   }
 });
