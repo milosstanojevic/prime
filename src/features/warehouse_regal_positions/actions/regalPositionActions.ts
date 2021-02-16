@@ -33,6 +33,10 @@ export const addRegalPosition = (id: number, newRegalPosition: RegalPosition): A
   }
 }
 
+export const clearRegalPositions = () => (dispatch: AppDispatch) => {
+  dispatch(actions.clearRegalPositions())
+}
+
 export const fetchRegalPositions = (id: number): AppThunk => async (dispatch:AppDispatch) => {
   dispatch(actions.startLoading())
   try {

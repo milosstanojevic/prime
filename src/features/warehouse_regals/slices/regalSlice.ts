@@ -35,5 +35,8 @@ export const warehouseRegalSlice = createSlice({
       state.items.push(regal)
       state.isLoading = false
     },
+    clearWarehouseRegals: (state) => {
+      state.items = []
+    }
   }
 });

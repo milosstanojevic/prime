@@ -35,5 +35,8 @@ export const regalPositionSlice = createSlice({
       state.items.push(regalPosition)
       state.isLoading = false
     },
+    clearRegalPositions: (state) => {
+      state.items = []
+    }
   }
 });

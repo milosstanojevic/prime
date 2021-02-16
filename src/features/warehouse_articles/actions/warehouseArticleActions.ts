@@ -52,6 +52,10 @@ export const fetchWarehouseArticles = (id: number): AppThunk => async (dispatch:
   }
 }
 
+export const clearWarehouseArticles = () => (dispatch: AppDispatch) => {
+  dispatch(actions.clearWarehouseArticles())
+}
+
 export const fetchWarehouseRegalArticles = (id: number, regalId: number): AppThunk => async (dispatch:AppDispatch) => {
   dispatch(actions.startLoading())
   try {

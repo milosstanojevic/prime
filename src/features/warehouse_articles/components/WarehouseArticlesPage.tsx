@@ -3,6 +3,7 @@ import {Bubble, Button, Loading, Modal, SelectOption, SidePicker} from "../../..
 import {WarehouseNavPills} from "../../warehouse";
 import {
   addWarehouseRegal,
+  clearWarehouseRegals,
   fetchWarehouseRegals,
   makeGetRegalsByWarehouseId,
   RegalForm,
@@ -10,10 +11,11 @@ import {
 } from "../../warehouse_regals";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchArticles} from "../../articles";
-import {fetchWarehouseArticles} from "../actions";
+import {clearWarehouseArticles, fetchWarehouseArticles} from "../actions";
 import styles from './WarehouseArticlesPage.module.css'
 import {fetchWarehouse, makeGetWarehouseById} from "../../warehouses";
 import {RootState} from "../../../app";
+import {clearRegalPositions} from "../../warehouse_regal_positions";
 
 interface IWarehouseArticlesPage {
   id: number;
@@ -46,6 +48,14 @@ export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({
       setRegalId(regals[0].id)
     }
   }, [regals])
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearWarehouseArticles())
+      dispatch(clearWarehouseRegals())
+      dispatch(clearRegalPositions())
+    }
+  }, [dispatch])
 
   const handleChange = useCallback((id) => {
     setRegalId(id)

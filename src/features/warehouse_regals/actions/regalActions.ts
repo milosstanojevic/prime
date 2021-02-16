@@ -33,6 +33,10 @@ export const addWarehouseRegal = (id: number, newWarehouseRegal: Regal): AppThun
   }
 }
 
+export const clearWarehouseRegals = () => (dispatch: AppDispatch) => {
+  dispatch(actions.clearWarehouseRegals())
+}
+
 export const fetchWarehouseRegals = (id: number): AppThunk => async (dispatch:AppDispatch) => {
   dispatch(actions.startLoading())
   try {

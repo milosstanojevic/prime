@@ -35,5 +35,8 @@ export const warehouseArticleSlice = createSlice({
       state.items.push(warehouseArticle)
       state.isLoading = false
     },
+    clearWarehouseArticles: (state) => {
+      state.items = []
+    }
   }
 });
