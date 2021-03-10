@@ -5,6 +5,7 @@ import { warehouseArticleSlice } from "../features/warehouse_articles";
 import { warehouseRegalSlice } from "../features/warehouse_regals";
 import { regalPositionSlice } from "../features/warehouse_regal_positions";
 import { transportSlice } from "../features/transports";
+import { merchantSlice } from "../features/merchants";
 
 const rootReducer = combineReducers({
   warehouses: warehouseSlice.reducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   regals: warehouseRegalSlice.reducer,
   regal_positions: regalPositionSlice.reducer,
   transports: transportSlice.reducer,
+  merchants: merchantSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -27,7 +27,7 @@ export const addWarehouse = (newWarehouse: Warehouse): AppThunk => async (dispat
       method: 'POST',
       payload: newWarehouse,
     })
-    dispatch(actions.addWarehouse(response as NormalizerWarehouseRequest))
+    dispatch(actions.warehouseSuccess(response as NormalizerWarehouseRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }

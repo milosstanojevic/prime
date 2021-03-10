@@ -1,6 +1,5 @@
 import React, { FC, useMemo, useCallback, useState, useEffect, Suspense } from "react";
-import {Bubble, Button, Loading, Modal, SelectOption, SidePicker} from "../../../components";
-import {WarehouseNavPills} from "../../warehouse";
+import { Bubble, Button, Loading, Modal, SelectOption, SidePicker } from "../../../components";
 import {
   addWarehouseRegal,
   clearWarehouseRegals,
@@ -9,13 +8,13 @@ import {
   RegalForm,
   RegalPage
 } from "../../warehouse_regals";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchArticles} from "../../articles";
-import {clearWarehouseArticles, fetchWarehouseArticles} from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchArticles } from "../../articles";
+import { clearWarehouseArticles, fetchWarehouseArticles } from "../actions";
 import styles from './WarehouseArticlesPage.module.css'
-import {fetchWarehouse, makeGetWarehouseById} from "../../warehouses";
-import {RootState} from "../../../app";
-import {clearRegalPositions} from "../../warehouse_regal_positions";
+import { fetchWarehouse, makeGetWarehouseById, WarehouseNavPills } from "../../warehouses";
+import { RootState } from "../../../app";
+import { clearRegalPositions } from "../../warehouse_regal_positions";
 
 interface IWarehouseArticlesPage {
   id: number;

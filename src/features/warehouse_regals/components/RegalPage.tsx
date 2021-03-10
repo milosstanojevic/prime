@@ -3,13 +3,13 @@ import styles from './RegalPage.module.css';
 import {
   fetchRegalPositions,
   addRegalPosition,
-  makeGetRegalPositionsByRegalId,
   RegalPositionForm,
-  RegalPositionItem,
+  makeGetRegalPositionIdsByRegalId,
 } from "../../warehouse_regal_positions";
 import { useDispatch, useSelector } from "react-redux";
-import {Bubble, Button, Modal} from "../../../components";
+import {Bubble, Button, Loading, Modal} from "../../../components";
 import {RootState} from "../../../app";
+import {RegalPositionItemContainer} from "../../warehouse_regal_positions/components/RegalPositionItemContainer";
 
 interface IRegalPage {
   regalId: number,
@@ -21,12 +21,19 @@ export const RegalPage: FC<IRegalPage> = ({
   warehouseId
 }) => {
   const dispatch = useDispatch()
-  const getRegalPositions = useMemo(makeGetRegalPositionsByRegalId, [])
-  const regalPositions = useSelector((state: RootState) => getRegalPositions(state, regalId))
+  const getRegalPositionIds = useMemo(makeGetRegalPositionIdsByRegalId, [])
+  const regalPositionIds = useSelector((state: RootState) => getRegalPositionIds(state, regalId))
   const [show, setShow] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchRegalPositions(regalId))
+    setIsLoading(true)
+    const fetch = async () => {
+      await dispatch(fetchRegalPositions(regalId))
+    }
+    fetch()
+      .then(() => setIsLoading(false))
+      .finally(() => setIsLoading(false))
   }, [dispatch, regalId])
 
   const handleShowModal = useCallback(() => {
@@ -46,24 +53,17 @@ export const RegalPage: FC<IRegalPage> = ({
         <Button mode="primary" onClick={handleShowModal}>Add Position</Button>
         <div className={styles.filters}>Filters</div>
       </div>
-      <div className={styles.page}>
-        <div className={styles.regal_positions}>
-          {regalPositions.map(({ id, name }) => {
-            if (id && id > 0 && name?.length) {
-              return (
-                <RegalPositionItem
-                  key={id}
-                  id={id}
-                  name={name}
-                  regalId={regalId}
-                  warehouseId={warehouseId}
-                />
-              )
-            }
-            return null
-          })}
+      {isLoading ? (
+        <Loading/>
+      ): (
+        <div className={styles.page}>
+          <div className={styles.regal_positions}>
+            {regalPositionIds.map(id => (
+              <RegalPositionItemContainer key={id} id={id} warehouseId={warehouseId} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <Modal
         open={show}
         onClose={handleCloseModal}

@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Warehouse} from 'features/warehouses/types';
 import {NormalizerWarehouseRequest, NormalizerWarehousesRequest} from "../actions";
+import {entitiesSuccess, entitySuccess} from "../../utils";
 
 interface IWarehouseReducer {
   items: Array<Warehouse>,
@@ -21,27 +22,16 @@ export const warehouseSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    warehousesSuccess: (state, { payload }: PayloadAction<NormalizerWarehousesRequest>) => {
-      state.items = Object.values(payload.entities.warehouses)
-      state.isLoading = false;
-    },
-    warehouseSuccess: (state, { payload }: PayloadAction<NormalizerWarehouseRequest>) => {
-      const warehouseId = payload.result
-      const warehouse = payload.entities.warehouses[warehouseId]
-      const index = state.items.findIndex(({ id }) => id === warehouseId)
-
-      index === -1 ? state.items.push(warehouse) : state.items[index] = warehouse
-
-      state.isLoading = false
-    },
     hasError: (state) => {
       state.error = true
       state.isLoading = false
     },
-    addWarehouse: (state, { payload }: PayloadAction<NormalizerWarehouseRequest>) => {
-      const warehouseId = payload.result
-      const warehouse = payload.entities.warehouses[warehouseId]
-      state.items.push(warehouse)
+    warehousesSuccess: (state, { payload }: PayloadAction<NormalizerWarehousesRequest>) => {
+      state.items = entitiesSuccess(payload.entities.warehouses)
+      state.isLoading = false;
+    },
+    warehouseSuccess: (state, { payload }: PayloadAction<NormalizerWarehouseRequest>) => {
+      state.items = entitySuccess(state.items, payload.result, payload.entities.warehouses)
       state.isLoading = false
     },
   }

@@ -46,7 +46,7 @@ export const fetchWarehouseArticles = (id: number): AppThunk => async (dispatch:
   dispatch(actions.startLoading())
   try {
     const response: Object = await request(`warehouses/${id}/articles`, {schema: schemas.WAREHOUSE_ARTICLES})
-    dispatch(actions.warehouseArticleSuccess(response as NormalizerWarehouseArticlesRequest))
+    dispatch(actions.warehouseArticlesSuccess(response as NormalizerWarehouseArticlesRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }
@@ -60,7 +60,7 @@ export const fetchWarehouseRegalArticles = (id: number, regalId: number): AppThu
   dispatch(actions.startLoading())
   try {
     const response: Object = await request(`warehouses/${id}/regals/${regalId}/articles`, {schema: schemas.WAREHOUSE_ARTICLES})
-    dispatch(actions.warehouseArticleSuccess(response as NormalizerWarehouseArticlesRequest))
+    dispatch(actions.warehouseArticlesSuccess(response as NormalizerWarehouseArticlesRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }

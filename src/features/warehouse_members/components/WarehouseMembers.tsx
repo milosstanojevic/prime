@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import {WarehouseNavPills} from "../../warehouse";
+import { WarehouseNavPills } from "../../warehouses";
 
 interface IWarehouseMembers {
   id: number;

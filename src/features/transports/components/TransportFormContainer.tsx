@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import styles from "./TransportsPage.module.css";
-import {addTransport, editTransport} from "../actions";
+import {addTransport, editTransport, fetchTransport} from "../actions";
 import {Bubble, Button, Modal} from "../../../components";
 import {TransportForm} from "../form";
 import {makeGetTransportById} from "../selectors";
@@ -16,7 +16,7 @@ const TransportFormContainer = () => {
 
   useEffect(() => {
     if (!show && editId > 0) {
-      // dispatch(fetchTransport({ id: editId }))
+      dispatch(fetchTransport(editId))
       setShow(true)
     }
   }, [editId, dispatch, show])

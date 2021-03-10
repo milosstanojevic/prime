@@ -27,7 +27,7 @@ export const addTransport = (newTransport: Transport): AppThunk => async (dispat
       method: 'POST',
       payload: newTransport,
     })
-    dispatch(actions.addTransport(response as NormalizerTransportRequest))
+    dispatch(actions.transportSuccess(response as NormalizerTransportRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }

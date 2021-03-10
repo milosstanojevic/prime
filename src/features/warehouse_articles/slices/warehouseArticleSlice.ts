@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NormalizerWarehouseArticleRequest, NormalizerWarehouseArticlesRequest } from "../actions";
 import { WarehouseArticle } from "../types";
+import { entitiesSuccess, entitySuccess } from "../../utils";
 
 interface IWarehouseArticleReducer {
   items: Array<WarehouseArticle>,
@@ -21,18 +22,16 @@ export const warehouseArticleSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    warehouseArticleSuccess: (state, { payload }: PayloadAction<NormalizerWarehouseArticlesRequest>) => {
-      state.items = Object.values(payload.entities.warehouse_articles)
-      state.isLoading = false;
-    },
     hasError: (state) => {
       state.error = true
       state.isLoading = false
     },
+    warehouseArticlesSuccess: (state, { payload }: PayloadAction<NormalizerWarehouseArticlesRequest>) => {
+      state.items = entitiesSuccess(payload.entities.warehouse_articles)
+      state.isLoading = false;
+    },
     addWarehouseArticle: (state, { payload }: PayloadAction<NormalizerWarehouseArticleRequest>) => {
-      const warehouseArticleId = payload.result
-      const warehouseArticle = payload.entities.warehouse_articles[warehouseArticleId]
-      state.items.push(warehouseArticle)
+      state.items = entitySuccess(state.items, payload.result, payload.entities.warehouse_articles)
       state.isLoading = false
     },
     clearWarehouseArticles: (state) => {

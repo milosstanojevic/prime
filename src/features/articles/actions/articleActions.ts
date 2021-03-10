@@ -37,7 +37,7 @@ export const addArticle = (newArticle: Article): AppThunk => async (dispatch: Ap
       method: 'POST',
       payload: getPayload(newArticle),
     })
-    dispatch(actions.addArticle(response as NormalizerArticleRequest))
+    dispatch(actions.articleSuccess(response as NormalizerArticleRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }
@@ -50,7 +50,7 @@ export const editArticle = (id: number, newArticle: Article): AppThunk => async 
       method: 'PUT',
       payload: getPayload(newArticle),
     })
-    dispatch(actions.editArticle(response as NormalizerArticleRequest))
+    dispatch(actions.articleSuccess(response as NormalizerArticleRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import {MerchantsPage} from "../MerchantsPage";
+import {MerchantsPage} from "../components";
 
 export const MerchantRoutes = () => (
   <>

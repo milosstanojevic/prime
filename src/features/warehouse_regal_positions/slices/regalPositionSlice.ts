@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NormalizerRegalPositionRequest, NormalizerRegalPositionsRequest } from "../actions";
 import { RegalPosition } from "../types";
+import { entitiesSuccess, entitySuccess } from "../../utils";
 
 interface IRegalPositionsReducer {
   items: Array<RegalPosition>,
@@ -21,18 +22,16 @@ export const regalPositionSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    regalPositionSuccess: (state, { payload }: PayloadAction<NormalizerRegalPositionsRequest>) => {
-      state.items = Object.values(payload.entities.regal_positions)
-      state.isLoading = false;
-    },
     hasError: (state) => {
       state.error = true
       state.isLoading = false
     },
+    regalPositionSuccess: (state, { payload }: PayloadAction<NormalizerRegalPositionsRequest>) => {
+      state.items = entitiesSuccess(payload.entities.regal_positions)
+      state.isLoading = false;
+    },
     addRegalPosition: (state, { payload }: PayloadAction<NormalizerRegalPositionRequest>) => {
-      const regalPositionId = payload.result
-      const regalPosition = payload.entities.regal_positions[regalPositionId]
-      state.items.push(regalPosition)
+      state.items = entitySuccess(state.items, payload.result, payload.entities.regal_positions)
       state.isLoading = false
     },
     clearRegalPositions: (state) => {

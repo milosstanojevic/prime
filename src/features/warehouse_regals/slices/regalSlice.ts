@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NormalizerRegalsRequest, NormalizerRegalRequest } from "../actions";
 import { Regal } from "../types";
+import {entitiesSuccess, entitySuccess} from "../../utils";
 
 interface IWarehouseRegalReducer {
   items: Array<Regal>,
@@ -21,18 +22,16 @@ export const warehouseRegalSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    warehouseRegalSuccess: (state, { payload }: PayloadAction<NormalizerRegalsRequest>) => {
-      state.items = Object.values(payload.entities.regals)
-      state.isLoading = false;
-    },
     hasError: (state) => {
       state.error = true
       state.isLoading = false
     },
+    warehouseRegalSuccess: (state, { payload }: PayloadAction<NormalizerRegalsRequest>) => {
+      state.items = entitiesSuccess(payload.entities.regals)
+      state.isLoading = false;
+    },
     addWarehouseRegal: (state, { payload }: PayloadAction<NormalizerRegalRequest>) => {
-      const regalId = payload.result
-      const regal = payload.entities.regals[regalId]
-      state.items.push(regal)
+      state.items = entitySuccess(state.items, payload.result, payload.entities.regals)
       state.isLoading = false
     },
     clearWarehouseRegals: (state) => {

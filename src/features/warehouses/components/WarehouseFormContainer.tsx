@@ -2,7 +2,7 @@ import React, { FC, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../app";
 import { addWarehouse } from "../actions";
-import { WarehouseForm } from "../../warehouse";
+import { WarehouseForm } from "../form";
 
 interface IWarehouseFormContainer {
   id?: number,

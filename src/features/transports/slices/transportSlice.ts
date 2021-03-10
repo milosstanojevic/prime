@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NormalizerTransportsRequest, NormalizerTransportRequest } from "../actions";
 import { Transport } from "../types";
+import { entitiesSuccess, entitySuccess } from "../../utils";
 
 interface ITransportReducer {
   items: Array<Transport>,
@@ -21,31 +22,20 @@ export const transportSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    transportsSuccess: (state, { payload }: PayloadAction<NormalizerTransportsRequest>) => {
-      state.items = Object.values(payload.entities.transports)
-      state.isLoading = false;
-    },
     hasError: (state) => {
       state.error = true
       state.isLoading = false
     },
-    addTransport: (state, { payload }: PayloadAction<NormalizerTransportRequest>) => {
-      const transportId = payload.result
-      const transport = payload.entities.transports[transportId]
-      state.items.push(transport)
-      state.isLoading = false
+    transportsSuccess: (state, { payload }: PayloadAction<NormalizerTransportsRequest>) => {
+      state.items = entitiesSuccess(payload.entities.transports)
+      state.isLoading = false;
     },
     transportSuccess: (state, { payload }: PayloadAction<NormalizerTransportRequest>) => {
-      const transportId = payload.result
-      const transport = payload.entities.transports[transportId]
-      const index = state.items.findIndex(({ id }) => id === transportId)
-
-      index === -1 ? state.items.push(transport) : state.items[index] = transport
-
+      state.items = entitySuccess(state.items, payload.result, payload.entities.transports)
       state.isLoading = false
     },
     clearTransports: (state) => {
       state.items = []
-    }
+    },
   }
 });
