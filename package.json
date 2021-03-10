@@ -29,10 +29,8 @@
     "react-redux": "^7.2.2",
     "react-remove-scroll": "^2.4.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
+    "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.1",
-    "slate": "^0.59.0",
-    "slate-react": "^0.59.0",
     "typescript": "^4.1.5",
     "web-vitals": "^0.2.4"
   },
