@@ -12,24 +12,36 @@ const getIndex = (items: Array<Object>, itemId: number): number => {
 }
 
 export const entitySuccess = (items: Array<Object>, itemId: number, entities: Object): Array<Object> => {
-  const entity = Object.values(entities)[itemId]
+  const entity = Object.values(entities).find((item) => {
+    if (hasOwnProperty(item, 'id') && typeof item.id === 'number') {
+      return item.id === itemId
+    }
+    return false
+  })
+
   const index = getIndex(items, itemId)
 
-  return index === -1 ? [...items, entity] : items[index] = entity
+  if (index === -1) {
+    return [...items, entity]
+  } else {
+    return [
+      ...items.slice(0, index),
+      entity,
+      ...items.slice(index + 1),
+    ]
+  }
+
 }
 
 export const entitiesSuccess = (entities: Object): Object[] => {
   return Object.values(entities)
 }
 
-export const entityAdd = (id: number, entities: Object): Object => {
-  return Object.values(entities)[id]
-}
-
 export const entityRemove = (items: Array<Object>, itemId: number): Array<Object> => {
-  const index = getIndex(items, itemId)
-  if (index > 0) {
-    items.splice(index, 1);
-  }
-  return items
+  return items.filter(item => {
+    if (hasOwnProperty(item, 'id') && typeof item.id === 'number') {
+      return item.id !== itemId
+    }
+    return false
+  })
 }
