@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import {OrdersPage} from "../OrdersPage";
+import { OrdersPage } from "../components";
 
 export const OrderRoutes = () => (
   <>
