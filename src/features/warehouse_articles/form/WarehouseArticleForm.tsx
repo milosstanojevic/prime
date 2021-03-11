@@ -52,7 +52,8 @@ export const WarehouseArticleForm: FC<IWarehouseArticleForm> = ({
   }, [articleId, regalPositionId, regalId, quantity, dispatch, warehouseId])
 
   const handleQuantityChange = useCallback((e) => {
-    setQuantity(parseInt(e.target.value))
+    const value = parseInt(e.target.value)
+    setQuantity(!isNaN(value) ? value : 0)
   }, [])
 
   const target = useMemo(() => {
