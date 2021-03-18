@@ -1,9 +1,18 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import {MerchantsPage} from "../components";
+import { MerchantPage, MerchantsPage } from "../components";
 
 export const MerchantRoutes = () => (
   <>
     <Route exact path="/merchants" component={MerchantsPage} />
+    <Route
+      path="/merchant/:id"
+      render={({ match, ...props }) => (
+        <MerchantPage
+          {...props}
+          id={Number(match.params.id)}
+        />
+      )}
+    />
   </>
 );

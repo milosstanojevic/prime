@@ -1,6 +1,6 @@
-import React, {FC, useCallback, useMemo} from 'react';
-import {SelectOption} from "./types";
-import {Radio} from "../input";
+import React, { FC, useCallback } from 'react';
+import { SelectOption } from "./types";
+import { Radio } from "../input";
 import styles from './SelectItem.module.css'
 
 interface ISelectItem extends SelectOption {

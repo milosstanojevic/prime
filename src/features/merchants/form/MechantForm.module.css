@@ -1,0 +1,13 @@
+.merchant_form_wrapper {
+  padding: 20px;
+  background: whitesmoke;
+  border-radius: 4px;
+}
+
+.merchant_form_element {
+  margin-bottom: 10px;
+}
+
+.submit_button {
+  margin-right: 10px;
+}

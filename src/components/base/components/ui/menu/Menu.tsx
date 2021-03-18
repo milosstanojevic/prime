@@ -6,8 +6,6 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  ReactElement,
-  Ref,
 } from "react";
 import { Placement } from "@popperjs/core";
 import useForkRef from "../../../hooks/useForkRef";
@@ -19,7 +17,7 @@ interface IMenu {
   /** Menu content */
   children: ReactNode;
   /** Handle scroll bar */
-  handleScroll?: boolean;
+  disableScrollLock?: boolean;
   /** Disable Focus Lock */
   disableFocusLock?: boolean;
   /** Should menu be open when it's mounted */
@@ -43,7 +41,7 @@ interface IMenu {
 export const Menu: FC<IMenu> = ({
   children,
   disableFocusLock = false,
-  handleScroll = true,
+  disableScrollLock = true,
   open: defaultOpen = false,
   onOpen,
   onClose,
@@ -100,7 +98,7 @@ export const Menu: FC<IMenu> = ({
       {open ? (
         <Window
           onClose={handleClose}
-          disableScrollLock={!handleScroll}
+          disableScrollLock={!disableScrollLock}
           disableFocusLock={disableFocusLock}
         >
           <Overlay

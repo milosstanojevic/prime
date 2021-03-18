@@ -1,11 +1,11 @@
 import React, { useCallback, useState, FC } from 'react';
 import { Button, Input, Textarea } from "../../../components";
-import styles from './WarehouseForm.module.css'
-import { Warehouse } from "../types";
+import styles from './MechantForm.module.css'
+import { Merchant } from "../types";
 
-interface IWarehouseForm extends Warehouse {
+interface IMerchantForm extends Merchant {
   className?: string,
-  onSubmit?: (warehouse: Warehouse) => void,
+  onSubmit?: (merchant: Merchant) => void,
   onCancel?: () => void
 }
 
@@ -16,7 +16,7 @@ const initialFormState = {
   address: '',
 };
 
-export const WarehouseForm: FC<IWarehouseForm> = ({
+export const MerchantForm: FC<IMerchantForm> = ({
   className,
   onSubmit,
   onCancel,
@@ -25,7 +25,7 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
   description,
   address,
 }) => {
-  const [warehouseForm, setWarehouseForm] = useState(() => {
+  const [merchantForm, setMerchantForm] = useState(() => {
     if (id > 0) {
       return {
         id,
@@ -41,7 +41,7 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
     e => {
       const { target = {} } = e;
       const { name, value } = target;
-      setWarehouseForm(prevState => ({ ...prevState, [name]: value }))
+      setMerchantForm(prevState => ({ ...prevState, [name]: value }))
     },
     []
   );
@@ -49,50 +49,50 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
-      if (warehouseForm.name && warehouseForm.name.length > 0 && typeof onSubmit === 'function') {
-        onSubmit(warehouseForm);
+      if (merchantForm.name && merchantForm.name.length > 0 && typeof onSubmit === 'function') {
+        onSubmit(merchantForm);
       }
     },
-    [onSubmit, warehouseForm]
+    [onSubmit, merchantForm]
   );
 
   return (
     <form
-      className={`${styles.warehouse_form_wrapper} ${className}`}
+      className={`${styles.merchant_form_wrapper} ${className}`}
       onSubmit={handleSubmit}
     >
-      <div className={styles.warehouse_form_element}>
+      <div className={styles.merchant_form_element}>
         <Input
           required
-          placeholder="Warehouse name..."
+          placeholder="Merchant name..."
           name="name"
           id="name"
           onChange={handleChange}
-          value={warehouseForm.name}
+          value={merchantForm.name}
           autoFocus
         />
       </div>
-      <div className={styles.warehouse_form_element}>
+      <div className={styles.merchant_form_element}>
         <Textarea
           placeholder="..."
           onChange={handleChange}
-          value={warehouseForm.description}
+          value={merchantForm.description}
           name="description"
         />
       </div>
-      <div className={styles.warehouse_form_element}>
+      <div className={styles.merchant_form_element}>
         <Input
           placeholder="Address..."
           name="address"
           id="address"
           onChange={handleChange}
-          value={warehouseForm.address}
+          value={merchantForm.address}
         />
       </div>
       <div className={styles.buttons}>
         <Button
           mode="primary"
-          disabled={typeof warehouseForm.name === 'string' && warehouseForm.name.length === 0}
+          disabled={typeof merchantForm.name === 'string' && merchantForm.name.length === 0}
           className={styles.submit_button}
           type="submit"
         >
