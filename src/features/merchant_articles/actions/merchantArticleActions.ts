@@ -29,14 +29,39 @@ const getPayload = (merchantArticle: MerchantArticle) => {
 
 const { actions } = merchantArticleSlice
 
-export const addMerchantArticle = (id: number, newMerchantArticle: MerchantArticle): AppThunk => async (dispatch: AppDispatch) => {
+export const addMerchantArticle = (id: number, attributes: MerchantArticle): AppThunk => async (dispatch: AppDispatch) => {
   try {
     const response: Object = await request(`merchants/${id}/articles`, {
       schema: schemas.MERCHANT_ARTICLE,
       method: 'POST',
-      payload: getPayload(newMerchantArticle),
+      payload: getPayload(attributes),
     })
-    dispatch(actions.addMerchantArticle(response as NormalizerMerchantArticleRequest))
+    dispatch(actions.merchantArticleSuccess(response as NormalizerMerchantArticleRequest))
+  } catch (error) {
+    dispatch(actions.hasError())
+  }
+}
+
+export const updateMerchantArticle = (id: number, articleId: number, attributes: MerchantArticle): AppThunk => async (dispatch: AppDispatch) => {
+  try {
+    const response: Object = await request(`merchants/${id}/articles/${articleId}`, {
+      schema: schemas.MERCHANT_ARTICLE,
+      method: 'PUT',
+      payload: getPayload(attributes),
+    })
+    dispatch(actions.merchantArticleSuccess(response as NormalizerMerchantArticleRequest))
+  } catch (error) {
+    dispatch(actions.hasError())
+  }
+}
+
+export const deleteMerchantArticle = (id: number, articleId: number): AppThunk => async (dispatch: AppDispatch) => {
+  try {
+    const response: Object = await request(`merchants/${id}/articles/${articleId}`, {
+      schema: schemas.MERCHANT_ARTICLE,
+      method: 'DELETE',
+    })
+    dispatch(actions.merchantArticleRemoved(response as NormalizerMerchantArticleRequest))
   } catch (error) {
     dispatch(actions.hasError())
   }

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NormalizerMerchantArticleRequest, NormalizerMerchantArticlesRequest } from "../actions";
 import { MerchantArticle } from "../types";
-import { entitiesSuccess, entitySuccess } from "../../utils";
+import { entitiesSuccess, entitySuccess, entityRemove } from "../../utils";
 
 interface IMerchantArticleReducer {
   items: Array<MerchantArticle>,
@@ -30,8 +30,12 @@ export const merchantArticleSlice = createSlice({
       state.items = entitiesSuccess(payload.entities.merchant_articles)
       state.isLoading = false;
     },
-    addMerchantArticle: (state, { payload }: PayloadAction<NormalizerMerchantArticleRequest>) => {
+    merchantArticleSuccess: (state, { payload }: PayloadAction<NormalizerMerchantArticleRequest>) => {
       state.items = entitySuccess(state.items, payload.result, payload.entities.merchant_articles)
+      state.isLoading = false
+    },
+    merchantArticleRemoved: (state, { payload }: PayloadAction<NormalizerMerchantArticleRequest>) => {
+      state.items = entityRemove(state.items, payload.result)
       state.isLoading = false
     },
     clearMerchantArticles: (state) => {

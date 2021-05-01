@@ -5,7 +5,7 @@ import { Navbar } from "./components";
 import { WarehouseRoutes } from "../../features/warehouses";
 import { MerchantRoutes } from "../../features/merchants";
 import { ArticleRoutes } from "../../features/articles";
-import { OrderRoutes } from "../../features/article_orders";
+import { TransportOrderRoutes } from "../../features/transport_orders";
 import { UserRoutes } from "../../features/users";
 import { TransportRoutes } from "../../features/transports";
 import { isInDevelopmentMode } from "./utils";
@@ -17,7 +17,7 @@ export const Base = () => (
     <MerchantRoutes />
     <ArticleRoutes />
     <TransportRoutes />
-    <OrderRoutes />
+    <TransportOrderRoutes />
     <UserRoutes />
     {isInDevelopmentMode ? (
       <Route exact path="/components" component={ComponentsPage} />

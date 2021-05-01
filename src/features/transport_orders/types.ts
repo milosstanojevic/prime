@@ -1,6 +1,8 @@
-export interface Order {
+export interface TransportOrder {
   id?: number,
-  name?: string,
+  transportId?: number,
+  parent?: string,
+  parentId?: number,
   createdAt?: number;
   updatedAt?: number;
   createdBy?: string;
