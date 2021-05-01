@@ -33,7 +33,7 @@ export const makeGetArticlesByWarehouseRegalPositionId = () => {
       })
 
       positionArticles.forEach(positionArticle => {
-        const article = positionArticle.articleId ? articles[positionArticle.articleId] : undefined
+        const article = articles.find(article => article.id === positionArticle.articleId)
         if (article) {
           items.push({
             id: article.id,
