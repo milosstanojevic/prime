@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers } from "@reduxjs/toolkit";
 import { warehouseSlice } from "../features/warehouses";
 import { articleSlice } from "../features/articles";
 import { warehouseArticleSlice } from "../features/warehouse_articles";
@@ -25,8 +25,8 @@ const rootReducer = combineReducers({
   transport_orders: transportOrderSlice.reducer,
   transport_order_articles: transportOrderArticleSlice.reducer,
   users: userSlice.reducer,
-})
+});
 
-export type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>;
 
-export default rootReducer
+export default rootReducer;

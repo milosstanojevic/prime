@@ -1,20 +1,20 @@
-import React, {useCallback, useState, FC, useMemo} from 'react';
-import {Button, Input, Select, Textarea} from "../../../../components";
-import styles from './ArticleForm.module.css'
-import {Article} from "../../types";
+import React, { useCallback, useState, FC, useMemo } from "react";
+import { Button, Input, Select, Textarea } from "../../../../components";
+import styles from "./ArticleForm.module.css";
+import { Article } from "../../types";
 
 interface IArticleForm extends Article {
-  className?: string,
-  onSubmit?: (article: Article) => void,
-  onCancel?: () => void
+  className?: string;
+  onSubmit?: (attributes: Article) => void;
+  onCancel?: () => void;
 }
 
 const initialFormState = {
   id: 0,
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   barCode: undefined,
-  unit: 'gr',
+  unit: "gr",
 };
 
 export const ArticleForm: FC<IArticleForm> = ({
@@ -35,28 +35,29 @@ export const ArticleForm: FC<IArticleForm> = ({
         description,
         barCode,
         unit,
-      }
+      };
     }
-    return initialFormState
-  })
+    return initialFormState;
+  });
 
-  const handleChange = useCallback(
-    e => {
-      const { target = {} } = e;
-      const { name, value } = target;
-      setArticleForm(prevState => ({ ...prevState, [name]: value }))
-    },
-    []
-  );
+  const handleChange = useCallback((e) => {
+    const { target = {} } = e;
+    const { name, value } = target;
+    setArticleForm((prevState) => ({ ...prevState, [name]: value }));
+  }, []);
 
   const handleUnitChange = useCallback((units) => {
-    setArticleForm(prevState => ({ ...prevState, unit: units[0] }))
-  }, [])
+    setArticleForm((prevState) => ({ ...prevState, unit: units[0] }));
+  }, []);
 
   const handleSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
-      if (articleForm.name && articleForm.name.length > 0 && typeof onSubmit === 'function') {
+      if (
+        articleForm.name &&
+        articleForm.name.length > 0 &&
+        typeof onSubmit === "function"
+      ) {
         onSubmit(articleForm);
       }
     },
@@ -65,10 +66,10 @@ export const ArticleForm: FC<IArticleForm> = ({
 
   const unitForm = useMemo(() => {
     if (articleForm.unit) {
-      return [articleForm.unit]
+      return [articleForm.unit];
     }
-    return []
-  }, [articleForm.unit])
+    return [];
+  }, [articleForm.unit]);
 
   return (
     <form
@@ -107,9 +108,9 @@ export const ArticleForm: FC<IArticleForm> = ({
         <Select
           target={<Button>Unit: {articleForm.unit}</Button>}
           options={[
-            { id: 'Kg', name: 'Kg' },
-            { id: 'gr', name: 'gr' },
-            { id: 'T', name: 'T' },
+            { id: "Kg", name: "Kg" },
+            { id: "gr", name: "gr" },
+            { id: "T", name: "T" },
           ]}
           onChange={handleUnitChange}
           selectedOptionIds={unitForm}
@@ -119,17 +120,16 @@ export const ArticleForm: FC<IArticleForm> = ({
       <div className={styles.buttons}>
         <Button
           mode="primary"
-          disabled={typeof articleForm.name === 'string' && articleForm.name.length === 0}
+          disabled={
+            typeof articleForm.name === "string" &&
+            articleForm.name.length === 0
+          }
           className={styles.submit_button}
           type="submit"
         >
           Submit
         </Button>
-        <Button
-          type="button"
-          mode="secondary"
-          onClick={onCancel}
-        >
+        <Button type="button" mode="secondary" onClick={onCancel}>
           Cancel
         </Button>
       </div>

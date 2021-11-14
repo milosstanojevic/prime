@@ -24,15 +24,3 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.modal_trash_wrapper {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  background: whitesmoke;
-  border-radius: 8px;
-  padding: 10px;
-}

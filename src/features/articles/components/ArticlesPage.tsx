@@ -1,71 +1,54 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import React, { useState } from "react";
 import styles from "./ArticlesPage.module.css";
-import {Button, Modal} from "../../../components";
-import {fetchArticles, deleteArticle} from "../actions";
-import {ArticleList} from "./ArticleList";
-import {ArticleFormContainer} from "./ArticleFormContainer";
+import { Button, Modal } from "../../../components";
+import { fetchArticles, addArticle } from "../actions";
+import { ArticleList } from "./ArticleList";
+import { Loading } from "../../../components";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "app";
+import { ArticleForm } from "..";
 
 export const ArticlesPage = () => {
-  const dispatch = useDispatch()
-  const [show, setShow] = useState(false)
-  const [editId, setEditId] = useState(0)
-  const [trashId, setTrashId] = useState(0)
+  const dispatch = useDispatch<AppDispatch>();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleShowModal = useCallback(() => {
-    setShow(true)
-  }, [])
+  React.useEffect(() => {
+    dispatch(fetchArticles()).finally(() => setIsLoading(false));
+  }, [dispatch]);
 
-  const handleCloseModal = useCallback(() => {
-    setShow(false)
-    setEditId(0)
-  }, [])
+  const [showCreateArticle, setShowCreateArticle] = React.useState(false);
+  const handleShowCreateArticle = React.useCallback(() => {
+    setShowCreateArticle(true);
+  }, []);
 
-  const handleEdit = useCallback((id) => {
-    setEditId(id)
-  }, [])
+  const handleCloseCreateArticle = React.useCallback(() => {
+    setShowCreateArticle(false);
+  }, []);
 
-  const handleTrash = useCallback((id) => {
-    setTrashId(id)
-  }, [])
-
-  const handleCloseTrashModal = useCallback(() => {
-    setTrashId(0)
-  }, [])
-
-  useEffect(() => {
-    dispatch(fetchArticles())
-  }, [dispatch])
-
-  const onTrash = useCallback(() => {
-    if (trashId > 0) {
-      dispatch(deleteArticle(trashId))
-    }
-  }, [dispatch, trashId])
+  const handleSubmit = React.useCallback(
+    (attributes) => {
+      dispatch(addArticle(attributes));
+      handleCloseCreateArticle();
+    },
+    [dispatch, handleCloseCreateArticle]
+  );
 
   return (
     <div className={styles.page}>
       <div className={styles.page_header}>
-        <Button
-          mode="primary"
-          onClick={handleShowModal}
-        >
+        <Button mode="primary" onClick={handleShowCreateArticle}>
           Create new Article
         </Button>
       </div>
-      <ArticleList onEdit={handleEdit} onTrash={handleTrash}/>
-      <Modal open={show || editId > 0} onClose={handleCloseModal}>
+      {isLoading ? <Loading /> : <ArticleList />}
+      <Modal open={showCreateArticle} onClose={handleCloseCreateArticle}>
         <div className={styles.modal_form_wrapper}>
-          <ArticleFormContainer id={editId} onCancel={handleCloseModal} onSubmit={handleCloseModal}/>
-        </div>
-      </Modal>
-      <Modal open={trashId > 0} onClose={handleCloseTrashModal}>
-        <div className={styles.modal_trash_wrapper}>
-          <p>Are you sure?</p>
-          <Button type="button" onClick={onTrash}>Trash</Button>
-          <Button type="button" onClick={handleCloseTrashModal}>Cancel</Button>
+          <ArticleForm
+            onCancel={handleCloseCreateArticle}
+            onSubmit={handleSubmit}
+          />
         </div>
       </Modal>
     </div>
-  )
-}
+  );
+};

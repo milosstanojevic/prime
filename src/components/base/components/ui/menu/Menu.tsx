@@ -6,12 +6,14 @@ import React, {
   useState,
   useCallback,
   useEffect,
+  useMemo,
 } from "react";
 import { Placement } from "@popperjs/core";
 import useForkRef from "../../../hooks/useForkRef";
-import {Popper} from "../../atomic/popper";
-import {Overlay, Window} from "../../atomic";
-import {ElementWithRef} from "./types";
+import { Popper } from "../../atomic/popper";
+import { Overlay, Window } from "../../atomic";
+import { ElementWithRef } from "./types";
+import { useToggle } from "../../../hooks";
 
 interface IMenu {
   /** Menu content */
@@ -20,8 +22,6 @@ interface IMenu {
   disableScrollLock?: boolean;
   /** Disable Focus Lock */
   disableFocusLock?: boolean;
-  /** Should menu be open when it's mounted */
-  open?: boolean;
   /** Callback triggered when modal has been opened */
   onOpen?: () => void;
   /** Callback triggered when modal has been closed */
@@ -36,55 +36,74 @@ interface IMenu {
   popperClassName?: string;
   /** Background style for clickable element after the menu is open (opacity, color, etc...) */
   backgroundElementClass?: string;
+  /** External controls */
+  externalControls?: [boolean, (state: boolean) => void];
 }
 
 export const Menu: FC<IMenu> = ({
   children,
   disableFocusLock = false,
   disableScrollLock = true,
-  open: defaultOpen = false,
   onOpen,
   onClose,
   onBeforeClose,
-  position = 'bottom-start',
+  position = "bottom-start",
   target,
   popperClassName,
   backgroundElementClass,
+  externalControls = [],
 }) => {
-  const [open, setOpen] = useState(defaultOpen)
+  const [externalState, setExternalState] = externalControls;
+  const usesExternalState = externalState !== undefined;
+  const [isOpen, handleInternalOpen, handleInternalClose] = useToggle(
+    usesExternalState ? externalState : false
+  );
   const [childNode, setChildNode] = useState<Element | null>();
   const elementRef = useRef<Element | null>(null);
 
-  useEffect(() => {
-    setOpen(defaultOpen);
-  }, [defaultOpen])
-
-  const handleRefRef = useForkRef(target ? target.ref : undefined, setChildNode)
+  const handleRefRef = useForkRef(
+    target ? target.ref : undefined,
+    setChildNode
+  );
   const handleRef = useForkRef(handleRefRef, elementRef);
 
   const handleOpen = useCallback(
     (event: Pick<MouseEvent<Element>, "preventDefault">) => {
       event && event.preventDefault();
-      setOpen(true);
-      typeof onOpen === 'function' && onOpen();
+      handleInternalOpen();
+      setExternalState && setExternalState(true);
+      typeof onOpen === "function" && onOpen();
     },
-    [onOpen]
+    [onOpen, handleInternalOpen, setExternalState]
   );
 
-  const handleClose = useCallback(
-    () => {
-      if (typeof onBeforeClose === "function" && !onBeforeClose()) {
-        return
-      }
-      setOpen(false);
-      typeof onClose === 'function' && onClose()
-    },
-    [onClose, onBeforeClose]
-  );
+  const handleClose = useCallback(() => {
+    if (typeof onBeforeClose === "function" && !onBeforeClose()) {
+      return;
+    }
+    handleInternalClose();
+    setExternalState && setExternalState(false);
+    typeof onClose === "function" && onClose();
+  }, [onClose, onBeforeClose, handleInternalClose, setExternalState]);
 
   const childProps = {
     forceClose: handleClose,
-  }
+  };
+
+  useEffect(() => {
+    if (usesExternalState) {
+      externalState ? handleInternalOpen() : handleInternalClose();
+    }
+  }, [
+    usesExternalState,
+    externalState,
+    handleInternalClose,
+    handleInternalOpen,
+  ]);
+
+  const open = useMemo(() => {
+    return externalState !== undefined ? externalState : isOpen;
+  }, [externalState, isOpen]);
 
   const targetProps = {
     open,
@@ -113,10 +132,10 @@ export const Menu: FC<IMenu> = ({
             className={popperClassName}
             tabIndex={-1}
           >
-            {typeof children === 'function' ? children(childProps) : children}
+            {typeof children === "function" ? children(childProps) : children}
           </Popper>
         </Window>
-      ): null}
+      ) : null}
     </>
-  )
+  );
 };
