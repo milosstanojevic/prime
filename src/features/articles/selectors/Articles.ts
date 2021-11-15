@@ -4,6 +4,18 @@ import { Article } from "../types";
 
 export const getAllArticles = (state: RootState) => state.articles.items;
 
+const defaultArticle = {
+  id: 0,
+  name: "",
+  description: "",
+  barCode: undefined,
+  unit: "gr",
+  updatedAt: undefined,
+  createdAt: undefined,
+  updatedBy: undefined,
+  createdBy: undefined,
+};
+
 export const getAllArticlesArray = createSelector(
   getAllArticles,
   (articles) => {
@@ -15,17 +27,7 @@ export const getAllArticlesArray = createSelector(
 
 export const getArticleById = (state: RootState, id: number | undefined) => {
   if (!id) {
-    return {
-      id: 0,
-      name: "",
-      description: "",
-      barCode: undefined,
-      unit: "gr",
-      updatedAt: undefined,
-      createdAt: undefined,
-      updatedBy: undefined,
-      createdBy: undefined,
-    };
+    return defaultArticle;
   }
 
   const item = state.articles.items.find((article) => article.id === id);

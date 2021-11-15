@@ -1,64 +1,56 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import styles from './WarehousesPage.module.css'
-import {Button, Modal} from "../../../components";
-import {WarehouseList} from "./WarehouseList";
-import {WarehouseFormContainer} from "./WarehouseFormContainer";
-import {fetchWarehouses} from "../actions";
+import React from "react";
+import { useDispatch } from "react-redux";
+import styles from "./WarehousesPage.module.css";
+import { Button, Modal, Loading } from "../../../components";
+import { WarehouseList } from "./WarehouseList";
+import { fetchWarehouses, addWarehouse } from "..";
+import { WarehouseForm } from "..";
+import { AppDispatch } from "app";
 
 export const WarehousesPage = () => {
-  const dispatch = useDispatch()
-  const [show, setShow] = useState(false)
-  const [editId, setEditId] = useState(0)
-  const [trashId, setTrashId] = useState(0)
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleShowModal = useCallback(() => {
-    setShow(true)
-  }, [])
+  const [showWarehouseCreate, setShowWarehouseCreate] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  const handleCloseModal = useCallback(() => {
-    setShow(false)
-    setEditId(0)
-  }, [])
+  React.useEffect(() => {
+    dispatch(fetchWarehouses()).finally(() => setIsLoading(false));
+  }, [dispatch]);
 
-  const handleEdit = useCallback((id) => {
-    setEditId(id)
-  }, [])
+  const handleShowCreateWarehouseModal = React.useCallback(() => {
+    setShowWarehouseCreate(true);
+  }, []);
 
-  const handleTrash = useCallback((id) => {
-    setTrashId(id)
-  }, [])
+  const handleCloseCreateWarehouseModal = React.useCallback(() => {
+    setShowWarehouseCreate(false);
+  }, []);
 
-  const handleCloseTrashModal = useCallback(() => {
-    setTrashId(0)
-  }, [])
-
-  useEffect(() => {
-    dispatch(fetchWarehouses())
-  }, [dispatch])
+  const onWarehouseCreate = React.useCallback(
+    (attributes) => {
+      dispatch(addWarehouse(attributes));
+    },
+    [dispatch]
+  );
 
   return (
     <div className={styles.page}>
       <div className={styles.page_header}>
-        <Button
-          mode="primary"
-          onClick={handleShowModal}
-        >
+        <Button mode="primary" onClick={handleShowCreateWarehouseModal}>
           Create new Warehouse
         </Button>
       </div>
-      <WarehouseList onEdit={handleEdit} onTrash={handleTrash}/>
-      <Modal open={show || editId > 0} onClose={handleCloseModal}>
+      {isLoading ? <Loading /> : <WarehouseList />}
+      <Modal
+        open={showWarehouseCreate}
+        onClose={handleCloseCreateWarehouseModal}
+      >
         <div className={styles.modal_form_wrapper}>
-          <WarehouseFormContainer id={editId} onCancel={handleCloseModal} onSubmit={handleCloseModal}/>
-        </div>
-      </Modal>
-      <Modal open={trashId > 0} onClose={handleCloseTrashModal}>
-        <div className={styles.modal_trash_wrapper}>
-          <p>Are you sure?</p>
-          <Button type="button" onClick={handleCloseTrashModal}>Trash</Button>
+          <WarehouseForm
+            onCancel={handleCloseCreateWarehouseModal}
+            onSubmit={onWarehouseCreate}
+          />
         </div>
       </Modal>
     </div>
-  )
-}
+  );
+};

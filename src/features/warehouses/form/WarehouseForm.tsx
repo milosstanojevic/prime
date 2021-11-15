@@ -5,7 +5,7 @@ import { Warehouse } from "../types";
 
 interface IWarehouseForm extends Warehouse {
   className?: string,
-  onSubmit?: (warehouse: Warehouse) => void,
+  onSubmit?: (attributes: Warehouse) => void,
   onCancel?: () => void
 }
 

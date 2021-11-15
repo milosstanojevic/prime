@@ -85,15 +85,3 @@ export const fetchArticles = createAsyncThunk(
     return response;
   }
 );
-
-// export const fetchArticles = (): AppThunk => async (dispatch: AppDispatch) => {
-//   dispatch(actions.startLoading());
-//   try {
-//     const response: Object = await request("articles", {
-//       schema: schemas.ARTICLES,
-//     });
-//     dispatch(actions.articlesSuccess(response as NormalizerArticlesRequest));
-//   } catch (error) {
-//     dispatch(actions.hasError());
-//   }
-// };

@@ -1,18 +1,36 @@
-import React, { FC, useMemo, useCallback, useState, useEffect, Suspense } from "react";
-import { Bubble, Button, Loading, Modal, SelectOption, SidePicker } from "../../../components";
+import React, {
+  FC,
+  useMemo,
+  useCallback,
+  useState,
+  useEffect,
+  Suspense,
+} from "react";
+import {
+  Bubble,
+  Button,
+  Loading,
+  Modal,
+  SelectOption,
+  SidePicker,
+} from "../../../components";
 import {
   addWarehouseRegal,
   clearWarehouseRegals,
   fetchWarehouseRegals,
   makeGetRegalsByWarehouseId,
   RegalForm,
-  RegalPage
+  RegalPage,
 } from "../../warehouse_regals";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArticles } from "../../articles";
 import { clearWarehouseArticles, fetchWarehouseArticles } from "../actions";
-import styles from './WarehouseArticlesPage.module.css'
-import { fetchWarehouse, makeGetWarehouseById, WarehouseNavPills } from "../../warehouses";
+import styles from "./WarehouseArticlesPage.module.css";
+import {
+  fetchWarehouse,
+  makeGetWarehouseById,
+  WarehouseNavPills,
+} from "../../warehouses";
 import { RootState } from "../../../app";
 import { clearRegalPositions } from "../../warehouse_regal_positions";
 
@@ -20,58 +38,59 @@ interface IWarehouseArticlesPage {
   id: number;
 }
 
-export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({
-  id,
-}) => {
-  const dispatch = useDispatch()
+export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({ id }) => {
+  const dispatch = useDispatch();
 
-  const getWarehouse = useMemo(makeGetWarehouseById, [])
-  const warehouse = useSelector((state: RootState) => getWarehouse(state, id))
-  const getRegals = useMemo(makeGetRegalsByWarehouseId, [])
-  const regals = useSelector((state: RootState) => getRegals(state, id))
-  const [regalId, setRegalId] = useState(regals.length ? regals[0].id : 0)
-  const [show, setShow] = useState(false)
+  const getWarehouse = useMemo(() => makeGetWarehouseById(id), [id]);
+  const warehouse = useSelector(getWarehouse);
+  const getRegals = useMemo(makeGetRegalsByWarehouseId, []);
+  const regals = useSelector((state: RootState) => getRegals(state, id));
+  const [regalId, setRegalId] = useState(regals.length ? regals[0].id : 0);
+  const [show, setShow] = useState(false);
 
-  useEffect( () => {
+  useEffect(() => {
     async function fetchData() {
-      await dispatch(fetchWarehouse(id))
-      await dispatch(fetchArticles())
-      await dispatch(fetchWarehouseArticles(id))
-      await dispatch(fetchWarehouseRegals(id))
+      await dispatch(fetchWarehouse(id));
+      await dispatch(fetchArticles());
+      await dispatch(fetchWarehouseArticles(id));
+      await dispatch(fetchWarehouseRegals(id));
     }
-    fetchData()
-  }, [dispatch, id])
+    fetchData();
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (regals.length) {
-      setRegalId(regals[0].id)
+      setRegalId(regals[0].id);
     }
-  }, [regals])
+  }, [regals]);
 
   useEffect(() => {
     return () => {
-      dispatch(clearWarehouseArticles())
-      dispatch(clearWarehouseRegals())
-      dispatch(clearRegalPositions())
-    }
-  }, [dispatch])
+      dispatch(clearWarehouseArticles());
+      dispatch(clearWarehouseRegals());
+      dispatch(clearRegalPositions());
+    };
+  }, [dispatch]);
 
   const handleChange = useCallback((id) => {
-    setRegalId(id)
-  }, [])
+    setRegalId(id);
+  }, []);
 
   const handleShowModal = useCallback(() => {
-    setShow(true)
-  }, [])
+    setShow(true);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
-    setShow(false)
-  }, [])
+    setShow(false);
+  }, []);
 
-  const handleSubmit = useCallback((data) => {
-    dispatch(addWarehouseRegal(id, data))
-    handleCloseModal()
-  }, [dispatch, id, handleCloseModal])
+  const handleSubmit = useCallback(
+    (data) => {
+      dispatch(addWarehouseRegal(id, data));
+      handleCloseModal();
+    },
+    [dispatch, id, handleCloseModal]
+  );
 
   return (
     <>
@@ -89,28 +108,22 @@ export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({
               onChange={handleChange}
             />
           </div>
-        ): (
+        ) : (
           <Button onClick={handleShowModal}>Create Regal</Button>
         )}
-        <WarehouseNavPills id={id}/>
+        <WarehouseNavPills id={id} />
       </div>
       {regalId && regalId > 0 ? (
-        <Suspense fallback={<Loading/>}>
-          <RegalPage regalId={regalId} warehouseId={id}/>
+        <Suspense fallback={<Loading />}>
+          <RegalPage regalId={regalId} warehouseId={id} />
         </Suspense>
       ) : null}
-      <Modal
-        open={show}
-        onClose={handleCloseModal}
-      >
+      <Modal open={show} onClose={handleCloseModal}>
         <Bubble className={styles.regal_modal}>
           <div>Create Regal</div>
-          <RegalForm
-            onCancel={handleCloseModal}
-            onSubmit={handleSubmit}
-          />
+          <RegalForm onCancel={handleCloseModal} onSubmit={handleSubmit} />
         </Bubble>
       </Modal>
     </>
-  )
-}
+  );
+};
