@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styles from "./WarehousesPage.module.css";
 import { Button, Modal, Loading } from "../../../components";
 import { WarehouseList } from "./WarehouseList";
-import { fetchWarehouses, addWarehouse } from "..";
+import { fetchWarehouses, addWarehouse, clearWarehouses } from "..";
 import { WarehouseForm } from "..";
 import { AppDispatch } from "app";
 
@@ -15,6 +15,9 @@ export const WarehousesPage = () => {
 
   React.useEffect(() => {
     dispatch(fetchWarehouses()).finally(() => setIsLoading(false));
+    return () => {
+      dispatch(clearWarehouses());
+    };
   }, [dispatch]);
 
   const handleShowCreateWarehouseModal = React.useCallback(() => {

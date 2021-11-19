@@ -1,18 +1,18 @@
-import React, {FC} from 'react';
-import { NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShippingFast,
   faClipboardList,
   faUsers,
-} from '@fortawesome/free-solid-svg-icons';
-import styles from './WarehouseNavPills.module.css';
+} from "@fortawesome/free-solid-svg-icons";
+import styles from "./WarehouseNavPills.module.css";
 
 interface IWarehouseNavPills {
   id: number;
 }
 
-export const WarehouseNavPills: FC<IWarehouseNavPills> = ({ id }) => {
+export const WarehouseNavPills: React.FC<IWarehouseNavPills> = ({ id }) => {
   return (
     <div className={styles.nav}>
       <NavLink

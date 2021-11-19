@@ -1,1 +1,1 @@
-export * from './WarehouseSchema'
+export * from "./WarehouseSchema";

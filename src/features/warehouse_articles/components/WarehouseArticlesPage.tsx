@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-  Suspense,
-} from "react";
+import React from "react";
 import {
   Bubble,
   Button,
@@ -31,24 +24,28 @@ import {
   makeGetWarehouseById,
   WarehouseNavPills,
 } from "../../warehouses";
-import { RootState } from "../../../app";
+import { AppDispatch } from "../../../app";
 import { clearRegalPositions } from "../../warehouse_regal_positions";
 
 interface IWarehouseArticlesPage {
   id: number;
 }
 
-export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({ id }) => {
-  const dispatch = useDispatch();
+export const WarehouseArticlesPage: React.FC<IWarehouseArticlesPage> = ({
+  id,
+}) => {
+  const dispatch = useDispatch<AppDispatch>();
 
-  const getWarehouse = useMemo(() => makeGetWarehouseById(id), [id]);
+  const getWarehouse = React.useMemo(() => makeGetWarehouseById(id), [id]);
   const warehouse = useSelector(getWarehouse);
-  const getRegals = useMemo(makeGetRegalsByWarehouseId, []);
-  const regals = useSelector((state: RootState) => getRegals(state, id));
-  const [regalId, setRegalId] = useState(regals.length ? regals[0].id : 0);
-  const [show, setShow] = useState(false);
+  const getRegals = React.useMemo(() => makeGetRegalsByWarehouseId(id), [id]);
+  const regals = useSelector(getRegals);
+  const [regalId, setRegalId] = React.useState(
+    regals.length ? regals[0].id : 0
+  );
+  const [show, setShow] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     async function fetchData() {
       await dispatch(fetchWarehouse(id));
       await dispatch(fetchArticles());
@@ -58,13 +55,13 @@ export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({ id }) => {
     fetchData();
   }, [dispatch, id]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (regals.length) {
       setRegalId(regals[0].id);
     }
   }, [regals]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       dispatch(clearWarehouseArticles());
       dispatch(clearWarehouseRegals());
@@ -72,19 +69,19 @@ export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({ id }) => {
     };
   }, [dispatch]);
 
-  const handleChange = useCallback((id) => {
+  const handleChange = React.useCallback((id) => {
     setRegalId(id);
   }, []);
 
-  const handleShowModal = useCallback(() => {
+  const handleShowModal = React.useCallback(() => {
     setShow(true);
   }, []);
 
-  const handleCloseModal = useCallback(() => {
+  const handleCloseModal = React.useCallback(() => {
     setShow(false);
   }, []);
 
-  const handleSubmit = useCallback(
+  const handleSubmit = React.useCallback(
     (data) => {
       dispatch(addWarehouseRegal(id, data));
       handleCloseModal();
@@ -114,9 +111,9 @@ export const WarehouseArticlesPage: FC<IWarehouseArticlesPage> = ({ id }) => {
         <WarehouseNavPills id={id} />
       </div>
       {regalId && regalId > 0 ? (
-        <Suspense fallback={<Loading />}>
+        <React.Suspense fallback={<Loading />}>
           <RegalPage regalId={regalId} warehouseId={id} />
-        </Suspense>
+        </React.Suspense>
       ) : null}
       <Modal open={show} onClose={handleCloseModal}>
         <Bubble className={styles.regal_modal}>

@@ -1,19 +1,19 @@
-import React, { useCallback, useState, FC } from 'react';
+import React, { useCallback, useState, FC } from "react";
 import { Button, Input, Textarea } from "../../../components";
-import styles from './WarehouseForm.module.css'
+import styles from "./WarehouseForm.module.css";
 import { Warehouse } from "../types";
 
 interface IWarehouseForm extends Warehouse {
-  className?: string,
-  onSubmit?: (attributes: Warehouse) => void,
-  onCancel?: () => void
+  className?: string;
+  onSubmit?: (attributes: Warehouse) => void;
+  onCancel?: () => void;
 }
 
 const initialFormState = {
   id: 0,
-  name: '',
-  description: '',
-  address: '',
+  name: "",
+  description: "",
+  address: "",
 };
 
 export const WarehouseForm: FC<IWarehouseForm> = ({
@@ -32,24 +32,25 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
         name,
         description,
         address,
-      }
+      };
     }
-    return initialFormState
-  })
+    return initialFormState;
+  });
 
-  const handleChange = useCallback(
-    e => {
-      const { target = {} } = e;
-      const { name, value } = target;
-      setWarehouseForm(prevState => ({ ...prevState, [name]: value }))
-    },
-    []
-  );
+  const handleChange = useCallback((e) => {
+    const { target = {} } = e;
+    const { name, value } = target;
+    setWarehouseForm((prevState) => ({ ...prevState, [name]: value }));
+  }, []);
 
   const handleSubmit = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
-      if (warehouseForm.name && warehouseForm.name.length > 0 && typeof onSubmit === 'function') {
+      if (
+        warehouseForm.name &&
+        warehouseForm.name.length > 0 &&
+        typeof onSubmit === "function"
+      ) {
         onSubmit(warehouseForm);
       }
     },
@@ -92,17 +93,16 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
       <div className={styles.buttons}>
         <Button
           mode="primary"
-          disabled={typeof warehouseForm.name === 'string' && warehouseForm.name.length === 0}
+          disabled={
+            typeof warehouseForm.name === "string" &&
+            warehouseForm.name.length === 0
+          }
           className={styles.submit_button}
           type="submit"
         >
           Submit
         </Button>
-        <Button
-          type="button"
-          mode="secondary"
-          onClick={onCancel}
-        >
+        <Button type="button" mode="secondary" onClick={onCancel}>
           Cancel
         </Button>
       </div>

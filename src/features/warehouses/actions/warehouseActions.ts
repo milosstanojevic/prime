@@ -78,3 +78,7 @@ export const fetchWarehouse = (id: number): AppThunk => async (
     dispatch(actions.hasError());
   }
 };
+
+export const clearWarehouses = () => (dispatch: AppDispatch) => {
+  dispatch(actions.clearAllWarehouses())
+}
