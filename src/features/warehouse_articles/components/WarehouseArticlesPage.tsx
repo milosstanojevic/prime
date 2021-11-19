@@ -44,6 +44,7 @@ export const WarehouseArticlesPage: React.FC<IWarehouseArticlesPage> = ({
     regals.length ? regals[0].id : 0
   );
   const [show, setShow] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -52,7 +53,7 @@ export const WarehouseArticlesPage: React.FC<IWarehouseArticlesPage> = ({
       await dispatch(fetchWarehouseArticles(id));
       await dispatch(fetchWarehouseRegals(id));
     }
-    fetchData();
+    fetchData().finally(() => setLoading(false));
   }, [dispatch, id]);
 
   React.useEffect(() => {
@@ -91,30 +92,34 @@ export const WarehouseArticlesPage: React.FC<IWarehouseArticlesPage> = ({
 
   return (
     <>
-      <div className={styles.page}>
-        <div className={styles.warehouse_nav}>
-          <div>{warehouse.name}</div>
-        </div>
-        {regals.length ? (
-          <div className={styles.side_picker_wrapper}>
-            <Button onClick={handleShowModal}>Create Regal</Button>
-            <SidePicker
-              className={styles.side_picker}
-              options={regals as SelectOption[]}
-              selectedId={regals[0].id}
-              onChange={handleChange}
-            />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className={styles.page}>
+            <div className={styles.warehouse_nav}>
+              <div>{warehouse.name}</div>
+            </div>
+            {regals.length ? (
+              <div className={styles.side_picker_wrapper}>
+                <Button onClick={handleShowModal}>Create Regal</Button>
+                <SidePicker
+                  className={styles.side_picker}
+                  options={regals as SelectOption[]}
+                  selectedId={regals[0].id}
+                  onChange={handleChange}
+                />
+              </div>
+            ) : (
+              <Button onClick={handleShowModal}>Create Regal</Button>
+            )}
+            <WarehouseNavPills id={id} />
           </div>
-        ) : (
-          <Button onClick={handleShowModal}>Create Regal</Button>
-        )}
-        <WarehouseNavPills id={id} />
-      </div>
-      {regalId && regalId > 0 ? (
-        <React.Suspense fallback={<Loading />}>
-          <RegalPage regalId={regalId} warehouseId={id} />
-        </React.Suspense>
-      ) : null}
+          {regalId && regalId > 0 ? (
+            <RegalPage regalId={regalId} warehouseId={id} />
+          ) : null}
+        </>
+      )}
       <Modal open={show} onClose={handleCloseModal}>
         <Bubble className={styles.regal_modal}>
           <div>Create Regal</div>

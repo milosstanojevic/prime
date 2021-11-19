@@ -1,1 +1,1 @@
-export * from './articleSchema'
+export * from "./articleSchema";

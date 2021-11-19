@@ -1,67 +1,80 @@
-import React, {FC, useCallback, useMemo, useState} from 'react';
-import styles from './SidePicker.module.css'
-import {Select, SelectOption} from "../select";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import styles from "./SidePicker.module.css";
+import { Select, SelectOption } from "../select";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 interface ISidePicker {
   /** Select options */
   options: SelectOption[];
   /** Selected Id */
-  selectedId?: number|string;
+  selectedId?: number | string;
   /** Classname */
   className?: string;
   /** On change */
-  onChange?: (id: number|string) => void,
+  onChange?: (id: number | string) => void;
   /** Default target placeholder */
   defaultTargetPlaceholder?: string;
 }
 
-export const SidePicker: FC<ISidePicker> = ({
+export const SidePicker: React.FC<ISidePicker> = ({
   options = [],
   selectedId: defaultId = 0,
   className,
   onChange,
-  defaultTargetPlaceholder = 'Choose'
+  defaultTargetPlaceholder = "Choose",
 }) => {
-  const [selectedId, setSelectedId] = useState(defaultId);
+  const [selectedId, setSelectedId] = React.useState(defaultId);
 
-  const handleLeftClick = useCallback(() => {
-    const item = options.find(option => option.id === selectedId);
+  const handleLeftClick = React.useCallback(() => {
+    const item = options.find((option) => option.id === selectedId);
     if (item) {
       const currentIndex = options.indexOf(item);
       const nextIndex = currentIndex - 1;
-      const nextItem = nextIndex > -1 ? options[nextIndex] : options[options.length - 1];
+      const nextItem =
+        nextIndex > -1 ? options[nextIndex] : options[options.length - 1];
 
       setSelectedId(nextItem.id);
-      typeof onChange === 'function' && onChange(nextItem.id);
+      typeof onChange === "function" && onChange(nextItem.id);
     }
   }, [selectedId, options, onChange]);
 
-  const handleRightClick = useCallback(() => {
-    const item = options.find(option => option.id === selectedId);
+  const handleRightClick = React.useCallback(() => {
+    const item = options.find((option) => option.id === selectedId);
     if (item) {
       const currentIndex = options.indexOf(item);
       const nextIndex = currentIndex + 1;
-      const nextItem = nextIndex < options.length ? options[nextIndex] : options[0];
+      const nextItem =
+        nextIndex < options.length ? options[nextIndex] : options[0];
 
       setSelectedId(nextItem.id);
-      typeof onChange === 'function' && onChange(nextItem.id);
+      typeof onChange === "function" && onChange(nextItem.id);
     }
   }, [selectedId, options, onChange]);
 
-  const handleChoose = useCallback(ids => {
-    setSelectedId(ids[0]);
-    typeof onChange === 'function' && onChange(ids[0]);
-  }, [setSelectedId, onChange]);
+  const handleChoose = React.useCallback(
+    (ids) => {
+      setSelectedId(ids[0]);
+      typeof onChange === "function" && onChange(ids[0]);
+    },
+    [setSelectedId, onChange]
+  );
 
-  const target = useMemo(() => {
+  const target = React.useMemo(() => {
     if (selectedId > 0) {
-      const option = options.find(({ id }) => id === selectedId)
-      return <button className={styles.side_picker_dropdown_target}>{option ? option.name : 'Not found'}</button>
+      const option = options.find(({ id }) => id === selectedId);
+      return (
+        <button className={styles.side_picker_dropdown_target}>
+          {option ? option.name : "Not found"}
+        </button>
+      );
     }
-    return <button className={styles.side_picker_dropdown_target}>{defaultTargetPlaceholder}</button>
-  }, [defaultTargetPlaceholder, options, selectedId])
+    return (
+      <button className={styles.side_picker_dropdown_target}>
+        {defaultTargetPlaceholder}
+      </button>
+    );
+  }, [defaultTargetPlaceholder, options, selectedId]);
 
   return (
     <div className={`${styles.side_picker_wrapper} ${className}`}>
@@ -86,11 +99,8 @@ export const SidePicker: FC<ISidePicker> = ({
         className={`${styles.icon_wrapper} ${styles.rounded_right}`}
         onClick={handleRightClick}
       >
-        <FontAwesomeIcon
-          icon={faAngleRight}
-          className={styles.icon}
-        />
+        <FontAwesomeIcon icon={faAngleRight} className={styles.icon} />
       </button>
     </div>
-  )
+  );
 };

@@ -1,37 +1,35 @@
-import React, {useMemo, FC} from "react";
-import {RootState} from "../../../app";
-import styles from './RegalPositionItem.module.css'
-import {useSelector} from "react-redux";
+import React from "react";
+import styles from "./RegalPositionItem.module.css";
+import { useSelector } from "react-redux";
 import {
   makeGetArticlesByWarehouseRegalPositionId,
   WarehouseArticleForm,
-  WarehouseArticleItem
+  WarehouseArticleItem,
 } from "../../warehouse_articles";
+import { useWarehouseRegalPositionContext } from "..";
 
-interface IRegalPositionItem {
-  id: number,
-  name: string,
-  regalId: number,
-  warehouseId: number,
-}
+export const RegalPositionItem = () => {
+  const {
+    warehouseId,
+    regalPosition,
+    regalId,
+  } = useWarehouseRegalPositionContext();
+  const { id, name } = regalPosition;
 
-export const RegalPositionItem: FC<IRegalPositionItem> = ({
-  id,
-  name,
-  regalId,
-  warehouseId,
-}) => {
-  const getRegalPositionArticles = useMemo(makeGetArticlesByWarehouseRegalPositionId, [])
-  const regalPositionArticles = useSelector(
-    (state: RootState) => getRegalPositionArticles(state, { warehouseId, regalId, regalPositionId: id })
-  )
+  const getRegalPositionArticles = React.useMemo(
+    () =>
+      makeGetArticlesByWarehouseRegalPositionId(warehouseId, regalId, id || 0),
+    [id, warehouseId, regalId]
+  );
+
+  const regalPositionArticles = useSelector(getRegalPositionArticles);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.name}>{name}</div>
       <div className={styles.wrapper_content}>
         <WarehouseArticleForm
-          regalPositionId={id}
+          regalPositionId={id || 0}
           regalId={regalId}
           warehouseId={warehouseId}
         />
@@ -46,12 +44,12 @@ export const RegalPositionItem: FC<IRegalPositionItem> = ({
                   quantity={quantity}
                   unit={unit}
                 />
-              )
+              );
             }
-            return null
+            return null;
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

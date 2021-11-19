@@ -65,20 +65,18 @@ export const fetchWarehouses = createAsyncThunk(
   }
 );
 
-export const fetchWarehouse = (id: number): AppThunk => async (
-  dispatch: AppDispatch
-) => {
-  dispatch(actions.startLoading());
-  try {
+export const fetchWarehouse = createAsyncThunk(
+  "warehouses/fetchWarehouse",
+  async (id: number, { dispatch }) => {
     const response: Object = await request(`warehouses/${id}`, {
       schema: schemas.WAREHOUSE,
     });
     dispatch(actions.warehouseSuccess(response as NormalizerWarehouseRequest));
-  } catch (error) {
-    dispatch(actions.hasError());
+
+    return response;
   }
-};
+);
 
 export const clearWarehouses = () => (dispatch: AppDispatch) => {
-  dispatch(actions.clearAllWarehouses())
-}
+  dispatch(actions.clearAllWarehouses());
+};

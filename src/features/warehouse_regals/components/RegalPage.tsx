@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState, FC, useMemo } from 'react';
-import styles from './RegalPage.module.css';
+import React from "react";
+import styles from "./RegalPage.module.css";
 import {
   fetchRegalPositions,
   addRegalPosition,
@@ -7,67 +7,75 @@ import {
   makeGetRegalPositionIdsByRegalId,
 } from "../../warehouse_regal_positions";
 import { useDispatch, useSelector } from "react-redux";
-import {Bubble, Button, Loading, Modal} from "../../../components";
-import {RootState} from "../../../app";
-import {RegalPositionItemContainer} from "../../warehouse_regal_positions/components/RegalPositionItemContainer";
+import { Bubble, Button, Loading, Modal } from "../../../components";
+import { AppDispatch } from "app";
+import {
+  WarehouseRegalPositionProvider,
+  RegalPositionItem,
+} from "../../warehouse_regal_positions";
 
 interface IRegalPage {
-  regalId: number,
-  warehouseId: number,
+  regalId: number;
+  warehouseId: number;
 }
 
-export const RegalPage: FC<IRegalPage> = ({
-  regalId,
-  warehouseId
-}) => {
-  const dispatch = useDispatch()
-  const getRegalPositionIds = useMemo(makeGetRegalPositionIdsByRegalId, [])
-  const regalPositionIds = useSelector((state: RootState) => getRegalPositionIds(state, regalId))
-  const [show, setShow] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+export const RegalPage: React.FC<IRegalPage> = ({ regalId, warehouseId }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const getRegalPositionIds = React.useMemo(
+    () => makeGetRegalPositionIdsByRegalId(regalId),
+    [regalId]
+  );
+  const regalPositionIds = useSelector(getRegalPositionIds);
 
-  useEffect(() => {
-    setIsLoading(true)
-    const fetch = async () => {
-      await dispatch(fetchRegalPositions(regalId))
-    }
-    fetch()
-      .then(() => setIsLoading(false))
-      .finally(() => setIsLoading(false))
-  }, [dispatch, regalId])
+  const [show, setShow] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  const handleShowModal = useCallback(() => {
-    setShow(true)
-  }, [])
+  React.useEffect(() => {
+    setIsLoading(true);
+    dispatch(fetchRegalPositions(regalId)).finally(() => setIsLoading(false));
+  }, [dispatch, regalId]);
 
-  const handleCloseModal = useCallback(() => {
-    setShow(false)
-  }, [])
+  const handleShowModal = React.useCallback(() => {
+    setShow(true);
+  }, []);
 
-  const handleSubmit = useCallback((data) => {
-    dispatch(addRegalPosition(regalId, data))
-  }, [dispatch, regalId])
+  const handleCloseModal = React.useCallback(() => {
+    setShow(false);
+  }, []);
+
+  const handleSubmit = React.useCallback(
+    (data) => {
+      dispatch(addRegalPosition(regalId, data));
+    },
+    [dispatch, regalId]
+  );
   return (
     <>
       <div className={styles.header}>
-        <Button mode="primary" onClick={handleShowModal}>Add Position</Button>
+        <Button mode="primary" onClick={handleShowModal}>
+          Add Position
+        </Button>
         <div className={styles.filters}>Filters</div>
       </div>
       {isLoading ? (
-        <Loading/>
-      ): (
+        <Loading />
+      ) : (
         <div className={styles.page}>
           <div className={styles.regal_positions}>
-            {regalPositionIds.map(id => (
-              <RegalPositionItemContainer key={id} id={id} warehouseId={warehouseId} />
+            {regalPositionIds.map((id) => (
+              <WarehouseRegalPositionProvider
+                id={id}
+                warehouseId={warehouseId}
+                regalId={regalId}
+                key={`${warehouseId}-${id}`}
+              >
+                <RegalPositionItem />
+              </WarehouseRegalPositionProvider>
             ))}
           </div>
         </div>
       )}
-      <Modal
-        open={show}
-        onClose={handleCloseModal}
-      >
+      <Modal open={show} onClose={handleCloseModal}>
         <Bubble className={styles.regal_position_modal}>
           <div>Create Regal Position</div>
           <RegalPositionForm
@@ -77,5 +85,5 @@ export const RegalPage: FC<IRegalPage> = ({
         </Bubble>
       </Modal>
     </>
-  )
+  );
 };

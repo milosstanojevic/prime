@@ -3,18 +3,19 @@ import { AppDispatch, AppThunk } from "../../../app";
 import { WarehouseArticle } from "../types";
 import { schemas } from "../schemas";
 import { warehouseArticleSlice } from "../slices";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export interface NormalizerWarehouseArticlesRequest {
   result: number[];
   entities: {
-    warehouse_articles: { [id: number]: WarehouseArticle },
+    warehouse_articles: { [id: number]: WarehouseArticle };
   };
 }
 
 export interface NormalizerWarehouseArticleRequest {
   result: number;
   entities: {
-    warehouse_articles: { [id: number]: WarehouseArticle },
+    warehouse_articles: { [id: number]: WarehouseArticle };
   };
 }
 
@@ -24,44 +25,65 @@ const getPayload = (warehouseArticle: WarehouseArticle) => {
     regal_id: warehouseArticle.regalId,
     regal_position_id: warehouseArticle.regalPositionId,
     quantity: warehouseArticle.quantity,
-  }
-}
+  };
+};
 
-const { actions } = warehouseArticleSlice
+const { actions } = warehouseArticleSlice;
 
-export const addWarehouseArticle = (id: number, newWarehouseArticle: WarehouseArticle): AppThunk => async (dispatch: AppDispatch) => {
+export const addWarehouseArticle = (
+  id: number,
+  newWarehouseArticle: WarehouseArticle
+): AppThunk => async (dispatch: AppDispatch) => {
   try {
     const response: Object = await request(`warehouses/${id}/article`, {
       schema: schemas.WAREHOUSE_ARTICLE,
-      method: 'POST',
+      method: "POST",
       payload: getPayload(newWarehouseArticle),
-    })
-    dispatch(actions.addWarehouseArticle(response as NormalizerWarehouseArticleRequest))
+    });
+    dispatch(
+      actions.addWarehouseArticle(response as NormalizerWarehouseArticleRequest)
+    );
   } catch (error) {
-    dispatch(actions.hasError())
+    dispatch(actions.hasError());
   }
-}
+};
 
-export const fetchWarehouseArticles = (id: number): AppThunk => async (dispatch:AppDispatch) => {
-  dispatch(actions.startLoading())
-  try {
-    const response: Object = await request(`warehouses/${id}/articles`, {schema: schemas.WAREHOUSE_ARTICLES})
-    dispatch(actions.warehouseArticlesSuccess(response as NormalizerWarehouseArticlesRequest))
-  } catch (error) {
-    dispatch(actions.hasError())
+export const fetchWarehouseArticles = createAsyncThunk(
+  "warehouseArticles/fetchWarehouseArticles",
+  async (id: number, { dispatch }) => {
+    const response: Object = await request(`warehouses/${id}/articles`, {
+      schema: schemas.WAREHOUSE_ARTICLES,
+    });
+    dispatch(
+      actions.warehouseArticlesSuccess(
+        response as NormalizerWarehouseArticlesRequest
+      )
+    );
+
+    return response;
   }
-}
+);
 
 export const clearWarehouseArticles = () => (dispatch: AppDispatch) => {
-  dispatch(actions.clearWarehouseArticles())
-}
+  dispatch(actions.clearWarehouseArticles());
+};
 
-export const fetchWarehouseRegalArticles = (id: number, regalId: number): AppThunk => async (dispatch:AppDispatch) => {
-  dispatch(actions.startLoading())
+export const fetchWarehouseRegalArticles = (
+  id: number,
+  regalId: number
+): AppThunk => async (dispatch: AppDispatch) => {
+  dispatch(actions.startLoading());
   try {
-    const response: Object = await request(`warehouses/${id}/regals/${regalId}/articles`, {schema: schemas.WAREHOUSE_ARTICLES})
-    dispatch(actions.warehouseArticlesSuccess(response as NormalizerWarehouseArticlesRequest))
+    const response: Object = await request(
+      `warehouses/${id}/regals/${regalId}/articles`,
+      { schema: schemas.WAREHOUSE_ARTICLES }
+    );
+    dispatch(
+      actions.warehouseArticlesSuccess(
+        response as NormalizerWarehouseArticlesRequest
+      )
+    );
   } catch (error) {
-    dispatch(actions.hasError())
+    dispatch(actions.hasError());
   }
-}
+};
