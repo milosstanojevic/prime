@@ -1,64 +1,56 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import styles from "./MerchantsPage.module.css";
-import { Button, Modal } from "../../../components";
-import { fetchMerchants } from "../actions";
-import { MerchantFormContainer } from "./MerchantFormContainer";
+import { Button, Modal, Loading } from "../../../components";
+import { fetchMerchants, clearMerchants, addMerchant } from "../actions";
 import { MerchantList } from "./MerchantList";
+import { AppDispatch } from "app";
+import { MerchantForm } from "../form";
 
 export const MerchantsPage = () => {
-  const dispatch = useDispatch()
-  const [show, setShow] = useState(false)
-  const [editId, setEditId] = useState(0)
-  const [trashId, setTrashId] = useState(0)
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleShowModal = useCallback(() => {
-    setShow(true)
-  }, [])
+  const [showMerchantCreate, setShowMerchantCreate] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  const handleCloseModal = useCallback(() => {
-    setShow(false)
-    setEditId(0)
-  }, [])
+  React.useEffect(() => {
+    dispatch(fetchMerchants()).finally(() => setIsLoading(false));
+    return () => {
+      dispatch(clearMerchants());
+    };
+  }, [dispatch]);
 
-  const handleEdit = useCallback((id) => {
-    setEditId(id)
-  }, [])
+  const handleShowCreateMerchantModal = React.useCallback(() => {
+    setShowMerchantCreate(true);
+  }, []);
 
-  const handleTrash = useCallback((id) => {
-    setTrashId(id)
-  }, [])
+  const handleCloseCreateMerchantModal = React.useCallback(() => {
+    setShowMerchantCreate(false);
+  }, []);
 
-  const handleCloseTrashModal = useCallback(() => {
-    setTrashId(0)
-  }, [])
-
-  useEffect(() => {
-    dispatch(fetchMerchants())
-  }, [dispatch])
+  const onMerchantCreate = React.useCallback(
+    (attributes) => {
+      dispatch(addMerchant(attributes));
+    },
+    [dispatch]
+  );
 
   return (
     <div className={styles.page}>
       <div className={styles.page_header}>
-        <Button
-          mode="primary"
-          onClick={handleShowModal}
-        >
+        <Button mode="primary" onClick={handleShowCreateMerchantModal}>
           Create new Merchant
         </Button>
       </div>
-      <MerchantList onEdit={handleEdit} onTrash={handleTrash}/>
-      <Modal open={show || editId > 0} onClose={handleCloseModal}>
+      {isLoading ? <Loading /> : <MerchantList />}
+      <Modal open={showMerchantCreate} onClose={handleCloseCreateMerchantModal}>
         <div className={styles.modal_form_wrapper}>
-          <MerchantFormContainer id={editId} onCancel={handleCloseModal} onSubmit={handleCloseModal}/>
-        </div>
-      </Modal>
-      <Modal open={trashId > 0} onClose={handleCloseTrashModal}>
-        <div className={styles.modal_trash_wrapper}>
-          <p>Are you sure?</p>
-          <Button type="button" onClick={handleCloseTrashModal}>Trash</Button>
+          <MerchantForm
+            onCancel={handleCloseCreateMerchantModal}
+            onSubmit={onMerchantCreate}
+          />
         </div>
       </Modal>
     </div>
-  )
-}
+  );
+};

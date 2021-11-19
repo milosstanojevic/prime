@@ -1,72 +1,106 @@
-import React, { useCallback, memo } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Bubble, Menu } from "../../../components";
-import { Merchant } from "../types";
-import styles from './MerchantListItem.module.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
+import styles from "./MerchantListItem.module.css";
+import { useMerchantContext } from "..";
+import { MerchantForm } from "../form";
 
-interface IMerchantListItem extends Merchant {
-  onEdit?: (id: number) => void,
-  onTrash?: (id: number) => void,
-}
+export const MerchantListItem = React.memo(() => {
+  const { merchant, updateMerchant } = useMerchantContext();
+  const { id, name, description = "", address = "", createdAt } = merchant;
+  const [showMerchantEdit, setShowMerchantEdit] = React.useState(false);
+  const [showMerchantTrash, setShowMerchantTrash] = React.useState(false);
 
-export const MerchantListItem = memo<IMerchantListItem> (({
-  id,
-  name,
-  description = '',
-  address = '',
-  onEdit,
-  onTrash,
-}) => {
-  const handleEdit = useCallback(() => {
-    if (id && id > 0 && typeof onEdit === 'function') {
-      onEdit(id)
-    }
-  }, [id, onEdit])
+  const handleShowMerchantEdit = React.useCallback(() => {
+    setShowMerchantEdit(true);
+  }, []);
 
-  const handleTrash = useCallback(() => {
-    if (id && id > 0 && typeof onTrash === 'function') {
-      onTrash(id)
-    }
-  }, [id, onTrash])
+  const handleCloseMerchantEdit = React.useCallback(() => {
+    setShowMerchantEdit(false);
+  }, []);
+
+  const handleShowMerchantTrash = React.useCallback(() => {
+    setShowMerchantTrash(true);
+  }, []);
+
+  const handleCloseMerchantTrash = React.useCallback(() => {
+    setShowMerchantTrash(false);
+  }, []);
+
+  const onMerchantTrash = React.useCallback(() => {
+    handleCloseMerchantTrash();
+  }, [handleCloseMerchantTrash]);
+
+  const handleMerchantEdit = React.useCallback(
+    (attributes) => {
+      id && updateMerchant(id, attributes);
+    },
+    [id, updateMerchant]
+  );
 
   return (
-    <div
-      className={styles.item}
-    >
-      <div className={styles.item_element}>{id}</div>
-      <div className={styles.item_element}>
-        <Link
-          to={{ pathname: `/merchant/${id}` }}
-        >
-          {name}
-        </Link>
+    <>
+      <div className={styles.item}>
+        <div className={styles.item_element}>{id}</div>
+        <div className={styles.item_element}>
+          <Link to={{ pathname: `/merchant/${id}/articles` }}>{name}</Link>
+        </div>
+        <div className={styles.item_element}>{address}</div>
+        <div className={styles.item_element}>
+          <p dangerouslySetInnerHTML={{ __html: description }} />
+        </div>
+        <div className={styles.item_element}>
+          {createdAt && createdAt > 0
+            ? formatDate(createdAt * 1000, "PPpp")
+            : "Undefined"}
+        </div>
+        <div className={styles.item_element}>
+          <Menu
+            target={
+              <div>
+                <FontAwesomeIcon icon={faBars} />
+              </div>
+            }
+          >
+            <Bubble className={styles.menu}>
+              <div
+                onClick={handleShowMerchantEdit}
+                className={styles.menu_item}
+              >
+                Edit
+              </div>
+              <div
+                onClick={handleShowMerchantTrash}
+                className={styles.menu_item}
+              >
+                Trash
+              </div>
+            </Bubble>
+          </Menu>
+        </div>
       </div>
-      <div className={styles.item_element}>{address}</div>
-      <div className={styles.item_element}>
-        <p dangerouslySetInnerHTML={{ __html: description }} />
-      </div>
-      <div className={styles.item_element}>
-        <Menu
-          target={<div><FontAwesomeIcon icon={faBars} /></div>}
-        >
-          <Bubble className={styles.menu}>
-            <div
-              onClick={handleEdit}
-              className={styles.menu_item}
-            >
-              Edit
-            </div>
-            <div
-              onClick={handleTrash}
-              className={styles.menu_item}
-            >
-              Trash
-            </div>
-          </Bubble>
-        </Menu>
-      </div>
-    </div>
-  )
-})
+      <Modal open={showMerchantEdit} onClose={handleCloseMerchantEdit}>
+        <div className={styles.modal_form_wrapper}>
+          <MerchantForm
+            {...merchant}
+            onCancel={handleCloseMerchantEdit}
+            onSubmit={handleMerchantEdit}
+          />
+        </div>
+      </Modal>
+      <Modal open={showMerchantTrash} onClose={handleCloseMerchantTrash}>
+        <div className={styles.modal_trash_wrapper}>
+          <p>Are you sure you want to trash {name}?</p>
+          <Button type="button" onClick={onMerchantTrash}>
+            Trash
+          </Button>
+          <Button type="button" onClick={handleCloseMerchantTrash}>
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+    </>
+  );
+});

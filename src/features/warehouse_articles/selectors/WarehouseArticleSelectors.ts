@@ -6,6 +6,9 @@ import { WarehouseArticle } from "../types";
 export const getAllWarehouseArticles = (state: RootState) =>
   state.warehouse_articles.items;
 
+export const getWarehouseArticleIds = (state: RootState) =>
+  state.warehouse_articles.itemIds;
+
 export const makeGetArticlesByWarehouseRegalPositionId = (
   warehouseId: number,
   regalId: number,

@@ -1,38 +1,58 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NormalizerMerchantRequest, NormalizerMerchantsRequest } from "../actions";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  NormalizerMerchantRequest,
+  NormalizerMerchantsRequest,
+} from "../actions";
 import { Merchant } from "../types";
-import { entitiesSuccess, entitySuccess } from "../../utils";
+import { entitiesSuccess, entitySuccess, entityIdsSuccess } from "../../utils";
 
 interface IMerchantReducer {
-  items: Array<Merchant>,
-  isLoading: boolean,
-  error: boolean,
+  items: Array<Merchant>;
+  itemIds: Array<number>;
+  isLoading: boolean;
+  error: boolean;
 }
 
 const initialState: IMerchantReducer = {
   items: [],
+  itemIds: [],
   isLoading: false,
   error: false,
-}
+};
 
 export const merchantSlice = createSlice({
-  name: 'merchants',
+  name: "merchants",
   initialState,
   reducers: {
     startLoading: (state) => {
-      state.isLoading = true
+      state.isLoading = true;
     },
     hasError: (state) => {
-      state.error = true
-      state.isLoading = false
-    },
-    merchantsSuccess: (state, { payload }: PayloadAction<NormalizerMerchantsRequest>) => {
-      state.items = entitiesSuccess(payload.entities.merchants)
+      state.error = true;
       state.isLoading = false;
     },
-    merchantSuccess: (state, { payload }: PayloadAction<NormalizerMerchantRequest>) => {
-      state.items = entitySuccess(state.items, payload.result, payload.entities.merchants)
-      state.isLoading = false
+    merchantsSuccess: (
+      state,
+      { payload }: PayloadAction<NormalizerMerchantsRequest>
+    ) => {
+      state.items = entitiesSuccess(payload.entities.merchants);
+      state.itemIds = payload.result;
+      state.isLoading = false;
     },
-  }
+    merchantSuccess: (
+      state,
+      { payload }: PayloadAction<NormalizerMerchantRequest>
+    ) => {
+      state.items = entitySuccess(
+        state.items,
+        payload.result,
+        payload.entities.merchants
+      );
+      state.itemIds = entityIdsSuccess(state.itemIds, payload.result);
+      state.isLoading = false;
+    },
+    clearAllMerchants: (state) => {
+      state.items = [];
+    },
+  },
 });

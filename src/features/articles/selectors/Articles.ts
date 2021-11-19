@@ -3,6 +3,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { Article } from "../types";
 
 export const getAllArticles = (state: RootState) => state.articles.items;
+export const getArticleIds = (state: RootState) => state.articles.itemIds;
 
 const defaultArticle = {
   id: 0,

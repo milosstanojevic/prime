@@ -35,6 +35,16 @@ export const entitySuccess = (
   }
 };
 
+export const entityIdsSuccess = (
+  entityIds: Array<number>,
+  entityId: number
+): Array<number> => {
+  if (entityIds.find((id) => id === entityId)) {
+    return entityIds;
+  }
+  return [...entityIds, entityId];
+};
+
 export const entitiesSuccess = (entities: Object): Object[] => {
   return Object.values(entities);
 };
@@ -49,4 +59,11 @@ export const entityRemove = (
     }
     return false;
   });
+};
+
+export const entityIdsRemove = (
+  items: Array<number>,
+  itemId: number
+): Array<number> => {
+  return items.filter((id) => id !== itemId);
 };

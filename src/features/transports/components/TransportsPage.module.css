@@ -12,8 +12,10 @@
   flex-direction: column;
 }
 
-.transport_modal {
-  padding: 10px;
+.modal_form_wrapper {
+  background: whitesmoke;
+  border-radius: 6px;
+  padding: 15px;
   position: absolute;
   z-index: 1;
   width: 600px;

@@ -4,16 +4,24 @@ import {
   NormalizerArticlesRequest,
 } from "../actions";
 import { Article } from "../types";
-import { entitiesSuccess, entitySuccess, entityRemove } from "../../utils";
+import {
+  entitiesSuccess,
+  entitySuccess,
+  entityRemove,
+  entityIdsSuccess,
+  entityIdsRemove,
+} from "../../utils";
 
 interface IArticleReducer {
   items: Array<Article>;
+  itemIds: Array<number>;
   isLoading: boolean;
   error: boolean;
 }
 
 const initialState: IArticleReducer = {
   items: [],
+  itemIds: [],
   isLoading: false,
   error: false,
 };
@@ -34,6 +42,7 @@ export const articleSlice = createSlice({
       { payload }: PayloadAction<NormalizerArticlesRequest>
     ) => {
       state.items = entitiesSuccess(payload.entities.articles);
+      state.itemIds = payload.result;
       state.isLoading = false;
     },
     articleSuccess: (
@@ -45,10 +54,12 @@ export const articleSlice = createSlice({
         payload.result,
         payload.entities.articles
       );
+      state.itemIds = entityIdsSuccess(state.itemIds, payload.result);
       state.isLoading = false;
     },
     deleteArticle: (state, { payload }) => {
       state.items = entityRemove(state.items, payload);
+      state.itemIds = entityIdsRemove(state.itemIds, payload);
     },
   },
 });

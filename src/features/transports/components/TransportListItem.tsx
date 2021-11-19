@@ -1,62 +1,107 @@
-import React, { useCallback, memo } from "react"
-import styles from './TransportListItem.module.css'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
-import {Bubble, Menu} from "../../../components";
+import React from "react";
+import styles from "./TransportListItem.module.css";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
+import { TransportForm, useTransportContext } from "..";
 
-interface ITransportListItem {
-  id?: number,
-  name?: string,
-  onEdit?: (id: number) => void,
-  onTrash?: (id: number) => void,
-}
+export const TransportListItem = React.memo(() => {
+  const { transport, updateTransport } = useTransportContext();
+  const { id, name, createdAt } = transport;
 
-export const TransportListItem = memo<ITransportListItem>(({
-  id,
-  name,
-  onEdit,
-  onTrash,
-}) => {
+  const [showTransportEdit, setShowTransportEdit] = React.useState(false);
+  const [showTransportTrash, setShowTransportTrash] = React.useState(false);
 
-  const handleEdit = useCallback(() => {
-    if (id && id > 0 && typeof onEdit === 'function') {
-      onEdit(id)
-    }
-  }, [id, onEdit])
+  const handleShowTransportEdit = React.useCallback(() => {
+    setShowTransportEdit(true);
+  }, []);
 
-  const handleTrash = useCallback(() => {
-    if (id && id > 0 && typeof onTrash === 'function') {
-      onTrash(id)
-    }
-  }, [id, onTrash])
+  const handleCloseTransportEdit = React.useCallback(() => {
+    setShowTransportEdit(false);
+  }, []);
+
+  const handleShowTransportTrash = React.useCallback(() => {
+    setShowTransportTrash(true);
+  }, []);
+
+  const handleCloseTransportTrash = React.useCallback(() => {
+    setShowTransportTrash(false);
+  }, []);
+
+  const onTransportTrash = React.useCallback(() => {
+    handleCloseTransportTrash();
+  }, [handleCloseTransportTrash]);
+
+  const handleTransportEdit = React.useCallback(
+    (attributes) => {
+      id && updateTransport(id, attributes);
+    },
+    [id, updateTransport]
+  );
 
   return (
-    <div className={styles.item}>
-      <span className={styles.item_element}>#{id}</span>
-      <Link to={{ pathname: `/transport-routes/${id}` }} className={styles.item_element}>
-        <span>{name}</span>
-      </Link>
-      <span>
-        <Menu
-          target={<div><FontAwesomeIcon icon={faBars} /></div>}
-        >
-          <Bubble className={styles.menu}>
-            <div
-              onClick={handleEdit}
-              className={styles.menu_item}
-            >
-              Edit
-            </div>
-            <div
-              onClick={handleTrash}
-              className={styles.menu_item}
-            >
-              Trash
-            </div>
-          </Bubble>
-        </Menu>
-      </span>
-    </div>
-  )
+    <>
+      <div className={styles.item}>
+        <div className={styles.item_element}>#{id}</div>
+        <div className={styles.item_element}>
+          <Link
+            to={{ pathname: `/transport-routes/${id}` }}
+            className={styles.item_element}
+          >
+            <span>{name}</span>
+          </Link>
+        </div>
+        <div className={styles.item_element}>
+          {createdAt && createdAt > 0
+            ? formatDate(createdAt * 1000, "PPpp")
+            : "Undefined"}
+        </div>
+        <div className={styles.item_element}>
+          <Menu
+            target={
+              <div>
+                <FontAwesomeIcon icon={faBars} />
+              </div>
+            }
+          >
+            <Bubble className={styles.menu}>
+              <div
+                onClick={handleShowTransportEdit}
+                className={styles.menu_item}
+              >
+                Edit
+              </div>
+              <div
+                onClick={handleShowTransportTrash}
+                className={styles.menu_item}
+              >
+                Trash
+              </div>
+            </Bubble>
+          </Menu>
+        </div>
+      </div>
+      <Modal open={showTransportEdit} onClose={handleCloseTransportEdit}>
+        <div className={styles.modal_form_wrapper}>
+          <TransportForm
+            {...transport}
+            onCancel={handleCloseTransportEdit}
+            onSubmit={handleTransportEdit}
+          />
+        </div>
+      </Modal>
+      <Modal open={showTransportTrash} onClose={handleCloseTransportTrash}>
+        <div className={styles.modal_trash_wrapper}>
+          <p>Are you sure you want to trash {name}?</p>
+          <Button type="button" onClick={onTransportTrash}>
+            Trash
+          </Button>
+          <Button type="button" onClick={handleCloseTransportTrash}>
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+    </>
+  );
 });

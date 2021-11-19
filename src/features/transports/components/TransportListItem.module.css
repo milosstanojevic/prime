@@ -8,6 +8,7 @@
   align-items: center;
   text-decoration: none;
   color: #c16ecf;
+  min-height: 40px;
 }
 
 .item:hover {
@@ -25,10 +26,36 @@
 }
 
 .menu_item {
+  cursor: pointer;
   padding: 10px 20px;
 }
 
 .menu_item:hover {
   color: #fef;
   background: #2376ae;
+}
+
+.modal_form_wrapper {
+  background: whitesmoke;
+  border-radius: 6px;
+  padding: 15px;
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal_trash_wrapper {
+  background: whitesmoke;
+  border-radius: 6px;
+  padding: 15px;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 10px;
 }

@@ -3,6 +3,8 @@ import { createSelector } from "@reduxjs/toolkit";
 
 export const getAllRegalPositions = (state: RootState) =>
   state.regal_positions.items;
+export const getRegalPositionIds = (state: RootState) =>
+  state.regal_positions.itemIds;
 
 export const getAllRegalPositionIds = (state: RootState) =>
   state.regal_positions.items.reduce((acc: number[], regalPosition) => {

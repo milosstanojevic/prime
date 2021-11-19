@@ -4,16 +4,18 @@ import {
   NormalizerWarehouseRequest,
   NormalizerWarehousesRequest,
 } from "../actions";
-import { entitiesSuccess, entitySuccess } from "../../utils";
+import { entitiesSuccess, entitySuccess, entityIdsSuccess } from "../../utils";
 
 interface IWarehouseReducer {
   items: Array<Warehouse>;
+  itemIds: Array<number>;
   isLoading: boolean;
   error: boolean;
 }
 
 const initialState: IWarehouseReducer = {
   items: [],
+  itemIds: [],
   isLoading: false,
   error: false,
 };
@@ -34,6 +36,7 @@ export const warehouseSlice = createSlice({
       { payload }: PayloadAction<NormalizerWarehousesRequest>
     ) => {
       state.items = entitiesSuccess(payload.entities.warehouses);
+      state.itemIds = payload.result;
       state.isLoading = false;
     },
     warehouseSuccess: (
@@ -45,6 +48,7 @@ export const warehouseSlice = createSlice({
         payload.result,
         payload.entities.warehouses
       );
+      state.itemIds = entityIdsSuccess(state.itemIds, payload.result)
       state.isLoading = false;
     },
     clearAllWarehouses: (state) => {
