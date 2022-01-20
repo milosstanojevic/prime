@@ -9,6 +9,31 @@ export const getAllWarehouseArticles = (state: RootState) =>
 export const getWarehouseArticleIds = (state: RootState) =>
   state.warehouse_articles.itemIds;
 
+export const getArticlesFromAllWarehouses = createSelector(
+  getAllWarehouseArticles,
+  getAllArticles,
+  (warehouseArticles, articles) => {
+    let items: WarehouseArticle[] = [];
+
+    Object.values(warehouseArticles).forEach((warehouseArticle) => {
+      const article = articles.find(
+        (article) => article.id === warehouseArticle.articleId
+      );
+      if (article) {
+        items.push({
+          id: article.id,
+          name: article.name,
+          barCode: article.barCode,
+          unit: article.unit,
+          quantity: warehouseArticle.quantity,
+        });
+      }
+    });
+
+    return items;
+  }
+);
+
 export const makeGetArticlesByWarehouseRegalPositionId = (
   warehouseId: number,
   regalId: number,

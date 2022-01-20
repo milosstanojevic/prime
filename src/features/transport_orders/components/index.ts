@@ -1,1 +1,2 @@
-export * from './TransportOrdersPage';
+export * from "./TransportOrdersPage";
+export * from "./TransportOrderPage";

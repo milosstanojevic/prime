@@ -48,6 +48,22 @@ export const addWarehouseArticle = (
   }
 };
 
+export const fetchAllWarehouseArticles = createAsyncThunk(
+  "warehouseArticles/fetchAllWarehouseArticles",
+  async (_, { dispatch }) => {
+    const response: Object = await request(`warehouse-articles`, {
+      schema: schemas.WAREHOUSE_ARTICLES,
+    });
+    dispatch(
+      actions.warehouseArticlesSuccess(
+        response as NormalizerWarehouseArticlesRequest
+      )
+    );
+
+    return response;
+  }
+);
+
 export const fetchWarehouseArticles = createAsyncThunk(
   "warehouseArticles/fetchWarehouseArticles",
   async (id: number, { dispatch }) => {

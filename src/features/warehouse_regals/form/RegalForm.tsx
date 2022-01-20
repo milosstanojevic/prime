@@ -1,31 +1,31 @@
-import React, { useCallback, useState, FC } from 'react';
-import {Regal} from "../types";
-import {Button, Input, KeyCodes} from "../../../components";
-import styles from './RegalForm.module.css';
+import React from "react";
+import { Regal } from "../types";
+import { Button, Input, KeyCodes } from "../../../components";
+import styles from "./RegalForm.module.css";
 
 const initialFormState = {
-  name: '',
+  name: "",
 };
 
 interface IRegalForm {
-  className?: string,
-  onSubmit?: (regal: Regal) => void,
-  onCancel?: () => void,
-  regal?: Regal,
+  className?: string;
+  onSubmit?: (regal: Regal) => void;
+  onCancel?: () => void;
+  regal?: Regal;
 }
 
-export const RegalForm: FC<IRegalForm> = ({
+export const RegalForm: React.FC<IRegalForm> = ({
   className,
   onSubmit,
   onCancel,
   regal = {},
 }) => {
-  const [regalForm, setRegalForm] = useState({
+  const [regalForm, setRegalForm] = React.useState({
     ...initialFormState,
     ...regal,
   });
 
-  const onChange = useCallback(
+  const onChange = React.useCallback(
     ({ name, value }) => {
       setRegalForm({
         ...regalForm,
@@ -35,8 +35,8 @@ export const RegalForm: FC<IRegalForm> = ({
     [setRegalForm, regalForm]
   );
 
-  const handleChange = useCallback(
-    e => {
+  const handleChange = React.useCallback(
+    (e) => {
       const { target = {} } = e;
       const { name, value } = target;
       onChange({ name, value });
@@ -44,21 +44,21 @@ export const RegalForm: FC<IRegalForm> = ({
     [onChange]
   );
 
-  const handleSubmit = useCallback(
-    e => {
+  const handleSubmit = React.useCallback(
+    (e) => {
       e.preventDefault();
-      if (regalForm.name.length > 0 && typeof onSubmit === 'function') {
+      if (regalForm.name.length > 0 && typeof onSubmit === "function") {
         onSubmit(regalForm);
       }
     },
     [onSubmit, regalForm]
   );
 
-  const handleKeyDown = useCallback(
-    e => {
-      if (e.key === KeyCodes.enter && typeof onSubmit === 'function') {
+  const handleKeyDown = React.useCallback(
+    (e) => {
+      if (e.key === KeyCodes.enter && typeof onSubmit === "function") {
         onSubmit(e);
-      } else if (e.key === KeyCodes.escape && typeof onCancel === 'function') {
+      } else if (e.key === KeyCodes.escape && typeof onCancel === "function") {
         onCancel();
       }
     },
@@ -87,8 +87,12 @@ export const RegalForm: FC<IRegalForm> = ({
           mode="primary"
           disabled={regalForm.name.length === 0}
           className={styles.submit_button}
-        >Submit</Button>
-        <Button mode="secondary" onClick={onCancel} >Cancel</Button>
+        >
+          Submit
+        </Button>
+        <Button mode="secondary" onClick={onCancel}>
+          Cancel
+        </Button>
       </div>
     </form>
   );

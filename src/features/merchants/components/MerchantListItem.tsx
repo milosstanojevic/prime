@@ -45,7 +45,7 @@ export const MerchantListItem = React.memo(() => {
       <div className={styles.item}>
         <div className={styles.item_element}>{id}</div>
         <div className={styles.item_element}>
-          <Link to={{ pathname: `/merchant/${id}/articles` }}>{name}</Link>
+          <Link to={{ pathname: `/merchants/${id}/articles` }}>{name}</Link>
         </div>
         <div className={styles.item_element}>{address}</div>
         <div className={styles.item_element}>

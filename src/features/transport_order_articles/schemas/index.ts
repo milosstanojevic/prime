@@ -1,1 +1,1 @@
-export * from './transportOrderArticleSchema';
+export * from "./transportOrderArticleSchema";

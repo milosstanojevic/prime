@@ -1,1 +1,1 @@
-export * from './transportOrderArticleSlice';
+export * from "./transportOrderArticleSlice";

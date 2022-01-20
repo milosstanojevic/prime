@@ -33,3 +33,19 @@
   color: #fef;
   background: #2376ae;
 }
+
+.modal_form_wrapper,
+.modal_trash_wrapper {
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal_trash_wrapper {
+  text-align: center;
+  background: whitesmoke;
+  border-radius: 16px;
+}

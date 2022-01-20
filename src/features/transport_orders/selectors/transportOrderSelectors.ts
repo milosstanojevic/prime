@@ -6,6 +6,14 @@ export const getAllTransportOrders = (state: RootState) =>
 export const getTransportOrderIds = (state: RootState) =>
   state.transport_orders.itemIds;
 
+export const makeGetParentTransportOrders = (parent: string, id: number) => {
+  return createSelector(getAllTransportOrders, (transportOrders) => {
+    return transportOrders.filter(
+      (item) => item.parent === parent && item.parentId === id
+    );
+  });
+};
+
 export const makeGetTransportOrderById = (id: number) => {
   return createSelector(getAllTransportOrders, (transportOrders) => {
     const order = transportOrders.find(

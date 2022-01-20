@@ -1,0 +1,8 @@
+.modal_form_wrapper {
+  position: absolute;
+  z-index: 1;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
