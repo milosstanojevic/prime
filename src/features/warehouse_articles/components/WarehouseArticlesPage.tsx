@@ -26,14 +26,11 @@ import {
 } from "../../warehouses";
 import { AppDispatch } from "../../../app";
 import { clearRegalPositions } from "../../warehouse_regal_positions";
+import { useParams } from "react-router-dom";
 
-interface IWarehouseArticlesPage {
-  id: number;
-}
-
-export const WarehouseArticlesPage: React.FC<IWarehouseArticlesPage> = ({
-  id,
-}) => {
+export const WarehouseArticlesPage: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
   const dispatch = useDispatch<AppDispatch>();
 
   const getWarehouse = React.useMemo(() => makeGetWarehouseById(id), [id]);

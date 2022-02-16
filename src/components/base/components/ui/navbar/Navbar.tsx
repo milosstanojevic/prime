@@ -17,7 +17,7 @@ export const Navbar = () => {
       <span className={styles.navbar_toggle} onClick={handleShowResponsiveMenu}>
         Bars Icon
       </span>
-      <NavLink href="" className={styles.logo} exact to="/">
+      <NavLink className={styles.logo} to="/">
         Logo
       </NavLink>
       <ul
@@ -29,10 +29,8 @@ export const Navbar = () => {
         {isInDevelopmentMode ? (
           <li>
             <NavLink
-              activeClassName={styles.active}
-              href=""
+              // activeClassName={styles.active}
               className={styles.nav_links}
-              exact
               to="/components"
             >
               Components
@@ -41,10 +39,8 @@ export const Navbar = () => {
         ) : null}
         <li>
           <NavLink
-            activeClassName={styles.active}
-            href=""
+            // activeClassName={styles.active}
             className={styles.nav_links}
-            exact
             to="/"
           >
             Warehouses
@@ -52,10 +48,8 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink
-            activeClassName={styles.active}
-            href=""
+            // activeClassName={styles.active}
             className={styles.nav_links}
-            exact
             to="/merchants"
           >
             Merchants
@@ -63,10 +57,8 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink
-            activeClassName={styles.active}
-            href=""
+            // activeClassName={styles.active}
             className={styles.nav_links}
-            exact
             to="/articles"
           >
             Articles
@@ -74,10 +66,8 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink
-            activeClassName={styles.active}
-            href=""
+            // activeClassName={styles.active}
             className={styles.nav_links}
-            exact
             to="/transport-routes"
           >
             Transports
@@ -85,10 +75,8 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink
-            activeClassName={styles.active}
-            href=""
+            // activeClassName={styles.active}
             className={styles.nav_links}
-            exact
             to="/orders"
           >
             Orders
@@ -96,10 +84,8 @@ export const Navbar = () => {
         </li>
         <li>
           <NavLink
-            activeClassName={styles.active}
-            href=""
+            // activeClassName={styles.active}
             className={styles.nav_links}
-            exact
             to="/users"
           >
             Users

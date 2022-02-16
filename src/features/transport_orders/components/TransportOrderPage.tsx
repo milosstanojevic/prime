@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Bubble, Button, Loading, Modal } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,15 +12,11 @@ import { fetchArticles } from "features/articles";
 import { AppDispatch } from "app";
 import styles from "./TransportOrderPage.module.css";
 
-interface TransportOrderPageProps {
-  id: number;
-}
-
-export const TransportOrderPage: React.FC<TransportOrderPageProps> = ({
-  id,
-}) => {
+export const TransportOrderPage: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
   const dispatch = useDispatch<AppDispatch>();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const getOrderArticles = React.useMemo(
@@ -54,7 +50,7 @@ export const TransportOrderPage: React.FC<TransportOrderPageProps> = ({
   );
   return (
     <div>
-      <Button onClick={history.goBack}>Back</Button>
+      <Button onClick={() => navigate(-1)}>Back</Button>
       {loading ? (
         <Loading />
       ) : (

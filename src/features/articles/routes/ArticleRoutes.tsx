@@ -2,8 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { ArticlesPage } from "../components";
 
-export const ArticleRoutes = () => (
+export const ArticleRoutes: React.FC = () => (
   <>
-    <Route exact path="/articles" component={ArticlesPage} />
+    <Route path="/articles" element={<ArticlesPage />} />
   </>
 );

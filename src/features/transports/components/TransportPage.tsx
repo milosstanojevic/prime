@@ -3,12 +3,11 @@ import styles from "./TransportPage.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGetTransportById } from "../selectors";
 import { fetchTransport } from "../actions";
+import { useParams } from "react-router-dom";
 
-interface ITransportPage {
-  id: number;
-}
-
-export const TransportPage: React.FC<ITransportPage> = ({ id }) => {
+export const TransportPage: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

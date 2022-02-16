@@ -1,9 +1,9 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React from "react";
+import { Route } from "react-router-dom";
 import { UsersPage } from "../components";
 
-export const UserRoutes = () => (
+export const UserRoutes: React.FC = () => (
   <>
-    <Route exact path="/users" component={UsersPage} />
+    <Route path="/users" element={<UsersPage />} />
   </>
 );

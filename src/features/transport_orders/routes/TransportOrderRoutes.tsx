@@ -4,12 +4,7 @@ import { TransportOrdersPage, TransportOrderPage } from "..";
 
 export const TransportOrderRoutes: React.FC = () => (
   <>
-    <Route exact path="/orders" component={TransportOrdersPage} />
-    <Route
-      path="/orders/:id"
-      render={({ match, ...props }) => (
-        <TransportOrderPage {...props} id={Number(match.params.id)} />
-      )}
-    />
+    <Route path="/orders" element={<TransportOrdersPage />} />
+    <Route path="/orders/:id" element={<TransportOrderPage />} />
   </>
 );

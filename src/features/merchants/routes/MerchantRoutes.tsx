@@ -9,24 +9,9 @@ import {
 
 export const MerchantRoutes: React.FC = () => (
   <>
-    <Route exact path="/merchants" component={MerchantsPage} />
-    <Route
-      path="/merchants/:id"
-      render={({ match, ...props }) => (
-        <MerchantPage {...props} id={Number(match.params.id)} />
-      )}
-    />
-    <Route
-      path="/merchants/:id/articles"
-      render={({ match, ...props }) => (
-        <MerchantArticlesPage {...props} id={Number(match.params.id)} />
-      )}
-    />
-    <Route
-      path="/merchants/:id/orders"
-      render={({ match, ...props }) => (
-        <MerchantOrdersPage {...props} id={Number(match.params.id)} />
-      )}
-    />
+    <Route path="/merchants" element={<MerchantsPage />} />
+    <Route path="/merchants/:id" element={<MerchantPage />} />
+    <Route path="/merchants/:id/articles" element={<MerchantArticlesPage />} />
+    <Route path="/merchants/:id/orders" element={<MerchantOrdersPage />} />
   </>
 );

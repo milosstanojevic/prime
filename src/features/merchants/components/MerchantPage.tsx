@@ -4,12 +4,11 @@ import { Loading, NavPills } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMerchant } from "..";
 import { makeGetMerchantById } from "../selectors";
+import { useParams } from "react-router-dom";
 
-interface IMerchantPage {
-  id: number;
-}
-
-export const MerchantPage: React.FC<IMerchantPage> = ({ id }) => {
+export const MerchantPage: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setLoading] = React.useState(true);
   const getMerchant = React.useMemo(() => makeGetMerchantById(id), [id]);

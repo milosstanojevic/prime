@@ -8,23 +8,19 @@ import {
 import React from "react";
 import { useDispatch } from "react-redux";
 import { MerchantsOrderList } from "./MerchantOrdersList";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface MerchantOrdersPageProps {
-  id: number;
-}
-
-export const MerchantOrdersPage: React.FC<MerchantOrdersPageProps> = ({
-  id,
-}) => {
+export const MerchantOrdersPage: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
   const dispatch = useDispatch<AppDispatch>();
-  const { push } = useHistory();
+  const navigate = useNavigate();
   const [isLoading, setLoading] = React.useState(true);
   const [isCreating, setIsCreating] = React.useState(false);
   React.useEffect(() => {
-    dispatch(
-      fetchParentTransportOrders({ id, parent: "merchant" })
-    ).finally(() => setLoading(false));
+    dispatch(fetchParentTransportOrders({ id, parent: "merchant" })).finally(
+      () => setLoading(false)
+    );
   }, [dispatch, id]);
 
   const handleCreateOrder = React.useCallback(() => {
@@ -34,11 +30,11 @@ export const MerchantOrdersPage: React.FC<MerchantOrdersPageProps> = ({
         const { payload = {} } = response;
         const { result = 0 } = payload as NormalizerTransportOrderRequest;
         if (result > 0) {
-          push(`/orders/${result}`);
+          navigate(`/orders/${result}`);
         }
       })
       .finally(() => setIsCreating(false));
-  }, [id, dispatch, push]);
+  }, [id, dispatch, navigate]);
 
   return (
     <div>

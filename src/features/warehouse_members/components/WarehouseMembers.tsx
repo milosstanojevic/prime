@@ -1,14 +1,13 @@
-import React, { FC } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { WarehouseNavPills } from "../../warehouses";
 
-interface IWarehouseMembers {
-  id: number;
-}
-
-export const WarehouseMembers: FC<IWarehouseMembers> = ({
-  id,
-}) => {
+export const WarehouseMembers: React.FC = () => {
+  const params = useParams();
+  const id = Number(params.id);
   return (
-    <div><WarehouseNavPills id={id}/></div>
-  )
-}
+    <div>
+      <WarehouseNavPills id={id} />
+    </div>
+  );
+};
