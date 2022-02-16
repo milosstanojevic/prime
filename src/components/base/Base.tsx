@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ComponentsPage from "./components/ComponentsPage";
 import { Navbar } from "./components";
 import { WarehouseRoutes } from "../../features/warehouses";
@@ -20,7 +20,9 @@ export const Base = () => (
     <TransportOrderRoutes />
     <UserRoutes />
     {isInDevelopmentMode ? (
-      <Route path="/components" element={ComponentsPage} />
+      <Routes>
+        <Route path="/components" element={<ComponentsPage />} />
+      </Routes>
     ) : null}
   </Router>
 );
