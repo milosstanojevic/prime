@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styles from "./ArticleListItem.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { formatDate, Menu } from "../../../components";
 import { Article } from "../types";
 import { Button, Modal } from "../../../components";
@@ -76,11 +74,7 @@ export const ArticleListItem = React.memo<IArticleListItem>(
           <div className={styles.item_element}>
             <Menu
               externalControls={[menuOpen, setMenuOpen]}
-              target={
-                <div>
-                  <FontAwesomeIcon icon={faBars} />
-                </div>
-              }
+              target={<div>Bars Icon</div>}
             >
               <div className={styles.menu}>
                 <div

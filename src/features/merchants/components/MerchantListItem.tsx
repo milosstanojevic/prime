@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import styles from "./MerchantListItem.module.css";
 import { useMerchantContext } from "..";
@@ -57,13 +55,7 @@ export const MerchantListItem = React.memo(() => {
             : "Undefined"}
         </div>
         <div className={styles.item_element}>
-          <Menu
-            target={
-              <div>
-                <FontAwesomeIcon icon={faBars} />
-              </div>
-            }
-          >
+          <Menu target={<div>Bars Icon</div>}>
             <Bubble className={styles.menu}>
               <div
                 onClick={handleShowMerchantEdit}

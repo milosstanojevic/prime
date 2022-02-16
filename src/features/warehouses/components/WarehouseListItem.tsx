@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import styles from "./WarehouseListItem.module.css";
 import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import { useWarehouseContext } from "../context";
@@ -57,13 +55,7 @@ export const WarehouseListItem = React.memo(() => {
             : "Undefined"}
         </div>
         <div className={styles.item_element}>
-          <Menu
-            target={
-              <div>
-                <FontAwesomeIcon icon={faBars} />
-              </div>
-            }
-          >
+          <Menu target={<div>Bars Icon</div>}>
             <Bubble className={styles.menu}>
               <div
                 onClick={handleShowWarehouseEdit}

@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./SidePicker.module.css";
 import { Select, SelectOption } from "../select";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 interface ISidePicker {
   /** Select options */
@@ -83,7 +81,7 @@ export const SidePicker: React.FC<ISidePicker> = ({
         onClick={handleLeftClick}
         className={`${styles.icon_wrapper} ${styles.rounded_left}`}
       >
-        <FontAwesomeIcon icon={faAngleLeft} className={styles.icon} />
+        <div>L</div>
       </button>
       <div className={styles.side_picker_dropdown}>
         <Select
@@ -99,7 +97,7 @@ export const SidePicker: React.FC<ISidePicker> = ({
         className={`${styles.icon_wrapper} ${styles.rounded_right}`}
         onClick={handleRightClick}
       >
-        <FontAwesomeIcon icon={faAngleRight} className={styles.icon} />
+        <div>R</div>
       </button>
     </div>
   );

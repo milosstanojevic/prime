@@ -1,6 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styles from "./WarehouseArticleItem.module.css";
 
 interface IWarehouseArticleItem {
@@ -18,9 +16,7 @@ export const WarehouseArticleItem = React.memo<IWarehouseArticleItem>(
         <span>
           {quantity} {unit}
         </span>
-        <span className={styles.close_icon}>
-          <FontAwesomeIcon icon={faTimes} />
-        </span>
+        <span className={styles.close_icon}>X</span>
       </div>
     );
   }

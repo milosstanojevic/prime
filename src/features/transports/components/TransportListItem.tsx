@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./TransportListItem.module.css";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import { TransportForm, useTransportContext } from "..";
 
@@ -58,13 +56,7 @@ export const TransportListItem = React.memo(() => {
             : "Undefined"}
         </div>
         <div className={styles.item_element}>
-          <Menu
-            target={
-              <div>
-                <FontAwesomeIcon icon={faBars} />
-              </div>
-            }
-          >
+          <Menu target={<div>Bars Icon</div>}>
             <Bubble className={styles.menu}>
               <div
                 onClick={handleShowTransportEdit}

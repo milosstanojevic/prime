@@ -1,26 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faHatWizard } from '@fortawesome/free-solid-svg-icons';
-import classnames from 'classnames';
-import styles from './Navbar.module.css';
-import {Menu} from "../menu";
-import {isInDevelopmentMode} from "../../../utils";
+import React from "react";
+import { NavLink, Link } from "react-router-dom";
+import classnames from "classnames";
+import styles from "./Navbar.module.css";
+import { Menu } from "../menu";
+import { isInDevelopmentMode } from "../../../utils";
 
 export const Navbar = () => {
-  const [showResponsiveMenu, setShowResponsiveMenu] = useState(false);
+  const [showResponsiveMenu, setShowResponsiveMenu] = React.useState(false);
 
-  const handleShowResponsiveMenu = useCallback(() => {
+  const handleShowResponsiveMenu = React.useCallback(() => {
     setShowResponsiveMenu(!showResponsiveMenu);
   }, [showResponsiveMenu]);
 
   return (
     <nav className={styles.navbar}>
-      <span className={styles.navbar_toggle}>
-        <FontAwesomeIcon
-          icon={faBars}
-          onClick={handleShowResponsiveMenu}
-        />
+      <span className={styles.navbar_toggle} onClick={handleShowResponsiveMenu}>
+        Bars Icon
       </span>
       <NavLink href="" className={styles.logo} exact to="/">
         Logo
@@ -40,10 +35,10 @@ export const Navbar = () => {
               exact
               to="/components"
             >
-              Components <FontAwesomeIcon icon={faHatWizard} />
+              Components
             </NavLink>
           </li>
-        ): null}
+        ) : null}
         <li>
           <NavLink
             activeClassName={styles.active}
@@ -112,13 +107,9 @@ export const Navbar = () => {
         </li>
         <li>
           <div className={styles.nav_links}>
-            <Menu
-              target={<span>Logged User name</span>}
-            >
+            <Menu target={<span>Logged User name</span>}>
               <div className={styles.menu_wrapper}>
-                <div className={styles.menu_content}>
-
-                </div>
+                <div className={styles.menu_content}></div>
               </div>
               <div className={styles.menu}>
                 <div className={styles.menu_item}>Profile</div>
