@@ -1,12 +1,14 @@
-import React, { useCallback, useState, FC, useMemo } from "react";
+import React from "react";
 import { Button, Input, Select, Textarea } from "../../../../components";
 import styles from "./ArticleForm.module.css";
 import { Article } from "../../types";
+import { decamelizeKeys } from "humps";
 
 interface IArticleForm extends Article {
   className?: string;
   onSubmit?: (attributes: Article) => void;
   onCancel?: () => void;
+  isSubmitting?: boolean;
 }
 
 const initialFormState = {
@@ -17,7 +19,7 @@ const initialFormState = {
   unit: "gr",
 };
 
-export const ArticleForm: FC<IArticleForm> = ({
+export const ArticleForm: React.FC<IArticleForm> = ({
   className,
   onSubmit,
   onCancel,
@@ -26,8 +28,9 @@ export const ArticleForm: FC<IArticleForm> = ({
   description,
   barCode,
   unit,
+  isSubmitting = false,
 }) => {
-  const [articleForm, setArticleForm] = useState(() => {
+  const [articleForm, setArticleForm] = React.useState(() => {
     if (id > 0) {
       return {
         id,
@@ -40,17 +43,17 @@ export const ArticleForm: FC<IArticleForm> = ({
     return initialFormState;
   });
 
-  const handleChange = useCallback((e) => {
+  const handleChange = React.useCallback((e) => {
     const { target = {} } = e;
     const { name, value } = target;
     setArticleForm((prevState) => ({ ...prevState, [name]: value }));
   }, []);
 
-  const handleUnitChange = useCallback((units) => {
+  const handleUnitChange = React.useCallback((units) => {
     setArticleForm((prevState) => ({ ...prevState, unit: units[0] }));
   }, []);
 
-  const handleSubmit = useCallback(
+  const handleSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
       if (
@@ -58,13 +61,13 @@ export const ArticleForm: FC<IArticleForm> = ({
         articleForm.name.length > 0 &&
         typeof onSubmit === "function"
       ) {
-        onSubmit(articleForm);
+        onSubmit(decamelizeKeys(articleForm));
       }
     },
     [onSubmit, articleForm]
   );
 
-  const unitForm = useMemo(() => {
+  const unitForm = React.useMemo(() => {
     if (articleForm.unit) {
       return [articleForm.unit];
     }
@@ -121,15 +124,21 @@ export const ArticleForm: FC<IArticleForm> = ({
         <Button
           mode="primary"
           disabled={
-            typeof articleForm.name === "string" &&
-            articleForm.name.length === 0
+            (typeof articleForm.name === "string" &&
+              articleForm.name.length === 0) ||
+            isSubmitting
           }
           className={styles.submit_button}
           type="submit"
         >
           Submit
         </Button>
-        <Button type="button" mode="secondary" onClick={onCancel}>
+        <Button
+          disabled={isSubmitting}
+          type="button"
+          mode="secondary"
+          onClick={onCancel}
+        >
           Cancel
         </Button>
       </div>

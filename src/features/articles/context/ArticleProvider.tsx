@@ -1,13 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getArticleById } from "../selectors";
-import { editArticle, deleteArticle } from "../actions";
+import { useEditArticle, useDeleteArticle } from "..";
 import { Article } from "../types";
-import { RootState } from "../../../app";
 
 type ArticleContextType = {
   article: Article;
-  updateArticle: (id: number, attributes: Article) => void;
+  updateArticle: (attributes: Article) => void;
   removeArticle: (id: number) => void;
 };
 
@@ -28,26 +25,32 @@ export const useArticleContext = () => {
 };
 
 interface IArticleProvider {
-  id?: number;
+  article: Article;
   children: React.ReactNode;
 }
 
-export const ArticleProvider = ({ id, children }: IArticleProvider) => {
-  const dispatch = useDispatch();
-  const article = useSelector((state: RootState) => getArticleById(state, id));
+export const ArticleProvider = ({ article, children }: IArticleProvider) => {
+  const mutateEdit = useEditArticle((oldArticles, newArticle) => {
+    return oldArticles?.map((article) =>
+      article.id === newArticle.id ? { ...article, ...newArticle } : article
+    );
+  });
+  const mutateDelete = useDeleteArticle((oldData, id) => {
+    return oldData?.filter((item) => item.id !== id);
+  });
 
   const updateArticle = React.useCallback(
-    (articleId: number, attributes: Article) => {
-      dispatch(editArticle(articleId, attributes));
+    (attributes: Article) => {
+      mutateEdit.mutateAsync(attributes);
     },
-    [dispatch]
+    [mutateEdit]
   );
 
   const removeArticle = React.useCallback(
     (articleId: number) => {
-      dispatch(deleteArticle(articleId));
+      mutateDelete.mutateAsync(articleId);
     },
-    [dispatch]
+    [mutateDelete]
   );
 
   return (

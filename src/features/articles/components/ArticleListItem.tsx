@@ -5,6 +5,7 @@ import { Article } from "../types";
 import { Button, Modal } from "../../../components";
 import { ArticleForm } from "../article";
 import { useArticleContext } from "../context";
+import bars from "../../../components/base/images/bars.png";
 
 interface IArticleListItem extends Article {}
 
@@ -43,7 +44,7 @@ export const ArticleListItem = React.memo<IArticleListItem>(
     const handleArticleEdit = React.useCallback(
       (attributes) => {
         if (id) {
-          updateArticle(id, attributes);
+          updateArticle(attributes);
           handleCloseArticleEdit();
           setMenuOpen(false);
         }
@@ -74,7 +75,11 @@ export const ArticleListItem = React.memo<IArticleListItem>(
           <div className={styles.item_element}>
             <Menu
               externalControls={[menuOpen, setMenuOpen]}
-              target={<div>Bars Icon</div>}
+              target={
+                <div>
+                  <img src={bars} alt="menu" height={24} width={24} />
+                </div>
+              }
             >
               <div className={styles.menu}>
                 <div

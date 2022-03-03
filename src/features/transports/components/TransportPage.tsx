@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 export const TransportPage: React.FC = () => {
   const params = useParams();
-  const id = Number(params.id);
+  const id = Number(params.transportId);
   const dispatch = useDispatch();
 
   React.useEffect(() => {

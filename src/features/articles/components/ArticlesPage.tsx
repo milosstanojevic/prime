@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./ArticlesPage.module.css";
 import { Button, Modal } from "../../../components";
-import { fetchArticles, addArticle } from "../actions";
 import { ArticleList } from "./ArticleList";
 import { Loading } from "../../../components";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "app";
 import { ArticleForm } from "..";
+import { useGetArticles, useAddArticle } from "../api/apiArticles";
 
-export const ArticlesPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const [isLoading, setIsLoading] = useState(true);
-
-  React.useEffect(() => {
-    dispatch(fetchArticles()).finally(() => setIsLoading(false));
-  }, [dispatch]);
+export const ArticlesPage: React.FC = () => {
+  const { data, isLoading } = useGetArticles();
+  const mutationAdd = useAddArticle((oldData, newData) => [
+    ...oldData,
+    newData,
+  ]);
 
   const [showCreateArticle, setShowCreateArticle] = React.useState(false);
   const handleShowCreateArticle = React.useCallback(() => {
@@ -27,10 +24,10 @@ export const ArticlesPage = () => {
 
   const handleSubmit = React.useCallback(
     (attributes) => {
-      dispatch(addArticle(attributes));
+      mutationAdd.mutateAsync(attributes);
       handleCloseCreateArticle();
     },
-    [dispatch, handleCloseCreateArticle]
+    [handleCloseCreateArticle, mutationAdd]
   );
 
   return (
@@ -40,12 +37,13 @@ export const ArticlesPage = () => {
           Create new Article
         </Button>
       </div>
-      {isLoading ? <Loading /> : <ArticleList />}
+      {isLoading ? <Loading /> : <ArticleList articles={data} />}
       <Modal open={showCreateArticle} onClose={handleCloseCreateArticle}>
         <div className={styles.modal_form_wrapper}>
           <ArticleForm
             onCancel={handleCloseCreateArticle}
             onSubmit={handleSubmit}
+            isSubmitting={mutationAdd.isLoading}
           />
         </div>
       </Modal>

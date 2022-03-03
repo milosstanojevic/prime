@@ -45,7 +45,7 @@ export const TransportsPage = () => {
       </div>
       <div className={styles.transport_list}>
         {transportIds.map((id) => (
-          <TransportProvider id={id}>
+          <TransportProvider key={id} id={id}>
             <TransportListItem />
           </TransportProvider>
         ))}

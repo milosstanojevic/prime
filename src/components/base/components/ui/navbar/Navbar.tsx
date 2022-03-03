@@ -31,7 +31,7 @@ export const Navbar = () => {
             <NavLink
               // activeClassName={styles.active}
               className={styles.nav_links}
-              to="/components"
+              to="components"
             >
               Components
             </NavLink>
@@ -50,7 +50,7 @@ export const Navbar = () => {
           <NavLink
             // activeClassName={styles.active}
             className={styles.nav_links}
-            to="/merchants"
+            to="merchants"
           >
             Merchants
           </NavLink>
@@ -59,7 +59,7 @@ export const Navbar = () => {
           <NavLink
             // activeClassName={styles.active}
             className={styles.nav_links}
-            to="/articles"
+            to="articles"
           >
             Articles
           </NavLink>
@@ -68,7 +68,7 @@ export const Navbar = () => {
           <NavLink
             // activeClassName={styles.active}
             className={styles.nav_links}
-            to="/transport-routes"
+            to="transport-routes"
           >
             Transports
           </NavLink>
@@ -77,7 +77,7 @@ export const Navbar = () => {
           <NavLink
             // activeClassName={styles.active}
             className={styles.nav_links}
-            to="/orders"
+            to="orders"
           >
             Orders
           </NavLink>
@@ -86,7 +86,7 @@ export const Navbar = () => {
           <NavLink
             // activeClassName={styles.active}
             className={styles.nav_links}
-            to="/users"
+            to="users"
           >
             Users
           </NavLink>
@@ -100,7 +100,7 @@ export const Navbar = () => {
               <div className={styles.menu}>
                 <div className={styles.menu_item}>Profile</div>
                 <div className={styles.menu_item}>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="settings">Settings</Link>
                 </div>
                 <div className={styles.menu_item}>Logout</div>
               </div>

@@ -1,4 +1,3 @@
-export * from "./routes";
 export * from "./actions";
 export * from "./slices";
 export * from "./components";

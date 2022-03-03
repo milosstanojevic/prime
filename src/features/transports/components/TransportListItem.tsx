@@ -3,6 +3,7 @@ import styles from "./TransportListItem.module.css";
 import { Link } from "react-router-dom";
 import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import { TransportForm, useTransportContext } from "..";
+import bars from "../../../components/base/images/bars.png";
 
 export const TransportListItem = React.memo(() => {
   const { transport, updateTransport } = useTransportContext();
@@ -43,10 +44,7 @@ export const TransportListItem = React.memo(() => {
       <div className={styles.item}>
         <div className={styles.item_element}>#{id}</div>
         <div className={styles.item_element}>
-          <Link
-            to={{ pathname: `/transport-routes/${id}` }}
-            className={styles.item_element}
-          >
+          <Link to={`/transport-routes/${id}`} className={styles.item_element}>
             <span>{name}</span>
           </Link>
         </div>
@@ -56,7 +54,13 @@ export const TransportListItem = React.memo(() => {
             : "Undefined"}
         </div>
         <div className={styles.item_element}>
-          <Menu target={<div>Bars Icon</div>}>
+          <Menu
+            target={
+              <div>
+                <img src={bars} alt="menu" height={24} width={24} />
+              </div>
+            }
+          >
             <Bubble className={styles.menu}>
               <div
                 onClick={handleShowTransportEdit}

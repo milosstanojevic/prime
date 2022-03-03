@@ -1,17 +1,17 @@
 import React from "react";
-import { RootState } from "app/rootReducer";
-import { useSelector } from "react-redux";
 import styles from "./ArticleList.module.css";
 import { ArticleListItem } from "./ArticleListItem";
-import { getAllArticles } from "../selectors";
 import { descSort } from "../../utils";
 import { ArticleProvider } from "..";
+import { Article } from "../types";
 
-export const ArticleList = () => {
-  const articles = useSelector((state: RootState) => getAllArticles(state));
+type Props = {
+  articles?: Article[];
+};
 
+export const ArticleList: React.FC<Props> = ({ articles }) => {
   const sortedArticles = React.useMemo(() => {
-    return [...articles].sort((a, b) => {
+    return (articles || []).sort((a, b) => {
       if (a.createdAt && b.createdAt) {
         return descSort(a.createdAt, b.createdAt);
       }
@@ -25,7 +25,7 @@ export const ArticleList = () => {
   return (
     <div className={styles.article_list}>
       {sortedArticles.map((article) => (
-        <ArticleProvider key={article.id} id={article.id}>
+        <ArticleProvider key={article.id} article={article}>
           <ArticleListItem {...article} />
         </ArticleProvider>
       ))}

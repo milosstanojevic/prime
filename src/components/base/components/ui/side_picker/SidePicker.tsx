@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./SidePicker.module.css";
 import { Select, SelectOption } from "../select";
+import arrowLeft from "../../../images/arrowLeft.png";
+import arrowRight from "../../../images/arrowRight.png";
 
 interface ISidePicker {
   /** Select options */
@@ -81,7 +83,9 @@ export const SidePicker: React.FC<ISidePicker> = ({
         onClick={handleLeftClick}
         className={`${styles.icon_wrapper} ${styles.rounded_left}`}
       >
-        <div>L</div>
+        <div>
+          <img src={arrowLeft} alt="Left" height={22} width={22} />
+        </div>
       </button>
       <div className={styles.side_picker_dropdown}>
         <Select
@@ -97,7 +101,9 @@ export const SidePicker: React.FC<ISidePicker> = ({
         className={`${styles.icon_wrapper} ${styles.rounded_right}`}
         onClick={handleRightClick}
       >
-        <div>R</div>
+        <div>
+          <img src={arrowRight} alt="Right" height={22} width={22} />
+        </div>
       </button>
     </div>
   );
