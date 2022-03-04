@@ -1,39 +1,38 @@
 import React from "react";
 import styles from "./RegalPage.module.css";
 import {
-  fetchRegalPositions,
-  addRegalPosition,
   RegalPositionForm,
-  makeGetRegalPositionIdsByRegalId,
+  useGetRegalPositions,
+  useAddRegalPosition,
 } from "../../warehouse_regal_positions";
-import { useDispatch, useSelector } from "react-redux";
 import { Bubble, Button, Loading, Modal } from "../../../components";
-import { AppDispatch } from "app";
 import {
   WarehouseRegalPositionProvider,
   RegalPositionItem,
 } from "../../warehouse_regal_positions";
+import { Article } from "features/articles/types";
+import { WarehouseArticle } from "features/warehouse_articles/types";
 
 interface IRegalPage {
   regalId: number;
   warehouseId: number;
+  articles?: Article[];
+  warehouseArticles?: WarehouseArticle[];
 }
 
-export const RegalPage: React.FC<IRegalPage> = ({ regalId, warehouseId }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const getRegalPositionIds = React.useMemo(
-    () => makeGetRegalPositionIdsByRegalId(regalId),
-    [regalId]
-  );
-  const regalPositionIds = useSelector(getRegalPositionIds);
+export const RegalPage: React.FC<IRegalPage> = ({
+  regalId,
+  warehouseId,
+  articles,
+  warehouseArticles,
+}) => {
+  const { data: regalPositions, isLoading } = useGetRegalPositions(regalId);
+  const mutateAdd = useAddRegalPosition(regalId, (oldData, newData) => [
+    ...oldData,
+    newData,
+  ]);
 
   const [show, setShow] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    setIsLoading(true);
-    dispatch(fetchRegalPositions(regalId)).finally(() => setIsLoading(false));
-  }, [dispatch, regalId]);
 
   const handleShowModal = React.useCallback(() => {
     setShow(true);
@@ -44,10 +43,11 @@ export const RegalPage: React.FC<IRegalPage> = ({ regalId, warehouseId }) => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (data) => {
-      dispatch(addRegalPosition(regalId, data));
+    (attributes) => {
+      mutateAdd.mutate(attributes);
+      handleCloseModal();
     },
-    [dispatch, regalId]
+    [mutateAdd, handleCloseModal]
   );
   return (
     <>
@@ -62,12 +62,14 @@ export const RegalPage: React.FC<IRegalPage> = ({ regalId, warehouseId }) => {
       ) : (
         <div className={styles.page}>
           <div className={styles.regal_positions}>
-            {regalPositionIds.map((id) => (
+            {regalPositions?.map((regalPosition) => (
               <WarehouseRegalPositionProvider
-                id={id}
+                regalPosition={regalPosition}
                 warehouseId={warehouseId}
                 regalId={regalId}
-                key={`${warehouseId}-${id}`}
+                articles={articles}
+                warehouseArticles={warehouseArticles}
+                key={`${warehouseId}-${regalId}-${regalPosition.id}`}
               >
                 <RegalPositionItem />
               </WarehouseRegalPositionProvider>

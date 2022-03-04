@@ -1,12 +1,14 @@
+import { Article } from "features/articles/types";
+import { WarehouseArticle } from "features/warehouse_articles/types";
 import React from "react";
-import { useSelector } from "react-redux";
-import { makeGetRegalPositionById } from "../selectors";
 import { RegalPosition } from "../types";
 
 type WarehouseRegalPositionContextType = {
   regalPosition: RegalPosition;
   warehouseId: number;
   regalId: number;
+  articles?: Article[];
+  warehouseArticles?: WarehouseArticle[];
 };
 
 const WarehouseRegalPositionContext = React.createContext<
@@ -26,29 +28,30 @@ export const useWarehouseRegalPositionContext = () => {
 };
 
 interface IWarehouseRegalPositionProvider {
-  id: number;
+  regalPosition: RegalPosition;
   warehouseId: number;
   regalId: number;
+  articles?: Article[];
+  warehouseArticles?: WarehouseArticle[];
   children: React.ReactNode;
 }
 
 export const WarehouseRegalPositionProvider = ({
-  id,
+  regalPosition,
   warehouseId,
   regalId,
+  articles,
+  warehouseArticles,
   children,
 }: IWarehouseRegalPositionProvider) => {
-  const getRegalPosition = React.useMemo(() => makeGetRegalPositionById(id), [
-    id,
-  ]);
-  const regalPosition = useSelector(getRegalPosition);
-
   return (
     <WarehouseRegalPositionContext.Provider
       value={{
         regalPosition,
         warehouseId,
         regalId,
+        articles,
+        warehouseArticles,
       }}
     >
       {children}

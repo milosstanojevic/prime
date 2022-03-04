@@ -8,64 +8,54 @@ import {
   SidePicker,
 } from "../../../components";
 import {
-  addWarehouseRegal,
-  clearWarehouseRegals,
-  fetchWarehouseRegals,
-  makeGetRegalsByWarehouseId,
   RegalForm,
   RegalPage,
+  useAddWarehouseRegal,
+  useGetWarehouseRegals,
 } from "../../warehouse_regals";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchArticles } from "../../articles";
-import { clearWarehouseArticles, fetchWarehouseArticles } from "../actions";
+import { useGetArticles } from "../../articles";
 import styles from "./WarehouseArticlesPage.module.css";
-import {
-  fetchWarehouse,
-  makeGetWarehouseById,
-  WarehouseNavPills,
-} from "../../warehouses";
-import { AppDispatch } from "../../../app";
-import { clearRegalPositions } from "../../warehouse_regal_positions";
+import { useGetWarehouse, WarehouseNavPills } from "../../warehouses";
 import { useParams } from "react-router-dom";
+import { useGetWarehouseArticles } from "..";
 
 export const WarehouseArticlesPage: React.FC = () => {
   const params = useParams();
   const id = Number(params.id);
-  const dispatch = useDispatch<AppDispatch>();
 
-  const getWarehouse = React.useMemo(() => makeGetWarehouseById(id), [id]);
-  const warehouse = useSelector(getWarehouse);
-  const getRegals = React.useMemo(() => makeGetRegalsByWarehouseId(id), [id]);
-  const regals = useSelector(getRegals);
-  const [regalId, setRegalId] = React.useState(
-    regals.length ? regals[0].id : 0
-  );
   const [show, setShow] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+
+  const { data: warehouse, isLoading: isWarehouseLoading } =
+    useGetWarehouse(id);
+
+  const { data: articles, isLoading: isArticlesLoading } = useGetArticles();
+
+  const { data: warehouseArticles, isLoading: isWarehouseArticlesLoading } =
+    useGetWarehouseArticles(id);
+
+  const { data: regals, isLoading: isWarehouseRegalsLoading } =
+    useGetWarehouseRegals(id);
+
+  const mutateAdd = useAddWarehouseRegal(id, (oldData, newData) => [
+    ...oldData,
+    newData,
+  ]);
+
+  const [regalId, setRegalId] = React.useState(
+    regals?.length ? regals[0].id : 0
+  );
+
+  const isLoading =
+    isWarehouseLoading ||
+    isArticlesLoading ||
+    isWarehouseArticlesLoading ||
+    isWarehouseRegalsLoading;
 
   React.useEffect(() => {
-    async function fetchData() {
-      await dispatch(fetchWarehouse(id));
-      await dispatch(fetchArticles());
-      await dispatch(fetchWarehouseArticles(id));
-      await dispatch(fetchWarehouseRegals(id));
-    }
-    fetchData().finally(() => setLoading(false));
-  }, [dispatch, id]);
-
-  React.useEffect(() => {
-    if (regals.length) {
+    if (regals?.length) {
       setRegalId(regals[0].id);
     }
   }, [regals]);
-
-  React.useEffect(() => {
-    return () => {
-      dispatch(clearWarehouseArticles());
-      dispatch(clearWarehouseRegals());
-      dispatch(clearRegalPositions());
-    };
-  }, [dispatch]);
 
   const handleChange = React.useCallback((id) => {
     setRegalId(id);
@@ -80,24 +70,24 @@ export const WarehouseArticlesPage: React.FC = () => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (data) => {
-      dispatch(addWarehouseRegal(id, data));
+    (attributes) => {
+      mutateAdd.mutate(attributes);
       handleCloseModal();
     },
-    [dispatch, id, handleCloseModal]
+    [mutateAdd, handleCloseModal]
   );
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
           <div className={styles.page}>
             <div className={styles.warehouse_nav}>
-              <div>{warehouse.name}</div>
+              <div>{warehouse?.name}</div>
             </div>
-            {regals.length ? (
+            {regals?.length ? (
               <div className={styles.side_picker_wrapper}>
                 <Button onClick={handleShowModal}>Create Regal</Button>
                 <SidePicker
@@ -113,7 +103,12 @@ export const WarehouseArticlesPage: React.FC = () => {
             <WarehouseNavPills id={id} />
           </div>
           {regalId && regalId > 0 ? (
-            <RegalPage regalId={regalId} warehouseId={id} />
+            <RegalPage
+              regalId={regalId}
+              warehouseId={id}
+              articles={articles}
+              warehouseArticles={warehouseArticles}
+            />
           ) : null}
         </>
       )}

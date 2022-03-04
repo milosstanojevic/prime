@@ -9,7 +9,7 @@ interface IWarehouseArticleItem {
 }
 
 export const WarehouseArticleItem = React.memo<IWarehouseArticleItem>(
-  ({ id, name, quantity, unit = "Kg" }) => {
+  ({ name, quantity, unit = "Kg" }) => {
     return (
       <div className={styles.item_wrapper}>
         <span>{name} </span>

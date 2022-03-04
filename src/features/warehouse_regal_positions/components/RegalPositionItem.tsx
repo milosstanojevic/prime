@@ -1,28 +1,48 @@
 import React from "react";
 import styles from "./RegalPositionItem.module.css";
-import { useSelector } from "react-redux";
 import {
-  makeGetArticlesByWarehouseRegalPositionId,
   WarehouseArticleForm,
   WarehouseArticleItem,
 } from "../../warehouse_articles";
 import { useWarehouseRegalPositionContext } from "..";
+import { WarehouseArticle } from "features/warehouse_articles/types";
 
 export const RegalPositionItem = () => {
-  const {
-    warehouseId,
-    regalPosition,
-    regalId,
-  } = useWarehouseRegalPositionContext();
+  const { warehouseId, regalPosition, regalId, articles, warehouseArticles } =
+    useWarehouseRegalPositionContext();
   const { id, name } = regalPosition;
 
-  const getRegalPositionArticles = React.useMemo(
-    () =>
-      makeGetArticlesByWarehouseRegalPositionId(warehouseId, regalId, id || 0),
-    [id, warehouseId, regalId]
-  );
+  const regalPositionArticles = React.useMemo(() => {
+    let positionArticles: WarehouseArticle[] = [];
+    let items: WarehouseArticle[] = [];
 
-  const regalPositionArticles = useSelector(getRegalPositionArticles);
+    warehouseArticles?.forEach((warehouseArticle) => {
+      if (
+        warehouseArticle.warehouseId === warehouseId &&
+        warehouseArticle.regalId === regalId &&
+        warehouseArticle.regalPositionId === id
+      ) {
+        positionArticles.push(warehouseArticle);
+      }
+    });
+
+    positionArticles.forEach((positionArticle) => {
+      const article = articles?.find(
+        (article) => article.id === positionArticle.articleId
+      );
+      if (article) {
+        items.push({
+          id: article.id,
+          name: article.name,
+          barCode: article.barCode,
+          unit: article.unit,
+          quantity: positionArticle.quantity,
+        });
+      }
+    });
+
+    return items;
+  }, [articles, warehouseArticles, id, warehouseId, regalId]);
 
   return (
     <div className={styles.wrapper}>
@@ -32,6 +52,7 @@ export const RegalPositionItem = () => {
           regalPositionId={id || 0}
           regalId={regalId}
           warehouseId={warehouseId}
+          articles={articles}
         />
         <div className={styles.item}>
           {regalPositionArticles.map(({ id, name, quantity, unit }) => {
