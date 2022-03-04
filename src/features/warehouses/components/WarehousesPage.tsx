@@ -1,24 +1,18 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import styles from "./WarehousesPage.module.css";
 import { Button, Modal, Loading } from "../../../components";
 import { WarehouseList } from "./WarehouseList";
-import { fetchWarehouses, addWarehouse, clearWarehouses } from "..";
 import { WarehouseForm } from "..";
-import { AppDispatch } from "app";
+import { useGetWarehouses, useAddWarehouse } from "../api";
 
 export const WarehousesPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const { data, isLoading } = useGetWarehouses();
+  const mutationAdd = useAddWarehouse((oldData, newData) => [
+    ...oldData,
+    newData,
+  ]);
 
   const [showWarehouseCreate, setShowWarehouseCreate] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    dispatch(fetchWarehouses()).finally(() => setIsLoading(false));
-    return () => {
-      dispatch(clearWarehouses());
-    };
-  }, [dispatch]);
 
   const handleShowCreateWarehouseModal = React.useCallback(() => {
     setShowWarehouseCreate(true);
@@ -30,9 +24,10 @@ export const WarehousesPage = () => {
 
   const onWarehouseCreate = React.useCallback(
     (attributes) => {
-      dispatch(addWarehouse(attributes));
+      mutationAdd.mutateAsync(attributes);
+      handleCloseCreateWarehouseModal();
     },
-    [dispatch]
+    [mutationAdd, handleCloseCreateWarehouseModal]
   );
 
   return (
@@ -42,7 +37,7 @@ export const WarehousesPage = () => {
           Create new Warehouse
         </Button>
       </div>
-      {isLoading ? <Loading /> : <WarehouseList />}
+      {isLoading ? <Loading /> : <WarehouseList warehouses={data} />}
       <Modal
         open={showWarehouseCreate}
         onClose={handleCloseCreateWarehouseModal}

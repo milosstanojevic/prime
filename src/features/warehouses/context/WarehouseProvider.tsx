@@ -1,12 +1,10 @@
-import React, { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { makeGetWarehouseById } from "../selectors";
-import { editWarehouse } from "../actions";
+import React from "react";
+import { useDeleteWarehouse, useEditWarehouse } from "../api";
 import { Warehouse } from "../types";
 
 type WarehouseContextType = {
   warehouse: Warehouse;
-  updateWarehouse: (id: number, attributes: Warehouse) => void;
+  updateWarehouse: (attributes: Warehouse) => void;
   removeWarehouse: (id: number) => void;
 };
 
@@ -27,25 +25,38 @@ export const useWarehouseContext = () => {
 };
 
 interface IWarehouseProvider {
-  id?: number;
+  warehouse: Warehouse;
   children: React.ReactNode;
 }
 
-export const WarehouseProvider = ({ id, children }: IWarehouseProvider) => {
-  const dispatch = useDispatch();
-  const getWarehouseById = useMemo(() => makeGetWarehouseById(id), [id]);
-  const warehouse = useSelector(getWarehouseById);
+export const WarehouseProvider = ({
+  warehouse,
+  children,
+}: IWarehouseProvider) => {
+  const mutateEdit = useEditWarehouse((oldWarehouses, newWarehouse) => {
+    return oldWarehouses?.map((warehouse) =>
+      warehouse.id === newWarehouse.id
+        ? { ...warehouse, ...newWarehouse }
+        : warehouse
+    );
+  });
+  const mutateDelete = useDeleteWarehouse((oldData, id) => {
+    return oldData?.filter((item) => item.id !== id);
+  });
 
   const updateWarehouse = React.useCallback(
-    (warehouseId: number, attributes: Warehouse) => {
-      dispatch(editWarehouse(warehouseId, attributes));
+    (attributes: Warehouse) => {
+      mutateEdit.mutateAsync(attributes);
     },
-    [dispatch]
+    [mutateEdit]
   );
 
-  const removeWarehouse = React.useCallback((warehouseId: number) => {
-    console.log(warehouseId);
-  }, []);
+  const removeWarehouse = React.useCallback(
+    (warehouseId: number) => {
+      mutateDelete.mutateAsync(warehouseId);
+    },
+    [mutateDelete]
+  );
 
   return (
     <WarehouseContext.Provider

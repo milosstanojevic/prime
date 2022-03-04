@@ -1,17 +1,31 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import styles from "./WarehouseList.module.css";
 import { WarehouseListItem } from "./WarehouseListItem";
 import { WarehouseProvider } from "../context";
-import { getWarehouseIds } from "..";
+import { Warehouse } from "../types";
+import { descSort } from "features/utils";
 
-export const WarehouseList = () => {
-  const warehouseIds = useSelector(getWarehouseIds);
+type Props = {
+  warehouses?: Warehouse[];
+};
+
+export const WarehouseList: React.FC<Props> = ({ warehouses }) => {
+  const sortedWarehouses = React.useMemo(() => {
+    return (warehouses || []).sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return descSort(a.createdAt, b.createdAt);
+      }
+      if (a.name && b.name) {
+        return descSort(a.name, b.name);
+      }
+      return 0;
+    });
+  }, [warehouses]);
 
   return (
     <div className={styles.warehouse_list}>
-      {warehouseIds.map((id) => (
-        <WarehouseProvider key={id} id={id}>
+      {sortedWarehouses.map((warehouse) => (
+        <WarehouseProvider key={warehouse.id} warehouse={warehouse}>
           <WarehouseListItem />
         </WarehouseProvider>
       ))}

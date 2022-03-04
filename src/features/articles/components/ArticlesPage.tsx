@@ -4,7 +4,7 @@ import { Button, Modal } from "../../../components";
 import { ArticleList } from "./ArticleList";
 import { Loading } from "../../../components";
 import { ArticleForm } from "..";
-import { useGetArticles, useAddArticle } from "../api/apiArticles";
+import { useGetArticles, useAddArticle } from "../api";
 
 export const ArticlesPage: React.FC = () => {
   const { data, isLoading } = useGetArticles();

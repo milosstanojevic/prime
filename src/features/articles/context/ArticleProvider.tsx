@@ -29,39 +29,41 @@ interface IArticleProvider {
   children: React.ReactNode;
 }
 
-export const ArticleProvider = ({ article, children }: IArticleProvider) => {
-  const mutateEdit = useEditArticle((oldArticles, newArticle) => {
-    return oldArticles?.map((article) =>
-      article.id === newArticle.id ? { ...article, ...newArticle } : article
+export const ArticleProvider = React.memo<IArticleProvider>(
+  ({ article, children }) => {
+    const mutateEdit = useEditArticle((oldArticles, newArticle) => {
+      return oldArticles?.map((article) =>
+        article.id === newArticle.id ? { ...article, ...newArticle } : article
+      );
+    });
+    const mutateDelete = useDeleteArticle((oldData, id) => {
+      return oldData?.filter((item) => item.id !== id);
+    });
+
+    const updateArticle = React.useCallback(
+      (attributes: Article) => {
+        mutateEdit.mutateAsync(attributes);
+      },
+      [mutateEdit]
     );
-  });
-  const mutateDelete = useDeleteArticle((oldData, id) => {
-    return oldData?.filter((item) => item.id !== id);
-  });
 
-  const updateArticle = React.useCallback(
-    (attributes: Article) => {
-      mutateEdit.mutateAsync(attributes);
-    },
-    [mutateEdit]
-  );
+    const removeArticle = React.useCallback(
+      (articleId: number) => {
+        mutateDelete.mutateAsync(articleId);
+      },
+      [mutateDelete]
+    );
 
-  const removeArticle = React.useCallback(
-    (articleId: number) => {
-      mutateDelete.mutateAsync(articleId);
-    },
-    [mutateDelete]
-  );
-
-  return (
-    <ArticleContext.Provider
-      value={{
-        article,
-        updateArticle,
-        removeArticle,
-      }}
-    >
-      {children}
-    </ArticleContext.Provider>
-  );
-};
+    return (
+      <ArticleContext.Provider
+        value={{
+          article,
+          updateArticle,
+          removeArticle,
+        }}
+      >
+        {children}
+      </ArticleContext.Provider>
+    );
+  }
+);

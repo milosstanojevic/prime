@@ -4,8 +4,9 @@ import styles from "./WarehouseListItem.module.css";
 import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import { useWarehouseContext } from "../context";
 import { WarehouseForm } from "..";
+import bars from "../../../components/base/images/bars.png";
 
-export const WarehouseListItem = React.memo(() => {
+export const WarehouseListItem: React.FC = () => {
   const { warehouse, updateWarehouse } = useWarehouseContext();
   const { id, name, description = "", address = "", createdAt } = warehouse;
   const [showWarehouseEdit, setShowWarehouseEdit] = React.useState(false);
@@ -33,9 +34,12 @@ export const WarehouseListItem = React.memo(() => {
 
   const handleWarehouseEdit = React.useCallback(
     (attributes) => {
-      id && updateWarehouse(id, attributes);
+      if (id) {
+        updateWarehouse(attributes);
+        handleCloseWarehouseEdit();
+      }
     },
-    [id, updateWarehouse]
+    [id, updateWarehouse, handleCloseWarehouseEdit]
   );
 
   return (
@@ -55,7 +59,13 @@ export const WarehouseListItem = React.memo(() => {
             : "Undefined"}
         </div>
         <div className={styles.item_element}>
-          <Menu target={<div>Bars Icon</div>}>
+          <Menu
+            target={
+              <div>
+                <img src={bars} alt="menu" height={24} width={24} />
+              </div>
+            }
+          >
             <Bubble className={styles.menu}>
               <div
                 onClick={handleShowWarehouseEdit}
@@ -95,4 +105,4 @@ export const WarehouseListItem = React.memo(() => {
       </Modal>
     </>
   );
-});
+};

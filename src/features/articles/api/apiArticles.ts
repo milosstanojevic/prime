@@ -1,9 +1,4 @@
-import {
-  useFetch,
-  usePost,
-  usePut,
-  useDelete,
-} from "../../../utils/reactQuery";
+import { useFetch, usePost, usePut, useDelete } from "../../../utils";
 import { pathToUrl } from "../../../utils/router";
 import { Article } from "../types";
 

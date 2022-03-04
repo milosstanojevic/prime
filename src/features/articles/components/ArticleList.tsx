@@ -26,7 +26,7 @@ export const ArticleList: React.FC<Props> = ({ articles }) => {
     <div className={styles.article_list}>
       {sortedArticles.map((article) => (
         <ArticleProvider key={article.id} article={article}>
-          <ArticleListItem {...article} />
+          <ArticleListItem />
         </ArticleProvider>
       ))}
     </div>

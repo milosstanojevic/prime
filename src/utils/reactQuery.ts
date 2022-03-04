@@ -8,19 +8,13 @@ import {
 } from "react-query";
 import { QueryFunctionContext } from "react-query/types/core/types";
 import { AxiosError, AxiosResponse } from "axios";
+import hasOwnProperty from "./hasOwnProperty";
 
 interface GetInfinitePagesInterface<T> {
   nextId?: number;
   previousId?: number;
   data: T;
   count: number;
-}
-
-function hasOwnProperty<X extends {}, Y extends PropertyKey>(
-  obj: X,
-  prop: Y
-): obj is X & Record<Y, unknown> {
-  return obj.hasOwnProperty(prop);
 }
 
 type QueryKeyT = [string, object | undefined];
