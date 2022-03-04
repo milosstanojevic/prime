@@ -1,11 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { makeGetTransportOrderById } from "../selectors";
 import { TransportOrder } from "../types";
 
 type TransportOrderContextType = {
   transportOrder: TransportOrder;
-  updateTransportOrder: (id: number, attributes: TransportOrder) => void;
+  updateTransportOrder: (attributes: TransportOrder) => void;
 };
 
 const TransportOrderContext = React.createContext<
@@ -25,22 +23,15 @@ export const useTransportOrderContext = () => {
 };
 
 interface ITransportOrderProvider {
-  id: number;
+  transportOrder: TransportOrder;
   children: React.ReactNode;
 }
 
 export const TransportOrderProvider = ({
-  id,
+  transportOrder,
   children,
 }: ITransportOrderProvider) => {
-  const getTransportOrderById = React.useMemo(
-    () => makeGetTransportOrderById(id),
-    [id]
-  );
-  const transportOrder = useSelector(getTransportOrderById);
-
-  const updateTransportOrder = React.useCallback((id, attributes) => {
-    console.log(id);
+  const updateTransportOrder = React.useCallback((attributes) => {
     console.log(attributes);
   }, []);
 

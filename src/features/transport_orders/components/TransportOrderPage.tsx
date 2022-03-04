@@ -1,38 +1,30 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Bubble, Button, Loading, Modal } from "components";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  addTransportOrderArticle,
-  fetchTransportOrderArticles,
-  makeGetTransportOrderArticlesByTransportOrderId,
   TransportOrderArticleForm,
+  useAddTransportOrderArticle,
+  useGetTransportOrderArticles,
 } from "features/transport_order_articles";
-import { fetchArticles } from "features/articles";
-import { AppDispatch } from "app";
+import { useGetArticles } from "features/articles";
 import styles from "./TransportOrderPage.module.css";
 
 export const TransportOrderPage: React.FC = () => {
   const params = useParams();
   const id = Number(params.id);
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [show, setShow] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const getOrderArticles = React.useMemo(
-    () => makeGetTransportOrderArticlesByTransportOrderId(id),
-    [id]
-  );
-  const orderArticles = useSelector(getOrderArticles);
 
-  React.useEffect(() => {
-    const getData = async () => {
-      await dispatch(fetchTransportOrderArticles(id));
-      await dispatch(fetchArticles());
-    };
+  const { data: orderArticles, isLoading: isOrderArticlesLoading } =
+    useGetTransportOrderArticles(id);
+  const { data: articles, isLoading: isArticlesLoading } = useGetArticles();
 
-    getData().finally(() => setLoading(false));
-  }, [dispatch, id]);
+  const mutateAdd = useAddTransportOrderArticle(id, (oldData, newData) => [
+    ...oldData,
+    newData,
+  ]);
+
+  const isLoading = isOrderArticlesLoading || isArticlesLoading;
 
   const handleCloseModal = React.useCallback(() => {
     setShow(false);
@@ -44,22 +36,23 @@ export const TransportOrderPage: React.FC = () => {
 
   const handleSubmit = React.useCallback(
     (attributes) => {
-      dispatch(addTransportOrderArticle(id, attributes));
+      mutateAdd.mutate(attributes);
+      handleCloseModal();
     },
-    [id, dispatch]
+    [mutateAdd, handleCloseModal]
   );
   return (
     <div>
       <Button onClick={() => navigate(-1)}>Back</Button>
-      {loading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
           <div>{id}</div>
           <Button onClick={handleOpenModal}>Add Article</Button>
-          {orderArticles.map((orderArticle) => {
+          {orderArticles?.map((orderArticle) => {
             return (
-              <div>
+              <div key={orderArticle.id}>
                 {orderArticle.articleId} - {orderArticle.quantity}
               </div>
             );
@@ -70,6 +63,7 @@ export const TransportOrderPage: React.FC = () => {
               <TransportOrderArticleForm
                 onCancel={handleCloseModal}
                 onSubmit={handleSubmit}
+                articles={articles || []}
               />
             </Bubble>
           </Modal>

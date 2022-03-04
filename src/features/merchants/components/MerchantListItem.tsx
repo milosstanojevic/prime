@@ -33,7 +33,7 @@ export const MerchantListItem = React.memo(() => {
 
   const handleMerchantEdit = React.useCallback(
     (attributes) => {
-      id && updateMerchant(id, attributes);
+      id && updateMerchant(attributes);
     },
     [id, updateMerchant]
   );

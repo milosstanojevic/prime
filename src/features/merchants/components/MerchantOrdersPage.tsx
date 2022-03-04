@@ -1,47 +1,51 @@
-import { AppDispatch } from "app";
 import { Button, Loading } from "components";
 import {
-  addTransportOrder,
-  fetchParentTransportOrders,
-  NormalizerTransportOrderRequest,
+  useAddTransportOrder,
+  useGetParentTransportOrders,
 } from "features/transport_orders";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { MerchantsOrderList } from "./MerchantOrdersList";
 import { useNavigate, useParams } from "react-router-dom";
+import hasOwnProperty from "utils/hasOwnProperty";
+import { decamelizeKeys } from "humps";
 
 export const MerchantOrdersPage: React.FC = () => {
   const params = useParams();
   const id = Number(params.id);
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [isLoading, setLoading] = React.useState(true);
-  const [isCreating, setIsCreating] = React.useState(false);
-  React.useEffect(() => {
-    dispatch(fetchParentTransportOrders({ id, parent: "merchant" })).finally(
-      () => setLoading(false)
-    );
-  }, [dispatch, id]);
 
-  const handleCreateOrder = React.useCallback(() => {
-    setIsCreating(true);
-    dispatch(addTransportOrder({ parent: "merchant", parentId: id }))
-      .then((response) => {
-        const { payload = {} } = response;
-        const { result = 0 } = payload as NormalizerTransportOrderRequest;
-        if (result > 0) {
-          navigate(`/orders/${result}`);
-        }
-      })
-      .finally(() => setIsCreating(false));
-  }, [id, dispatch, navigate]);
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useGetParentTransportOrders("merchant", id);
+
+  const mutateAdd = useAddTransportOrder();
+
+  const handleCreateOrder = React.useCallback(async () => {
+    await mutateAdd.mutateAsync(
+      decamelizeKeys({ parent: "merchant", parentId: id })
+    );
+  }, [id, mutateAdd]);
+
+  React.useEffect(() => {
+    const { data } = mutateAdd;
+    if (
+      data &&
+      hasOwnProperty(data?.data, "id") &&
+      typeof data?.data.id === "number"
+    ) {
+      refetch();
+      navigate(`/orders/${data.data.id}`);
+    }
+  }, [navigate, mutateAdd, refetch]);
 
   return (
     <div>
-      <Button onClick={handleCreateOrder} disabled={isCreating}>
+      <Button onClick={handleCreateOrder} disabled={mutateAdd.isLoading}>
         Create Order
       </Button>
-      {isLoading ? <Loading /> : <MerchantsOrderList id={id} />}
+      {isLoading ? <Loading /> : <MerchantsOrderList orders={orders} id={id} />}
     </div>
   );
 };

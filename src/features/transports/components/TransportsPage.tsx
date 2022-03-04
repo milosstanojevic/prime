@@ -1,22 +1,20 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTransportIds } from "../selectors";
-import { clearTransports, fetchTransports, addTransport } from "../actions";
 import styles from "./TransportsPage.module.css";
-import { Button, Modal } from "../../../components";
-import { TransportForm, TransportProvider } from "..";
+import { Button, Loading, Modal } from "../../../components";
+import {
+  TransportForm,
+  TransportProvider,
+  useAddTransportRoute,
+  useGetTransportRoutes,
+} from "..";
 import { TransportListItem } from ".";
 
 export const TransportsPage = () => {
-  const dispatch = useDispatch();
-  const transportIds = useSelector(getTransportIds);
-
-  React.useEffect(() => {
-    dispatch(fetchTransports());
-    return () => {
-      dispatch(clearTransports());
-    };
-  }, [dispatch]);
+  const { data: transports, isLoading } = useGetTransportRoutes();
+  const mutateAdd = useAddTransportRoute((oldData, newData) => [
+    ...oldData,
+    newData,
+  ]);
 
   const [show, setShow] = React.useState(false);
 
@@ -30,10 +28,10 @@ export const TransportsPage = () => {
 
   const handleSubmit = React.useCallback(
     (attributes) => {
-      dispatch(addTransport(attributes));
+      mutateAdd.mutate(attributes);
       handleCloseModal();
     },
-    [dispatch, handleCloseModal]
+    [handleCloseModal, mutateAdd]
   );
 
   return (
@@ -43,13 +41,18 @@ export const TransportsPage = () => {
           Create New Transport
         </Button>
       </div>
-      <div className={styles.transport_list}>
-        {transportIds.map((id) => (
-          <TransportProvider key={id} id={id}>
-            <TransportListItem />
-          </TransportProvider>
-        ))}
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className={styles.transport_list}>
+          {transports?.map((transport) => (
+            <TransportProvider key={transport.id} transport={transport}>
+              <TransportListItem />
+            </TransportProvider>
+          ))}
+        </div>
+      )}
+
       <Modal open={show} onClose={handleCloseModal}>
         <div className={styles.modal_form_wrapper}>
           <TransportForm onSubmit={handleSubmit} onCancel={handleCloseModal} />

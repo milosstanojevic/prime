@@ -1,29 +1,25 @@
+import { TransportOrder } from "features/transport_orders/types";
 import React from "react";
-import { useSelector } from "react-redux";
-import {
-  makeGetParentTransportOrders,
-  TransportOrderProvider,
-} from "../../transport_orders";
+import { TransportOrderProvider } from "../../transport_orders";
 import { MerchantOrderListItem } from "./MerchantOrderListItem";
 
 interface MerchantsOrderListProps {
   id: number;
+  orders?: TransportOrder[];
 }
 
 export const MerchantsOrderList: React.FC<MerchantsOrderListProps> = ({
   id,
+  orders,
 }) => {
-  const getMerchantTransportOrders = React.useMemo(
-    () => makeGetParentTransportOrders("merchant", id),
-    [id]
-  );
-
-  const merchantOrders = useSelector(getMerchantTransportOrders);
   return (
     <div>
-      {merchantOrders.map((merchantOrder) => {
-        return merchantOrder?.id ? (
-          <TransportOrderProvider id={merchantOrder.id} key={merchantOrder.id}>
+      {orders?.map((merchantOrder) => {
+        return merchantOrder?.parentId === id ? (
+          <TransportOrderProvider
+            transportOrder={merchantOrder}
+            key={merchantOrder.id}
+          >
             <MerchantOrderListItem />
           </TransportOrderProvider>
         ) : null;

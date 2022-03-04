@@ -6,7 +6,7 @@ import { TransportForm, useTransportContext } from "..";
 import bars from "../../../components/base/images/bars.png";
 
 export const TransportListItem = React.memo(() => {
-  const { transport, updateTransport } = useTransportContext();
+  const { transport, updateTransport, removeTransport } = useTransportContext();
   const { id, name, createdAt } = transport;
 
   const [showTransportEdit, setShowTransportEdit] = React.useState(false);
@@ -29,14 +29,20 @@ export const TransportListItem = React.memo(() => {
   }, []);
 
   const onTransportTrash = React.useCallback(() => {
-    handleCloseTransportTrash();
-  }, [handleCloseTransportTrash]);
+    if (id) {
+      removeTransport(id);
+      handleCloseTransportTrash();
+    }
+  }, [handleCloseTransportTrash, removeTransport, id]);
 
   const handleTransportEdit = React.useCallback(
     (attributes) => {
-      id && updateTransport(id, attributes);
+      if (id) {
+        updateTransport({ id, ...attributes });
+        handleCloseTransportEdit();
+      }
     },
-    [id, updateTransport]
+    [id, updateTransport, handleCloseTransportEdit]
   );
 
   return (
@@ -81,7 +87,7 @@ export const TransportListItem = React.memo(() => {
       <Modal open={showTransportEdit} onClose={handleCloseTransportEdit}>
         <div className={styles.modal_form_wrapper}>
           <TransportForm
-            {...transport}
+            transport={transport}
             onCancel={handleCloseTransportEdit}
             onSubmit={handleTransportEdit}
           />

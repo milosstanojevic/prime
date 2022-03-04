@@ -1,5 +1,5 @@
-import React, {useState, useCallback, useMemo} from 'react';
-import styles from './ComponentsPage.module.css';
+import React from "react";
+import styles from "./ComponentsPage.module.css";
 import {
   Checkbox,
   Input,
@@ -16,107 +16,111 @@ import {
 const options = [
   {
     id: 1,
-    name: 'Option 1',
+    name: "Option 1",
   },
   {
     id: 2,
-    name: 'Option 2',
+    name: "Option 2",
   },
   {
     id: 3,
-    name: 'Option 3',
+    name: "Option 3",
   },
   {
     id: 4,
-    name: 'Option 4',
+    name: "Option 4",
   },
   {
     id: 5,
-    name: 'Option 5',
+    name: "Option 5",
   },
   {
     id: 6,
-    name: 'Option 6',
+    name: "Option 6",
   },
   {
     id: 7,
-    name: 'Option 7',
+    name: "Option 7",
   },
   {
     id: 8,
-    name: 'Option 8',
+    name: "Option 8",
   },
   {
     id: 9,
-    name: 'Option 9',
+    name: "Option 9",
   },
   {
     id: 10,
-    name: 'Option 10',
+    name: "Option 10",
   },
-]
+];
 
-const ComponentsPage = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [selectIds, setSelectIds] = useState([]);
-  const [selectMultipleIds, setSelectMultipleIds] = useState([]);
-  const [sidePickerId, setSidePickerId] = useState(0);
+const ComponentsPage: React.FC = () => {
+  const [showModal, setShowModal] = React.useState(false);
+  const [selectIds, setSelectIds] = React.useState([]);
+  const [selectMultipleIds, setSelectMultipleIds] = React.useState([]);
+  const [sidePickerId, setSidePickerId] = React.useState(0);
 
-  const openModal = useCallback(() => {
+  const openModal = React.useCallback(() => {
     setShowModal(true);
   }, []);
 
-  const closeModal = useCallback(() => {
+  const closeModal = React.useCallback(() => {
     setShowModal(false);
   }, []);
 
-  const handleSelectChange = useCallback((ids) => {
-    setSelectIds(ids)
-  }, [])
+  const handleSelectChange = React.useCallback((ids) => {
+    setSelectIds(ids);
+  }, []);
 
-  const singleSelect = useMemo(() => {
+  const singleSelect = React.useMemo(() => {
     if (selectIds.length) {
-      const option = options.find(({ id }) => id === selectIds[0])
-      return <Button>{option ? option.name : 'Not found'}</Button>
+      const option = options.find(({ id }) => id === selectIds[0]);
+      return <Button>{option ? option.name : "Not found"}</Button>;
     }
-    return <Button>Single Select...</Button>
-  }, [selectIds])
+    return <Button>Single Select...</Button>;
+  }, [selectIds]);
 
-  const multiSelect = useMemo(() => {
+  const multiSelect = React.useMemo(() => {
     if (selectMultipleIds.length) {
-      const selectedOptions = options.filter(({ id }) => selectMultipleIds.some(selectedId => selectedId === id))
-      const names = selectedOptions.map(({ name }) => name).toString()
-      return <Button>{names}</Button>
+      const selectedOptions = options.filter(({ id }) =>
+        selectMultipleIds.some((selectedId) => selectedId === id)
+      );
+      const names = selectedOptions.map(({ name }) => name).toString();
+      return <Button>{names}</Button>;
     }
-    return <Button>Multi Select...</Button>
-  }, [selectMultipleIds])
+    return <Button>Multi Select...</Button>;
+  }, [selectMultipleIds]);
 
-  const handleMultipleSelectChange = useCallback((ids) => {
-    setSelectMultipleIds(ids)
-  }, [])
+  const handleMultipleSelectChange = React.useCallback((ids) => {
+    setSelectMultipleIds(ids);
+  }, []);
 
-  const handleSidePickerChange = useCallback((id) => {
-    setSidePickerId(id)
-  }, [])
+  const handleSidePickerChange = React.useCallback((id) => {
+    setSidePickerId(id);
+  }, []);
 
   return (
     <div className={styles.components}>
       <div className={styles.label}>COMPONENTS</div>
       <div className={styles.component_item}>
         <div className={styles.label}>Buttons</div>
-        <Button type="button" mode="primary">Submit</Button>
-        <Button type="button" mode="secondary">Cancel</Button>
+        <Button type="button" mode="primary">
+          Submit
+        </Button>
+        <Button type="button" mode="secondary">
+          Cancel
+        </Button>
       </div>
       <div className={styles.component_item}>
         <div className={styles.label}>Inputs</div>
-        <Input/>
-        <Checkbox/>
+        <Input />
+        <Checkbox />
       </div>
       <div className={styles.component_item}>
         <div className={styles.label}>Simple Menu</div>
-        <Menu
-          target={<div>Some target element (Click text)</div>}
-        >
+        <Menu target={<div>Some target element (Click text)</div>}>
           <Bubble>
             <div className={styles.menu_item}>Option 1</div>
             <div className={styles.menu_item}>Option 2</div>
@@ -154,15 +158,19 @@ const ComponentsPage = () => {
       </div>
       <div className={styles.component_item}>
         <div className={styles.label}>Date Picker</div>
-        <DatePicker/>
+        <DatePicker />
       </div>
       <div className={styles.component_item}>
         <div className={styles.label}>Modal</div>
-        <Button type="button" onClick={openModal}>Show Modal</Button>
+        <Button type="button" onClick={openModal}>
+          Show Modal
+        </Button>
         <Modal open={showModal} onClose={closeModal}>
           <div className={styles.modal_wrapper}>
             <div>Modal content</div>
-            <Button type="button" onClick={closeModal}>Close modal</Button>
+            <Button type="button" onClick={closeModal}>
+              Close modal
+            </Button>
           </div>
         </Modal>
       </div>

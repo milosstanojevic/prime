@@ -1,12 +1,10 @@
-import React, { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { makeGetTransportById } from "../selectors";
-import { editTransport } from "../actions";
+import React from "react";
+import { useEditTransportRoute, useDeleteTransportRoute } from "..";
 import { Transport } from "../types";
 
 type TransportContextType = {
   transport: Transport;
-  updateTransport: (id: number, attributes: Transport) => void;
+  updateTransport: (attributes: Transport) => void;
   removeTransport: (id: number) => void;
 };
 
@@ -27,25 +25,39 @@ export const useTransportContext = () => {
 };
 
 interface ITransportProvider {
-  id: number;
+  transport: Transport;
   children: React.ReactNode;
 }
 
-export const TransportProvider = ({ id, children }: ITransportProvider) => {
-  const dispatch = useDispatch();
-  const getTransportById = useMemo(() => makeGetTransportById(id), [id]);
-  const transport = useSelector(getTransportById);
+export const TransportProvider = ({
+  transport,
+  children,
+}: ITransportProvider) => {
+  const mutateEdit = useEditTransportRoute((oldTransports, newTransport) => {
+    return oldTransports?.map((transport) =>
+      transport.id === newTransport.id
+        ? { ...transport, ...newTransport }
+        : transport
+    );
+  });
+
+  const mutateDelete = useDeleteTransportRoute((oldData, id) => {
+    return oldData?.filter((item) => item.id !== id);
+  });
 
   const updateTransport = React.useCallback(
-    (transportId: number, attributes: Transport) => {
-      dispatch(editTransport(transportId, attributes));
+    (attributes: Transport) => {
+      mutateEdit.mutate(attributes);
     },
-    [dispatch]
+    [mutateEdit]
   );
 
-  const removeTransport = React.useCallback((transportId: number) => {
-    console.log(transportId);
-  }, []);
+  const removeTransport = React.useCallback(
+    (transportId: number) => {
+      mutateDelete.mutate(transportId);
+    },
+    [mutateDelete]
+  );
 
   return (
     <TransportContext.Provider

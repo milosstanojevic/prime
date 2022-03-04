@@ -1,22 +1,23 @@
-import React, { useCallback, useState, FC } from 'react';
+import React from "react";
 import { Button, Input, Textarea } from "../../../components";
-import styles from './MechantForm.module.css'
+import styles from "./MechantForm.module.css";
 import { Merchant } from "../types";
+import { decamelizeKeys } from "humps";
 
 interface IMerchantForm extends Merchant {
-  className?: string,
-  onSubmit?: (merchant: Merchant) => void,
-  onCancel?: () => void
+  className?: string;
+  onSubmit?: (merchant: Merchant) => void;
+  onCancel?: () => void;
 }
 
 const initialFormState = {
   id: 0,
-  name: '',
-  description: '',
-  address: '',
+  name: "",
+  description: "",
+  address: "",
 };
 
-export const MerchantForm: FC<IMerchantForm> = ({
+export const MerchantForm: React.FC<IMerchantForm> = ({
   className,
   onSubmit,
   onCancel,
@@ -25,32 +26,33 @@ export const MerchantForm: FC<IMerchantForm> = ({
   description,
   address,
 }) => {
-  const [merchantForm, setMerchantForm] = useState(() => {
+  const [merchantForm, setMerchantForm] = React.useState(() => {
     if (id > 0) {
       return {
         id,
         name,
         description,
         address,
-      }
+      };
     }
-    return initialFormState
-  })
+    return initialFormState;
+  });
 
-  const handleChange = useCallback(
-    e => {
-      const { target = {} } = e;
-      const { name, value } = target;
-      setMerchantForm(prevState => ({ ...prevState, [name]: value }))
-    },
-    []
-  );
+  const handleChange = React.useCallback((e) => {
+    const { target = {} } = e;
+    const { name, value } = target;
+    setMerchantForm((prevState) => ({ ...prevState, [name]: value }));
+  }, []);
 
-  const handleSubmit = useCallback(
-    e => {
+  const handleSubmit = React.useCallback(
+    (e) => {
       e.preventDefault();
-      if (merchantForm.name && merchantForm.name.length > 0 && typeof onSubmit === 'function') {
-        onSubmit(merchantForm);
+      if (
+        merchantForm.name &&
+        merchantForm.name.length > 0 &&
+        typeof onSubmit === "function"
+      ) {
+        onSubmit(decamelizeKeys(merchantForm));
       }
     },
     [onSubmit, merchantForm]
@@ -92,17 +94,16 @@ export const MerchantForm: FC<IMerchantForm> = ({
       <div className={styles.buttons}>
         <Button
           mode="primary"
-          disabled={typeof merchantForm.name === 'string' && merchantForm.name.length === 0}
+          disabled={
+            typeof merchantForm.name === "string" &&
+            merchantForm.name.length === 0
+          }
           className={styles.submit_button}
           type="submit"
         >
           Submit
         </Button>
-        <Button
-          type="button"
-          mode="secondary"
-          onClick={onCancel}
-        >
+        <Button type="button" mode="secondary" onClick={onCancel}>
           Cancel
         </Button>
       </div>

@@ -1,11 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { makeGetMerchantById } from "../selectors";
+import { useEditMerchant } from "..";
 import { Merchant } from "../types";
 
 type MerchantContextType = {
   merchant: Merchant;
-  updateMerchant: (id: number, attributes: Merchant) => void;
+  updateMerchant: (attributes: Merchant) => void;
 };
 
 const MerchantContext = React.createContext<MerchantContextType | undefined>(
@@ -25,18 +24,25 @@ export const useMerchantContext = () => {
 };
 
 interface IMerchantProvider {
-  id: number;
+  merchant: Merchant;
   children: React.ReactNode;
 }
 
-export const MerchantProvider = ({ id, children }: IMerchantProvider) => {
-  const getMerchantById = React.useMemo(() => makeGetMerchantById(id), [id]);
-  const merchant = useSelector(getMerchantById);
+export const MerchantProvider = ({ merchant, children }: IMerchantProvider) => {
+  const mutateEdit = useEditMerchant((oldWarehouses, newWarehouse) => {
+    return oldWarehouses?.map((warehouse) =>
+      warehouse.id === newWarehouse.id
+        ? { ...warehouse, ...newWarehouse }
+        : warehouse
+    );
+  });
 
-  const updateMerchant = React.useCallback((id, attributes) => {
-    console.log(id);
-    console.log(attributes);
-  }, []);
+  const updateMerchant = React.useCallback(
+    (attributes) => {
+      mutateEdit.mutate(attributes);
+    },
+    [mutateEdit]
+  );
 
   return (
     <MerchantContext.Provider

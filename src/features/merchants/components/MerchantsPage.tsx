@@ -1,24 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import styles from "./MerchantsPage.module.css";
 import { Button, Modal, Loading } from "../../../components";
-import { fetchMerchants, clearMerchants, addMerchant } from "../actions";
 import { MerchantList } from "./MerchantList";
-import { AppDispatch } from "app";
 import { MerchantForm } from "../form";
+import { useAddMerchant, useGetMerchants } from "..";
 
 export const MerchantsPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
   const [showMerchantCreate, setShowMerchantCreate] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    dispatch(fetchMerchants()).finally(() => setIsLoading(false));
-    return () => {
-      dispatch(clearMerchants());
-    };
-  }, [dispatch]);
+  const { data: merchants, isLoading } = useGetMerchants();
+  const mutateAdd = useAddMerchant((oldData, newData) => [...oldData, newData]);
 
   const handleShowCreateMerchantModal = React.useCallback(() => {
     setShowMerchantCreate(true);
@@ -30,9 +20,10 @@ export const MerchantsPage = () => {
 
   const onMerchantCreate = React.useCallback(
     (attributes) => {
-      dispatch(addMerchant(attributes));
+      mutateAdd.mutate(attributes);
+      handleCloseCreateMerchantModal();
     },
-    [dispatch]
+    [handleCloseCreateMerchantModal, mutateAdd]
   );
 
   return (
@@ -42,7 +33,7 @@ export const MerchantsPage = () => {
           Create new Merchant
         </Button>
       </div>
-      {isLoading ? <Loading /> : <MerchantList />}
+      {isLoading ? <Loading /> : <MerchantList merchants={merchants} />}
       <Modal open={showMerchantCreate} onClose={handleCloseCreateMerchantModal}>
         <div className={styles.modal_form_wrapper}>
           <MerchantForm

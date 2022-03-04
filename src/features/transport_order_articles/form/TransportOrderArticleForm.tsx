@@ -8,14 +8,15 @@ import {
   SelectOption,
 } from "../../../components";
 import styles from "./TransportOrderArticleForm.module.css";
-import { useSelector } from "react-redux";
-import { getAllArticles } from "features/articles";
+import { Article } from "features/articles/types";
+import { decamelizeKeys } from "humps";
 
 interface ITransportOrderArticleForm {
   className?: string;
   onSubmit?: (attributes: TransportOrderArticle) => void;
   onCancel?: () => void;
   transportOrderArticle?: TransportOrderArticle;
+  articles: Article[];
 }
 
 export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
@@ -23,9 +24,9 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
   onSubmit,
   onCancel,
   transportOrderArticle = {},
+  articles,
 }) => {
   const [articleForm, setArticleForm] = useState(transportOrderArticle);
-  const articles = useSelector(getAllArticles);
 
   const isValid = React.useMemo<boolean>(() => {
     return (
@@ -40,7 +41,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
     (e) => {
       e.preventDefault();
       if (isValid && typeof onSubmit === "function") {
-        onSubmit(articleForm);
+        onSubmit(decamelizeKeys(articleForm));
       }
     },
     [onSubmit, isValid, articleForm]
@@ -48,13 +49,13 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
 
   const handleKeyDown = useCallback(
     (e) => {
-      if (e.key === KeyCodes.enter && typeof onSubmit === "function") {
-        onSubmit(e);
+      if (e.key === KeyCodes.enter) {
+        handleSubmit(e);
       } else if (e.key === KeyCodes.escape && typeof onCancel === "function") {
         onCancel();
       }
     },
-    [onSubmit, onCancel]
+    [handleSubmit, onCancel]
   );
 
   const handleClose = React.useCallback(() => {
@@ -84,7 +85,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
 
   return (
     <form
-      className={styles.form}
+      className={`${styles.form} ${className}`}
       onSubmit={handleSubmit}
       onKeyDown={handleKeyDown}
     >
