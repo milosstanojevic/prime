@@ -4,6 +4,7 @@ import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import styles from "./MerchantListItem.module.css";
 import { useMerchantContext } from "..";
 import { MerchantForm } from "../form";
+import bars from "../../../components/base/images/bars.png";
 
 export const MerchantListItem = React.memo(() => {
   const { merchant, updateMerchant } = useMerchantContext();
@@ -33,9 +34,12 @@ export const MerchantListItem = React.memo(() => {
 
   const handleMerchantEdit = React.useCallback(
     (attributes) => {
-      id && updateMerchant(attributes);
+      if (id) {
+        updateMerchant(attributes);
+        handleCloseMerchantEdit();
+      }
     },
-    [id, updateMerchant]
+    [id, updateMerchant, handleCloseMerchantEdit]
   );
 
   return (
@@ -55,7 +59,13 @@ export const MerchantListItem = React.memo(() => {
             : "Undefined"}
         </div>
         <div className={styles.item_element}>
-          <Menu target={<div>Bars Icon</div>}>
+          <Menu
+            target={
+              <div>
+                <img src={bars} alt="menu" height={24} width={24} />
+              </div>
+            }
+          >
             <Bubble className={styles.menu}>
               <div
                 onClick={handleShowMerchantEdit}
