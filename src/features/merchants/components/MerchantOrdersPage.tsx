@@ -45,7 +45,11 @@ export const MerchantOrdersPage: React.FC = () => {
       <Button onClick={handleCreateOrder} disabled={mutateAdd.isLoading}>
         Create Order
       </Button>
-      {isLoading ? <Loading /> : <MerchantsOrderList orders={orders} id={id} />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <MerchantsOrderList refetchOrders={refetch} orders={orders} id={id} />
+      )}
     </div>
   );
 };

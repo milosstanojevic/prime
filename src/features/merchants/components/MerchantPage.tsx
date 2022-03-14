@@ -1,7 +1,8 @@
 import React from "react";
 import { Loading, NavPills } from "components";
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { useGetMerchant } from "..";
+import styles from "./MerchantPage.module.css";
 
 export const MerchantPage: React.FC = () => {
   const params = useParams();
@@ -27,9 +28,12 @@ export const MerchantPage: React.FC = () => {
   return isLoading ? (
     <Loading />
   ) : (
-    <div>
-      <div>{merchant?.name}</div>
-      <NavPills navs={navs} />
-    </div>
+    <>
+      <div className={styles.wrapper}>
+        <div>{merchant?.name}</div>
+        <NavPills navs={navs} />
+      </div>
+      <Outlet />
+    </>
   );
 };

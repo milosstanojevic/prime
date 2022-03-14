@@ -8,11 +8,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const config = {
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
       retry: false,
-      staleTime: 1000 * 60 * 60 * 24, // 24h
+      staleTime: 1000, // 1000 * 60 * 60 * 24 = 24h
     },
   },
 };

@@ -6,3 +6,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  margin: 10px;
+}

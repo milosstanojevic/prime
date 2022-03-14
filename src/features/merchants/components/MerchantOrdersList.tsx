@@ -6,11 +6,13 @@ import { MerchantOrderListItem } from "./MerchantOrderListItem";
 interface MerchantsOrderListProps {
   id: number;
   orders?: TransportOrder[];
+  refetchOrders?: () => void;
 }
 
 export const MerchantsOrderList: React.FC<MerchantsOrderListProps> = ({
   id,
   orders,
+  refetchOrders,
 }) => {
   return (
     <div>
@@ -19,6 +21,7 @@ export const MerchantsOrderList: React.FC<MerchantsOrderListProps> = ({
           <TransportOrderProvider
             transportOrder={merchantOrder}
             key={merchantOrder.id}
+            refetchOrders={refetchOrders}
           >
             <MerchantOrderListItem />
           </TransportOrderProvider>

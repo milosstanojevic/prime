@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Bubble, Button, Loading, Modal } from "components";
 import {
   TransportOrderArticleForm,
+  TransportOrderArticleItem,
+  TransportOrderArticleProvider,
   useAddTransportOrderArticle,
   useGetTransportOrderArticles,
 } from "features/transport_order_articles";
 import { useGetArticles } from "features/articles";
 import styles from "./TransportOrderPage.module.css";
+import { useEditTransportOrder, useGetTransportOrder } from "../api";
+import { getTransportStatusLabel } from "../utils";
 
 export const TransportOrderPage: React.FC = () => {
   const params = useParams();
@@ -18,13 +22,43 @@ export const TransportOrderPage: React.FC = () => {
   const { data: orderArticles, isLoading: isOrderArticlesLoading } =
     useGetTransportOrderArticles(id);
   const { data: articles, isLoading: isArticlesLoading } = useGetArticles();
+  const { data: order, isLoading: isOrderLoading } = useGetTransportOrder(id);
 
   const mutateAdd = useAddTransportOrderArticle(id, (oldData, newData) => [
     ...oldData,
     newData,
   ]);
 
-  const isLoading = isOrderArticlesLoading || isArticlesLoading;
+  const [orderStatus, setOrderStatus] = React.useState(order?.status || 1);
+
+  const mutateOrderEdit = useEditTransportOrder((oldOrders, newOrder) => {
+    return oldOrders?.map((order) =>
+      order.id === newOrder.id ? { ...order, ...newOrder } : order
+    );
+  });
+
+  React.useEffect(() => {
+    if (order) {
+      setOrderStatus(order.status || 1);
+    }
+  }, [order]);
+
+  React.useEffect(() => {
+    if (mutateOrderEdit.isSuccess) {
+      setOrderStatus(mutateOrderEdit.data?.data?.status);
+    }
+  }, [mutateOrderEdit]);
+
+  const isLoading =
+    isOrderArticlesLoading || isArticlesLoading || isOrderLoading;
+
+  const fullOrderArticles = React.useMemo(() => {
+    return orderArticles?.map((article) => {
+      const fullArticle =
+        articles?.find((item) => item.id === article.articleId) || {};
+      return { ...fullArticle, ...article };
+    });
+  }, [articles, orderArticles]);
 
   const handleCloseModal = React.useCallback(() => {
     setShow(false);
@@ -41,34 +75,65 @@ export const TransportOrderPage: React.FC = () => {
     },
     [mutateAdd, handleCloseModal]
   );
-  return (
-    <div>
-      <Button onClick={() => navigate(-1)}>Back</Button>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <div>{id}</div>
-          <Button onClick={handleOpenModal}>Add Article</Button>
-          {orderArticles?.map((orderArticle) => {
-            return (
-              <div key={orderArticle.id}>
-                {orderArticle.articleId} - {orderArticle.quantity}
-              </div>
-            );
-          })}
-          <Modal open={show} onClose={handleCloseModal}>
-            <Bubble className={styles.modal_form_wrapper}>
-              <div>Add Article to Order</div>
-              <TransportOrderArticleForm
-                onCancel={handleCloseModal}
-                onSubmit={handleSubmit}
-                articles={articles || []}
-              />
-            </Bubble>
-          </Modal>
-        </>
-      )}
-    </div>
+
+  const handleSetOrderStatus = useCallback(() => {
+    console.log(orderStatus, "orderStatus");
+    const attributes = {
+      id,
+      status: orderStatus === 1 ? 2 : 1,
+    };
+    mutateOrderEdit.mutate(attributes);
+  }, [id, mutateOrderEdit, orderStatus]);
+
+  const isRemoveArticleDisabled = React.useMemo(() => {
+    return orderStatus > 1;
+  }, [orderStatus]);
+
+  const isAddArticleDisabled = React.useMemo(() => {
+    return orderStatus > 1;
+  }, [orderStatus]);
+
+  const isSetStatusDisabled = React.useMemo(() => {
+    return orderStatus > 2 || fullOrderArticles?.length === 0;
+  }, [orderStatus, fullOrderArticles]);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <>
+      <div className={styles.header}>
+        <Button onClick={() => navigate(-1)}>Back</Button>
+        <div>Order - {id}</div>
+        <div>Status: {getTransportStatusLabel(orderStatus)}</div>
+        <Button onClick={handleSetOrderStatus} disabled={isSetStatusDisabled}>
+          Set Order As {orderStatus === 1 ? "Prepared" : "Pending"}
+        </Button>
+      </div>
+
+      <Button onClick={handleOpenModal} disabled={isAddArticleDisabled}>
+        Add Article
+      </Button>
+      {fullOrderArticles?.map((orderArticle) => {
+        return (
+          <TransportOrderArticleProvider
+            key={`${id}-${orderArticle.id}`}
+            orderArticle={orderArticle}
+            isRemoveArticleDisabled={isRemoveArticleDisabled}
+          >
+            <TransportOrderArticleItem />
+          </TransportOrderArticleProvider>
+        );
+      })}
+      <Modal open={show} onClose={handleCloseModal}>
+        <Bubble className={styles.modal_form_wrapper}>
+          <div>Add Article to Order</div>
+          <TransportOrderArticleForm
+            onCancel={handleCloseModal}
+            onSubmit={handleSubmit}
+            articles={articles || []}
+          />
+        </Bubble>
+      </Modal>
+    </>
   );
 };

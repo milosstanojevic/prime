@@ -1,14 +1,14 @@
 .button {
-  display:inline-block;
-  padding:0.6em 1.2em;
-  margin:0 0.3em 0.3em 0;
-  border-radius:2em;
+  display: inline-block;
+  padding: 0.6em 1.2em;
+  border-radius: 2em;
   box-sizing: border-box;
-  text-decoration:none;
-  font-family:'Roboto',sans-serif;
-  font-weight:300;
-  text-align:center;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  text-align: center;
   transition: all 0.2s;
+  letter-spacing: 1px;
   border: none;
   cursor: pointer;
 }
@@ -19,17 +19,17 @@
 }
 
 .primary {
-  color:#FFFFFF;
-  background-color:#4eb5f1;
+  color: #ffffff;
+  background-color: #4eb5f1;
 }
 
 .primary:hover {
-  background-color:#4095c6;
+  background-color: #4095c6;
 }
 
 .secondary {
   background: gray;
-  color:#FFFFFF;
+  color: #ffffff;
 }
 
 .secondary:hover {

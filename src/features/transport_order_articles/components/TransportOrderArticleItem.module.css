@@ -1,0 +1,12 @@
+.list_wrapper {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  border-radius: 16px;
+  margin: 10px;
+}
+
+.list_item {
+  flex-grow: 1;
+  flex-basis: 0;
+}

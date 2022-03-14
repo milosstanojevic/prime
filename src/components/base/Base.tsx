@@ -36,9 +36,10 @@ export const Base: React.FC = () => (
         element={<WarehouseTransports />}
       />
       <Route path="merchants" element={<MerchantsPage />} />
-      <Route path="merchants/:id" element={<MerchantPage />} />
-      <Route path="merchants/:id/articles" element={<MerchantArticlesPage />} />
-      <Route path="merchants/:id/orders" element={<MerchantOrdersPage />} />
+      <Route path="merchants/:id" element={<MerchantPage />}>
+        <Route path="articles" element={<MerchantArticlesPage />} />
+        <Route path="orders" element={<MerchantOrdersPage />} />
+      </Route>
       <Route path="articles" element={<ArticlesPage />} />
       <Route path="users" element={<UsersPage />} />
       <Route path="transport-routes" element={<TransportsPage />} />

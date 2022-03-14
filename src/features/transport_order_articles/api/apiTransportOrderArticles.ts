@@ -1,4 +1,4 @@
-import { useFetch, usePost } from "../../../utils";
+import { useFetch, usePost, useDelete } from "../../../utils";
 import { pathToUrl } from "../../../utils/router";
 import { TransportOrderArticle } from "../types";
 
@@ -15,6 +15,19 @@ export const useAddTransportOrderArticle = (
   ) => TransportOrderArticle[]
 ) =>
   usePost<TransportOrderArticle[], TransportOrderArticle>(
+    pathToUrl(mainUrl, { transportOrderId }),
+    undefined,
+    updater
+  );
+
+export const useDeleteTransportOrderArticle = (
+  transportOrderId: number,
+  updater: (
+    oldData: TransportOrderArticle[],
+    deletedId: string | number
+  ) => TransportOrderArticle[]
+) =>
+  useDelete<TransportOrderArticle[]>(
     pathToUrl(mainUrl, { transportOrderId }),
     undefined,
     updater

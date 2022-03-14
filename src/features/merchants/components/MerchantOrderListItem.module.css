@@ -1,13 +1,13 @@
 .item {
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 1px;
+  margin: 10px;
+  padding: 5px;
   border: 1px solid #fef;
   cursor: pointer;
   display: flex;
   align-items: center;
   text-decoration: none;
   color: #c16ecf;
+  min-height: 30px;
 }
 
 .item:hover {
@@ -18,4 +18,8 @@
 .item_element {
   flex-grow: 1;
   flex-basis: 0;
+}
+
+.last_element {
+  align-items: flex-end;
 }
