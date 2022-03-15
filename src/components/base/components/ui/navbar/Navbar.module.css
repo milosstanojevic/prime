@@ -2,9 +2,11 @@
   font-size: 16px;
   background-image: linear-gradient(260deg, #2376ae 0%, lightblue 100%);
   border-radius: 2px;
+  padding: 10px;
 }
 
 .main_nav {
+  margin: 0;
   list-style-type: none;
   display: none;
 }
@@ -19,14 +21,13 @@
 
 .main_nav li {
   text-align: center;
-  margin: 15px auto;
+  padding: 10px;
 }
 
 .logo {
   display: inline-block;
   font-size: 20px;
-  margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .navbar_toggle {
@@ -46,7 +47,6 @@
   .navbar {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 0;
     align-items: center;
   }
 

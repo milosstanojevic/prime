@@ -4,6 +4,7 @@ import classnames from "classnames";
 import styles from "./Navbar.module.css";
 import { Menu } from "../menu";
 import { isInDevelopmentMode } from "../../../utils";
+import bars from "../../../images/bars.png";
 
 export const Navbar = () => {
   const [showResponsiveMenu, setShowResponsiveMenu] = React.useState(false);
@@ -14,9 +15,9 @@ export const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <span className={styles.navbar_toggle} onClick={handleShowResponsiveMenu}>
-        Bars Icon
-      </span>
+      <div className={styles.navbar_toggle} onClick={handleShowResponsiveMenu}>
+        <img src={bars} height={24} width={24} alt="menu" />
+      </div>
       <NavLink className={styles.logo} to="/">
         Logo
       </NavLink>

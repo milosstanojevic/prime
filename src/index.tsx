@@ -9,7 +9,7 @@ const config = {
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: true,
-      refetchOnMount: true,
+      refetchOnMount: false,
       refetchOnReconnect: true,
       retry: false,
       staleTime: 1000, // 1000 * 60 * 60 * 24 = 24h

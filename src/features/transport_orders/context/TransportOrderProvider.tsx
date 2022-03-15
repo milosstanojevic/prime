@@ -40,10 +40,8 @@ export const TransportOrderProvider = ({
     return oldData?.filter((item) => item.id !== id);
   });
 
-  const mutateEdit = useEditTransportOrder((oldOrders, newOrder) => {
-    return oldOrders?.map((order) =>
-      order.id === newOrder.id ? { ...order, ...newOrder } : order
-    );
+  const mutateEdit = useEditTransportOrder(undefined, {
+    id: transportOrder.id,
   });
 
   const removeTransportOrder = React.useCallback(() => {

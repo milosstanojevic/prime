@@ -76,7 +76,10 @@ export const Select: FC<ISelect> = ({
 
   const handleDefaultOptionChange = useCallback(() => {
     typeof onChange === "function" && onChange([]);
-  }, [onChange]);
+    if (closeOnAction) {
+      handleClose();
+    }
+  }, [onChange, closeOnAction, handleClose]);
 
   const handleSearchChange = useCallback((e) => {
     const newSearch = e.target.value;

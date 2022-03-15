@@ -4,7 +4,9 @@ export interface TransportOrderArticle extends Article {
   id?: number;
   transportOrderId?: number;
   articleId?: number;
-  quantity?: number;
+  requestedQuantity?: number;
+  transportQuantity?: number;
+  reason?: string;
   createdAt?: number;
   updatedAt?: number;
   createdBy?: string;

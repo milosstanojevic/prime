@@ -32,8 +32,8 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
     return (
       articleForm.articleId !== undefined &&
       articleForm.articleId > 0 &&
-      articleForm.quantity !== undefined &&
-      articleForm.quantity > 0
+      articleForm.requestedQuantity !== undefined &&
+      articleForm.requestedQuantity > 0
     );
   }, [articleForm]);
 
@@ -64,8 +64,8 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
 
   const handleQuantityChange = useCallback((e) => {
     const value = parseInt(e.target.value);
-    const quantity = !isNaN(value) ? value : 0;
-    setArticleForm((prevState) => ({ ...prevState, quantity }));
+    const requestedQuantity = !isNaN(value) ? value : 0;
+    setArticleForm((prevState) => ({ ...prevState, requestedQuantity }));
   }, []);
 
   const handleChange = useCallback((ids) => {
@@ -101,7 +101,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
           onChange={handleQuantityChange}
           name="quantity"
           type="number"
-          value={articleForm.quantity}
+          value={articleForm.requestedQuantity}
           className={styles.quantity_input}
           placeholder="Add quantity..."
         />

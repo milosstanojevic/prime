@@ -20,7 +20,7 @@ import { isInDevelopmentMode } from "./utils";
 import { WarehouseArticlesPage } from "features/warehouse_articles";
 import { WarehouseMembers } from "features/warehouse_members";
 import { WarehouseTransports } from "features/warehouse_transports";
-import { TransportPage } from "features/transports/components/TransportPage";
+import { TransportPage, TransportAddOrdersPage } from "features/transports";
 
 export const Base: React.FC = () => (
   <Router>
@@ -44,6 +44,10 @@ export const Base: React.FC = () => (
       <Route path="users" element={<UsersPage />} />
       <Route path="transport-routes" element={<TransportsPage />} />
       <Route path="transport-routes/:transportId" element={<TransportPage />} />
+      <Route
+        path="transport-routes/:transportId/add-orders"
+        element={<TransportAddOrdersPage />}
+      />
       <Route path="orders" element={<TransportOrdersPage />} />
       <Route path="orders/:id" element={<TransportOrderPage />} />
       {isInDevelopmentMode ? (

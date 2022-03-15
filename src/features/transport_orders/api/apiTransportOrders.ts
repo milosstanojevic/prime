@@ -29,14 +29,15 @@ export const useGetTransportOrder = (id: number) =>
   useFetch<TransportOrder>(pathToUrl(singleEntityUrl, { id }));
 
 export const useEditTransportOrder = (
-  updater: (
+  updater?: (
     oldData: TransportOrder[],
     newData: TransportOrder
-  ) => TransportOrder[]
+  ) => TransportOrder[],
+  params?: object
 ) =>
   usePut<TransportOrder[], TransportOrder>(
     pathToUrl(mainEntityUrl),
-    undefined,
+    params,
     updater
   );
 

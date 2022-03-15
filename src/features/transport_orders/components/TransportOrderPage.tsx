@@ -31,11 +31,7 @@ export const TransportOrderPage: React.FC = () => {
 
   const [orderStatus, setOrderStatus] = React.useState(order?.status || 1);
 
-  const mutateOrderEdit = useEditTransportOrder((oldOrders, newOrder) => {
-    return oldOrders?.map((order) =>
-      order.id === newOrder.id ? { ...order, ...newOrder } : order
-    );
-  });
+  const mutateOrderEdit = useEditTransportOrder(undefined, { id });
 
   React.useEffect(() => {
     if (order) {
@@ -77,7 +73,6 @@ export const TransportOrderPage: React.FC = () => {
   );
 
   const handleSetOrderStatus = useCallback(() => {
-    console.log(orderStatus, "orderStatus");
     const attributes = {
       id,
       status: orderStatus === 1 ? 2 : 1,
