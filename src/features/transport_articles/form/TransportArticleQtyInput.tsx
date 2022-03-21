@@ -7,6 +7,7 @@ interface TransportArticleQtyInputProps {
   warehouseId: number;
   regalId: number;
   regalPositionId: number;
+  onChange: (value: number) => void;
 }
 
 export const TransportArticleQtyInput: React.FC<
@@ -23,9 +24,10 @@ export const TransportArticleQtyInput: React.FC<
       const maxQty = warehouseArticle?.quantity || 0;
       if (Number.isInteger(newValue) && newValue < maxQty && newValue > 0) {
         setValue(newValue);
+        params.onChange && params.onChange(newValue);
       }
     },
-    [warehouseArticle]
+    [warehouseArticle, params]
   );
 
   if (isLoading) {
@@ -33,9 +35,11 @@ export const TransportArticleQtyInput: React.FC<
   }
 
   return (
-    <div>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <Input onChange={handleChange} value={value} />
-      {` < ${warehouseArticle?.quantity}`}
+      <div
+        style={{ minWidth: "80px", marginLeft: "15px" }}
+      >{` < ${warehouseArticle?.quantity}`}</div>
     </div>
   );
 };

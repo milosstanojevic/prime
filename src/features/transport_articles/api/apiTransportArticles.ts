@@ -1,3 +1,6 @@
+import { Warehouse } from "features/warehouses/types";
+import { Regal } from "features/warehouse_regals/types";
+import { RegalPosition } from "features/warehouse_regal_positions/types";
 import { useMemo } from "react";
 import { useFetch, usePost, usePut, useDelete } from "../../../utils";
 import { pathToUrl } from "../../../utils/router";
@@ -7,8 +10,17 @@ import { TransportArticle, TransportArticleOption } from "../types";
 // /transport-order-articles/{id}/articles/{articleId} PUT, DELETE
 const mainUrl = "transport-order-articles/:transportOrderArticleId/articles";
 
+export type getTransportArticlesResponse = {
+  transportArticles: TransportArticle[];
+  warehouses: Warehouse[];
+  regals: Regal[];
+  regalPositions: RegalPosition[];
+};
+
 export const useGetTransportArticles = (transportOrderArticleId: number) =>
-  useFetch<TransportArticle[]>(pathToUrl(mainUrl, { transportOrderArticleId }));
+  useFetch<getTransportArticlesResponse>(
+    pathToUrl(mainUrl, { transportOrderArticleId })
+  );
 
 type Params = {
   articleId: number;

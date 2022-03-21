@@ -1,7 +1,7 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-export const Loading = () => {
+export const TableLoaderSkeleton: React.FC = () => {
   return (
     <ContentLoader
       viewBox="0 0 400 160"

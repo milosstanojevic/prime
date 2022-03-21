@@ -122,9 +122,9 @@ export const Select: FC<ISelect> = ({
               onClick={handleDefaultOptionChange}
             />
           ) : null}
-          {filteredOptions.map((option) => (
+          {filteredOptions.map((option, index) => (
             <SelectItem
-              key={option.id}
+              key={`${index}-${option.id}`}
               id={option.id}
               name={option.name}
               avatar={option.avatar}

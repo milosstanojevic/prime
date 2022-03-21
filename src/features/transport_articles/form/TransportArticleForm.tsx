@@ -4,12 +4,13 @@ import React, { useState } from "react";
 import { TransportArticle } from "../types";
 import { TransportArticleOptionSelect } from "./TransportArticleOptionSelect";
 import { TransportArticleQtyInput } from "./TransportArticleQtyInput";
+import { decamelizeKeys } from "humps";
 
 type Attributes = {
-  articleId: number;
-  warehouseId: number;
-  regalId: number;
-  regalPositionId: number;
+  article_id: number;
+  warehouse_id: number;
+  regal_id: number;
+  regal_position_id: number;
   quantity: number;
 };
 
@@ -17,6 +18,7 @@ type Props = {
   transportArticle?: TransportArticle;
   onSave?: (attributes: Attributes) => void;
   onCancel?: () => void;
+  className?: string;
 };
 
 const initialState = {
@@ -31,6 +33,7 @@ export const TransportArticleForm: React.FC<Props> = ({
   transportArticle,
   onSave,
   onCancel,
+  className,
 }) => {
   const { data: article, isLoading } = useGetArticle(
     transportArticle?.articleId || 0
@@ -64,6 +67,10 @@ export const TransportArticleForm: React.FC<Props> = ({
     setForm((prevState) => ({ ...prevState, regalPositionId, quantity: 0 }));
   }, []);
 
+  const handleQtyChange = React.useCallback((quantity) => {
+    setForm((prevState) => ({ ...prevState, quantity }));
+  }, []);
+
   const show = React.useMemo(() => {
     return {
       warehouseSelect: form.articleId > 0,
@@ -85,7 +92,8 @@ export const TransportArticleForm: React.FC<Props> = ({
   }, [form]);
 
   const handleSave = React.useCallback(() => {
-    onSave && onSave(form);
+    const attributes = decamelizeKeys(form) as Attributes;
+    onSave && onSave(attributes);
   }, [form, onSave]);
 
   const itemStyle: React.CSSProperties = {
@@ -95,7 +103,7 @@ export const TransportArticleForm: React.FC<Props> = ({
   return isLoading ? (
     <Loading />
   ) : (
-    <div>
+    <div className={className}>
       <div style={itemStyle}>{article?.name}</div>
       <div style={itemStyle}>
         {show.warehouseSelect ? (
@@ -115,7 +123,7 @@ export const TransportArticleForm: React.FC<Props> = ({
             onChange={handleRegalChange}
           />
         ) : (
-          <span>Please Select Warehouse</span>
+          <span>Select Warehouse</span>
         )}
       </div>
       <div style={itemStyle}>
@@ -127,7 +135,7 @@ export const TransportArticleForm: React.FC<Props> = ({
             onChange={handleRegalPositionChange}
           />
         ) : (
-          <span>Please Select Regal</span>
+          <span>Select Regal</span>
         )}
       </div>
       <div style={itemStyle}>
@@ -137,9 +145,10 @@ export const TransportArticleForm: React.FC<Props> = ({
             warehouseId={form.warehouseId}
             regalId={form.regalId}
             regalPositionId={form.regalPositionId}
+            onChange={handleQtyChange}
           />
         ) : (
-          <span>Please Select Regal Position</span>
+          <span>Select Position</span>
         )}
       </div>
       <div style={{ ...itemStyle, textAlign: "center" }}>

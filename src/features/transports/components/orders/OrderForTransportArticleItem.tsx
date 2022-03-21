@@ -17,14 +17,9 @@ const OrderForTransportArticleItem: React.FC<
   return (
     <>
       <div className={styles.article_list} onClick={expandArticles}>
-        <div className={styles.article_item}>#{orderArticle.id}</div>
         <div className={styles.article_item}>{orderArticle.name}</div>
         <div className={styles.article_item}>
           Requested: {orderArticle.requestedQuantity} {orderArticle.unit}
-        </div>
-        <div className={styles.article_item}>
-          For Transport {orderArticle?.transportQuantity || 0}{" "}
-          {orderArticle.unit}
         </div>
         <div className={styles.article_item}>{"+"}</div>
       </div>
@@ -32,6 +27,9 @@ const OrderForTransportArticleItem: React.FC<
         <AddTransportArticleSection
           orderArticleId={orderArticle.id}
           articleId={orderArticle.articleId}
+          articleName={orderArticle.name}
+          requestedQuantity={orderArticle?.requestedQuantity || 0}
+          unit={orderArticle.unit || "Kg"}
         />
       ) : null}
     </>

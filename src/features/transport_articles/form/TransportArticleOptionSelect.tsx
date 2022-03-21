@@ -59,6 +59,7 @@ export const TransportArticleOptionSelect: React.FC<Props> = ({
       onChange={handleSelectChange}
       selectedOptionIds={selectIds}
       defaultOption="Select None"
+      closeOnAction
     />
   );
 };

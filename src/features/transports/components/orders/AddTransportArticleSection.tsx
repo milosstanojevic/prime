@@ -1,6 +1,8 @@
-import { Button, Modal } from "components";
+import { Button, Table } from "components";
 import {
   TransportArticleForm,
+  useAddTransportArticle,
+  useDeleteTransportArticle,
   useGetTransportArticles,
 } from "features/transport_articles";
 import React from "react";
@@ -10,12 +12,38 @@ import styles from "./AddTransportArticleSection.module.css";
 interface AddTransportArticleSectionProps {
   orderArticleId: number;
   articleId: number;
+  articleName?: string;
+  requestedQuantity: number;
+  unit: string;
 }
 
 export const AddTransportArticleSection: React.FC<
   AddTransportArticleSectionProps
-> = ({ orderArticleId, articleId }) => {
-  const { data: transportArticles } = useGetTransportArticles(orderArticleId);
+> = ({ orderArticleId, articleId, articleName, requestedQuantity, unit }) => {
+  const {
+    data,
+    refetch,
+    isLoading: isTransportArticlesLoading,
+  } = useGetTransportArticles(orderArticleId);
+
+  const {
+    transportArticles = [],
+    regals = [],
+    warehouses = [],
+    regalPositions = [],
+  } = data ?? {};
+
+  const mutateAdd = useAddTransportArticle(orderArticleId);
+  const mutateRemove = useDeleteTransportArticle(orderArticleId);
+
+  const isLoading = React.useMemo(() => {
+    return (
+      isTransportArticlesLoading ||
+      mutateAdd.isLoading ||
+      mutateRemove.isLoading
+    );
+  }, [isTransportArticlesLoading, mutateAdd, mutateRemove]);
+
   const [show, setShow] = React.useState(false);
 
   const handleShow = React.useCallback(() => {
@@ -26,23 +54,70 @@ export const AddTransportArticleSection: React.FC<
     setShow(false);
   }, []);
 
+  const handleSave = React.useCallback(
+    (attributes) => {
+      mutateAdd.mutate(attributes);
+      handleClose();
+    },
+    [mutateAdd, handleClose]
+  );
+
+  const handleRemove = React.useCallback(
+    async (id) => {
+      await mutateRemove.mutateAsync(id);
+      refetch();
+    },
+    [mutateRemove, refetch]
+  );
+
+  const orderQuantity = React.useMemo(() => {
+    const initialValue = 0;
+    return transportArticles.reduce((prevQuantity, currentTransportArticle) => {
+      const nextValue = currentTransportArticle.quantity || 0;
+      return prevQuantity + nextValue;
+    }, initialValue);
+  }, [transportArticles]);
+
   return (
-    <div>
-      <Button onClick={handleShow}>Add Transport Article</Button>
-      <Modal open={show} onClose={handleClose}>
-        <div className={styles.modal_form_wrapper}>
-          <h3 style={{ textAlign: "center" }}>Add Transport Article</h3>
+    <div className={styles.wrapper}>
+      <Table
+        isLoading={isLoading}
+        headers={[
+          "id",
+          "Article",
+          "Warehouse",
+          "Regal",
+          "Regal Position",
+          `Quantity (${orderQuantity} of ${requestedQuantity} ${unit})`,
+          "Remove",
+        ]}
+      >
+        {transportArticles?.length
+          ? transportArticles.map((transportArticle) => (
+              <TransportArticleListItem
+                key={transportArticle.id}
+                transportArticle={transportArticle}
+                articleName={articleName}
+                warehouses={warehouses}
+                regals={regals}
+                regalPositions={regalPositions}
+                onRemove={handleRemove}
+              />
+            ))
+          : null}
+      </Table>
+      {show ? (
+        <div className={styles.form_wrapper}>
           <TransportArticleForm
             onCancel={handleClose}
             transportArticle={{ articleId }}
+            onSave={handleSave}
+            className={styles.form}
           />
         </div>
-      </Modal>
-      {transportArticles?.length
-        ? transportArticles.map((transportArticle) => (
-            <TransportArticleListItem transportArticle={transportArticle} />
-          ))
-        : null}
+      ) : (
+        <Button onClick={handleShow}>Add Transport Article</Button>
+      )}
     </div>
   );
 };
