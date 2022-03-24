@@ -15,7 +15,7 @@ import {
   TransportOrdersPage,
 } from "../../features/transport_orders";
 import { UsersPage } from "../../features/users";
-import { TransportsPage } from "../../features/transports";
+import { TransportOrderItemPage, TransportsPage } from "../../features/transports";
 import { isInDevelopmentMode } from "./utils";
 import { WarehouseArticlesPage } from "features/warehouse_articles";
 import { WarehouseMembers } from "features/warehouse_members";
@@ -45,8 +45,12 @@ export const Base: React.FC = () => (
       <Route path="transport-routes" element={<TransportsPage />} />
       <Route path="transport-routes/:transportId" element={<TransportPage />} />
       <Route
-        path="transport-routes/:transportId/add-orders"
+        path="transport-routes/:transportId/orders"
         element={<TransportAddOrdersPage />}
+      />
+      <Route
+        path="transport-routes/:transportId/orders/:orderId"
+        element={<TransportOrderItemPage />}
       />
       <Route path="orders" element={<TransportOrdersPage />} />
       <Route path="orders/:id" element={<TransportOrderPage />} />

@@ -36,6 +36,20 @@
   background: darkgrey;
 }
 
+.link:focus {
+  background: none;
+  outline: 0;
+}
+
+.link {
+  background: none;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #4095c6;
+}
+
 button:disabled,
 button[disabled],
 button[disabled]:hover {

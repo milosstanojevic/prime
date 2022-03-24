@@ -1,6 +1,6 @@
 import { Button } from "components";
 import {
-  getTransportStatusLabel,
+  getTransportOrderStatusLabel,
   useTransportOrderContext,
 } from "features/transport_orders";
 import React from "react";
@@ -16,7 +16,7 @@ export const MerchantOrderListItem: React.FC<
   const { id, status } = transportOrder;
 
   const statusLabel = React.useMemo(() => {
-    return getTransportStatusLabel(status);
+    return getTransportOrderStatusLabel(status);
   }, [status]);
 
   return (

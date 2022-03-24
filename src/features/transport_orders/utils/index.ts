@@ -9,7 +9,7 @@ const statuses: { [index: string]: string } = {
   "6": "Completed",
 };
 
-export const getTransportStatusLabel = (status?: number) => {
+export const getTransportOrderStatusLabel = (status?: number) => {
   if (!status || (status && (status > 6 || status < 1))) {
     throw Error("Status can be int from 1 to 6");
   }

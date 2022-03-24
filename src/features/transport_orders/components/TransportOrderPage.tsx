@@ -11,7 +11,7 @@ import {
 import { useGetArticles } from "features/articles";
 import styles from "./TransportOrderPage.module.css";
 import { useEditTransportOrder, useGetTransportOrder } from "../api";
-import { getTransportStatusLabel } from "../utils";
+import { getTransportOrderStatusLabel } from "../utils";
 
 export const TransportOrderPage: React.FC = () => {
   const params = useParams();
@@ -99,7 +99,7 @@ export const TransportOrderPage: React.FC = () => {
       <div className={styles.header}>
         <Button onClick={() => navigate(-1)}>Back</Button>
         <div>Order - {id}</div>
-        <div>Status: {getTransportStatusLabel(orderStatus)}</div>
+        <div>Status: {getTransportOrderStatusLabel(orderStatus)}</div>
         <Button onClick={handleSetOrderStatus} disabled={isSetStatusDisabled}>
           Set Order As {orderStatus === 1 ? "Prepared" : "Pending"}
         </Button>

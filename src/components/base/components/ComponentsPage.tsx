@@ -11,6 +11,7 @@ import {
   SelectMode,
   SidePicker,
   DatePicker,
+  Loading,
 } from "./ui";
 
 const options = [
@@ -105,12 +106,19 @@ const ComponentsPage: React.FC = () => {
     <div className={styles.components}>
       <div className={styles.label}>COMPONENTS</div>
       <div className={styles.component_item}>
+        <div className={styles.label}>Loaders</div>
+        <Loading />
+      </div>
+      <div className={styles.component_item}>
         <div className={styles.label}>Buttons</div>
         <Button type="button" mode="primary">
           Submit
         </Button>
         <Button type="button" mode="secondary">
           Cancel
+        </Button>
+        <Button type="button" mode="link">
+          Link
         </Button>
       </div>
       <div className={styles.component_item}>

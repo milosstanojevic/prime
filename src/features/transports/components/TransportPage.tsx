@@ -9,7 +9,7 @@ export const TransportPage: React.FC = () => {
   const id = Number(params.transportId);
   const navigate = useNavigate();
   const goToAddOrders = React.useCallback(() => {
-    navigate(`/transport-routes/${id}/add-orders`);
+    navigate(`/transport-routes/${id}/orders`);
   }, [navigate, id]);
 
   const { data: transport } = useGetTransportRoute(id);
@@ -17,7 +17,7 @@ export const TransportPage: React.FC = () => {
   return (
     <div className={styles.transport_wrapper}>
       <div>{transport?.name}</div>
-      <Button onClick={goToAddOrders}>Add Orders</Button>
+      <Button onClick={goToAddOrders}>Show Orders</Button>
     </div>
   );
 };

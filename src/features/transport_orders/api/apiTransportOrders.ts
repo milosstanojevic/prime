@@ -8,6 +8,9 @@ const singleEntityUrl = `${mainEntityUrl}/:id`;
 export const useGetTransportOrders = () =>
   useFetch<TransportOrder[]>(pathToUrl(mainEntityUrl));
 
+export const useGetTransportOrdersByTransportId = (id: number) =>
+  useFetch<TransportOrder[]>(`transport-route-orders/${id}`);
+
 export const useGetParentTransportOrders = (parent: string, parentId: number) =>
   useFetch<TransportOrder[]>(
     pathToUrl(`${mainEntityUrl}/${parent}/${parentId}`)
