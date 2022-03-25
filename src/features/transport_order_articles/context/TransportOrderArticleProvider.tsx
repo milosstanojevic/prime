@@ -1,7 +1,10 @@
 import { useAddMerchantArticle } from "features/merchant_articles";
 import { TransportOrder } from "features/transport_orders/types";
 import React from "react";
-import { useDeleteTransportOrderArticle } from "../api";
+import {
+  useDeleteTransportOrderArticle,
+  useEditTransportOrderArticle,
+} from "../api";
 import { TransportOrderArticle } from "../types";
 
 type TransportOrderArticleContextType = {
@@ -9,6 +12,7 @@ type TransportOrderArticleContextType = {
   isRemoveArticleDisabled: boolean;
   deleteTransportOrderArticle: () => void;
   addToStock: () => void;
+  isAddToStockEnabled: boolean;
 };
 
 const TransportOrderArticleContext = React.createContext<
@@ -50,13 +54,23 @@ export const TransportOrderArticleProvider = ({
       return oldData?.filter((item) => item.id !== id);
     }
   );
+
+  const mutateEdit = useEditTransportOrderArticle(
+    orderArticle.transportOrderId || 0,
+    (oldItems, newItem) => {
+      return oldItems?.map((item) =>
+        item.id === newItem.id ? { ...item, ...newItem } : item
+      );
+    }
+  );
+
   const deleteTransportOrderArticle = React.useCallback(() => {
     if (orderArticle?.id) {
       mutateDelete.mutate(orderArticle.id);
     }
   }, [orderArticle, mutateDelete]);
 
-  const addToStock = React.useCallback(() => {
+  const addMerchantArticle = React.useCallback(() => {
     const quantity = orderArticle.transportQuantity || 0;
 
     if (transportOrder?.parent === "merchant" && quantity > 0) {
@@ -66,7 +80,18 @@ export const TransportOrderArticleProvider = ({
       };
       mutateAddMerchantArticle.mutate(attributes);
     }
-  }, [transportOrder, mutateAddMerchantArticle]);
+  }, [transportOrder, mutateAddMerchantArticle, orderArticle]);
+
+  const addToStock = React.useCallback(() => {
+    mutateEdit
+      .mutateAsync({ status: 2, id: orderArticle.id })
+      .then(() => addMerchantArticle());
+  }, [mutateEdit, addMerchantArticle, orderArticle]);
+
+  const isAddToStockEnabled = React.useMemo(() => {
+    const orderStatus = transportOrder?.status || 0;
+    return orderArticle.status === 1 && orderStatus > 3;
+  }, [transportOrder, orderArticle]);
 
   return (
     <TransportOrderArticleContext.Provider
@@ -75,6 +100,7 @@ export const TransportOrderArticleProvider = ({
         isRemoveArticleDisabled,
         deleteTransportOrderArticle,
         addToStock,
+        isAddToStockEnabled,
       }}
     >
       {children}

@@ -4,7 +4,6 @@ import ComponentsPage from "./components/ComponentsPage";
 import { Navbar } from "./components";
 import { WarehousesPage } from "../../features/warehouses";
 import {
-  MerchantArticlesPage,
   MerchantOrdersPage,
   MerchantPage,
   MerchantsPage,
@@ -15,12 +14,16 @@ import {
   TransportOrdersPage,
 } from "../../features/transport_orders";
 import { UsersPage } from "../../features/users";
-import { TransportOrderItemPage, TransportsPage } from "../../features/transports";
+import {
+  TransportOrderItemPage,
+  TransportsPage,
+} from "../../features/transports";
 import { isInDevelopmentMode } from "./utils";
 import { WarehouseArticlesPage } from "features/warehouse_articles";
 import { WarehouseMembers } from "features/warehouse_members";
 import { WarehouseTransports } from "features/warehouse_transports";
 import { TransportPage, TransportAddOrdersPage } from "features/transports";
+import { MerchantArticlesPage } from "features/merchant_articles";
 
 export const Base: React.FC = () => (
   <Router>

@@ -97,15 +97,27 @@ export const TransportOrderPage: React.FC = () => {
     <Loading />
   ) : (
     <>
-      <div className={styles.header}>
-        <Button onClick={() => navigate(-1)}>Back</Button>
-        <div>Order - {id}</div>
-        <div>Status: {getTransportOrderStatusLabel(orderStatus)}</div>
-        <Button onClick={handleSetOrderStatus} disabled={isSetStatusDisabled}>
-          Set Order As {orderStatus === 1 ? "Prepared" : "Pending"}
-        </Button>
+      <div className={styles.header_wrapper}>
+        <div className={styles.header_list}>
+          <div className={styles.header_item}>
+            <Button mode="link" onClick={() => navigate(-1)}>
+              Back
+            </Button>
+          </div>
+          <div className={styles.header_item}>Order - {id}</div>
+          <div className={styles.header_item}>
+            <Button
+              onClick={handleSetOrderStatus}
+              disabled={isSetStatusDisabled}
+            >
+              Set Order As {orderStatus === 1 ? "Prepared" : "Pending"}
+            </Button>
+          </div>
+        </div>
+        <div className={styles.order_status}>
+          {getTransportOrderStatusLabel(orderStatus)}
+        </div>
       </div>
-
       <Button onClick={handleOpenModal} disabled={isAddArticleDisabled}>
         Add Article
       </Button>

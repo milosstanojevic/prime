@@ -7,6 +7,7 @@ export interface TransportOrderArticle extends Article {
   requestedQuantity?: number;
   transportQuantity?: number;
   reason?: string;
+  status?: number;
   createdAt?: number;
   updatedAt?: number;
   createdBy?: string;

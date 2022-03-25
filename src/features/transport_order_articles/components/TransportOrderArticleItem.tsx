@@ -1,6 +1,7 @@
-import { Button } from "components";
 import React from "react";
+import { Button } from "components";
 import { useTransportOrderArticleContext } from "../context";
+import { getTransportOrderArticleStatus } from "../utils";
 import styles from "./TransportOrderArticleItem.module.css";
 
 export const TransportOrderArticleItem: React.FC = () => {
@@ -9,6 +10,7 @@ export const TransportOrderArticleItem: React.FC = () => {
     isRemoveArticleDisabled,
     deleteTransportOrderArticle,
     addToStock,
+    isAddToStockEnabled,
   } = useTransportOrderArticleContext();
 
   return (
@@ -20,10 +22,15 @@ export const TransportOrderArticleItem: React.FC = () => {
       <div className={styles.list_item}>
         In transport: {orderArticle.transportQuantity || 0} {orderArticle.unit}
       </div>
-      <div className={styles.list_item}>Note: {orderArticle.reason || "-"}</div>
       <div className={styles.list_item}>
-        <Button onClick={addToStock}>Add to Stock</Button>
+        {getTransportOrderArticleStatus(orderArticle.status)}
       </div>
+      <div className={styles.list_item}>Note: {orderArticle.reason || "-"}</div>
+      {isAddToStockEnabled ? (
+        <div className={styles.list_item}>
+          <Button onClick={addToStock}>Add to Stock</Button>
+        </div>
+      ) : null}
       <div className={styles.list_item}>
         <Button
           onClick={deleteTransportOrderArticle}

@@ -7,9 +7,30 @@
   transform: translate(-50%, -50%);
 }
 
-.header {
+.header_wrapper {
   display: flex;
   align-items: center;
-  align-content: space-between;
-  margin: 10px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header_list {
+  display: flex;
+  align-items: center;
+}
+
+.header_item {
+  padding: 10px;
+}
+
+.order_status {
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 24px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: whitesmoke;
+  color: rgb(78, 117, 189);
 }

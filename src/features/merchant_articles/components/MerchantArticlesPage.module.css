@@ -1,0 +1,8 @@
+.list_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.list_item {
+  padding: 10px;
+}
