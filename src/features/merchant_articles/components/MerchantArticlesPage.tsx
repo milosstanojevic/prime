@@ -26,7 +26,7 @@ export const MerchantArticlesPage = () => {
     <div>
       <h4>Merchant Articles</h4>
       {describedArticles.map((article) => (
-        <div className={styles.list_wrapper}>
+        <div className={styles.list_wrapper} key={article.id}>
           <div className={styles.list_item}>{article.name}</div>
           <div className={styles.list_item}>{article.description}</div>
           <div className={styles.list_item}>{article.barCode}</div>
