@@ -9,7 +9,7 @@ export const useGetMerchantArticles = (merchantId: number) =>
 
 export const useAddMerchantArticle = (
   merchantId: number,
-  updater: (
+  updater?: (
     oldData: MerchantArticle[],
     newData: MerchantArticle
   ) => MerchantArticle[]

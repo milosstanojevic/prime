@@ -76,6 +76,7 @@ export const TransportOrderPage: React.FC = () => {
     const attributes = {
       id,
       status: orderStatus === 1 ? 2 : 1,
+      transport_id: null,
     };
     mutateOrderEdit.mutate(attributes);
   }, [id, mutateOrderEdit, orderStatus]);
@@ -111,6 +112,7 @@ export const TransportOrderPage: React.FC = () => {
       {fullOrderArticles?.map((orderArticle) => {
         return (
           <TransportOrderArticleProvider
+            transportOrder={order}
             key={`${id}-${orderArticle.id}`}
             orderArticle={orderArticle}
             isRemoveArticleDisabled={isRemoveArticleDisabled}

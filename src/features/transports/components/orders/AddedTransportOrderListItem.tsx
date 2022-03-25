@@ -7,6 +7,7 @@ import styles from "./AddedTransportOrderListItem.module.css";
 
 type Props = {
   onRemoveOrder: (orderId: number) => void;
+  onAvailableForTransport: (orderId: number, status: number) => void;
   transportOrder: TransportOrder;
   transportId: number;
 };
@@ -14,11 +15,17 @@ type Props = {
 export const AddedTransportOrderListItem: React.FC<Props> = ({
   onRemoveOrder,
   transportOrder,
+  onAvailableForTransport,
   transportId,
 }) => {
   const handleRemoveOrder = React.useCallback(() => {
     transportOrder.id && onRemoveOrder(transportOrder.id);
   }, [transportOrder, onRemoveOrder]);
+
+  const handleAvailableForTransport = React.useCallback(() => {
+    const status = transportOrder.status === 3 ? 4 : 3;
+    transportOrder.id && onAvailableForTransport(transportOrder.id, status);
+  }, [transportOrder, onAvailableForTransport]);
 
   return (
     <div className={styles.page}>
@@ -31,6 +38,13 @@ export const AddedTransportOrderListItem: React.FC<Props> = ({
       </div>
       <div className={styles.item}>
         {getTransportOrderStatusLabel(transportOrder.status)}
+      </div>
+      <div className={styles.item}>
+        <Button onClick={handleAvailableForTransport}>
+          {transportOrder.status === 3
+            ? "Available for Transport"
+            : "Return to Taken"}
+        </Button>
       </div>
       <div className={styles.item}>
         <Button onClick={handleRemoveOrder}>Remove Order</Button>

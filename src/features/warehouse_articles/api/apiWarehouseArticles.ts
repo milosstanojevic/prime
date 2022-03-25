@@ -15,7 +15,9 @@ type Params = {
 };
 export const useGetWarehouseArticleByParams = (params: Params) =>
   useFetch<WarehouseArticle>(
-    `warehouse-article?article_id=${params.articleId}&warehouse_id=${params.warehouseId}&regal_id=${params.regalId}&regal_position_id=${params.regalPositionId}`
+    `warehouse-article?article_id=${params.articleId}&warehouse_id=${params.warehouseId}&regal_id=${params.regalId}&regal_position_id=${params.regalPositionId}`,
+    undefined,
+    { staleTime: 0, cacheTime: 0 }
   );
 
 export const useAddWarehouseArticle = (

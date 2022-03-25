@@ -22,7 +22,7 @@ export const TransportAddOrdersPage: React.FC = () => {
   const navigate = useNavigate();
 
   const pendingOrders = React.useMemo(() => {
-    if (allOrders) {
+    if (allOrders && Array.isArray(allOrders)) {
       return allOrders
         .filter((order) => order.status === 2)
         .map((order) => ({ id: order.id || 0, name: `Order-${order.id}` }));
@@ -33,7 +33,8 @@ export const TransportAddOrdersPage: React.FC = () => {
   const takenOrders: TransportOrder[] = React.useMemo(() => {
     return allOrders && Array.isArray(allOrders)
       ? allOrders.filter(
-          (order) => order.status === 3 && order.transportId === id
+          (order) =>
+            [3, 4].includes(order.status || 0) && order.transportId === id
         )
       : [];
   }, [id, allOrders]);
@@ -66,7 +67,7 @@ export const TransportAddOrdersPage: React.FC = () => {
       setSelectIds([]);
       refetch();
     }
-  }, [mutateEditOrder, selectIds, id]);
+  }, [mutateEditOrder, selectIds, id, refetch]);
 
   const removeOrder = React.useCallback(
     async (orderId) => {
@@ -81,7 +82,23 @@ export const TransportAddOrdersPage: React.FC = () => {
         refetch();
       }
     },
-    [mutateEditOrder]
+    [mutateEditOrder, refetch]
+  );
+
+  const availableForTransport = React.useCallback(
+    async (orderId, status) => {
+      if (orderId > 0) {
+        const attributes = {
+          id: orderId,
+          status,
+          transport_id: id,
+        };
+
+        await mutateEditOrder.mutateAsync(attributes);
+        refetch();
+      }
+    },
+    [mutateEditOrder, refetch, id]
   );
 
   return (
@@ -112,6 +129,7 @@ export const TransportAddOrdersPage: React.FC = () => {
             key={order.id}
             transportOrder={order}
             onRemoveOrder={removeOrder}
+            onAvailableForTransport={availableForTransport}
             transportId={id}
           />
         ))}
