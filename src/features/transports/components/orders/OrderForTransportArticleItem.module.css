@@ -1,19 +1,19 @@
 .article_list {
-  margin: 10px;
-  display: flex;
-  min-height: 40px;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    min-height: 40px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 .article_list:hover {
-  background-color: navajowhite;
+    background-color: navajowhite;
 }
 
 .article_item {
-  flex-grow: 1;
-  flex-basis: 0;
-  padding-left: 15px;
-  padding-right: 15px;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding-left: 15px;
+    padding-right: 15px;
 }

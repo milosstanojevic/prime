@@ -1,7 +1,5 @@
-import React from "react";
+import React from 'react';
 
 export const TextEditor = () => {
-  return (
-    <div>Text editor</div>
-  )
-}
+    return <div>Text editor</div>;
+};

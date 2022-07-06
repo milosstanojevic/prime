@@ -1,7 +1,5 @@
-import React from "react";
+import React from 'react';
 
 export const MerchantArticleForm = () => {
-  return (
-    <div>Merchant article form</div>
-  )
-}
+    return <div>Merchant article form</div>;
+};

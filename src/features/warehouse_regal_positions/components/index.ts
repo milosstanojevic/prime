@@ -1,1 +1,1 @@
-export * from "./RegalPositionItem";
+export * from './RegalPositionItem';

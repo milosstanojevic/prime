@@ -1,34 +1,34 @@
 .page {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .regal_positions {
-  margin: 20px 10px;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
+    margin: 20px 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .filters {
 }
 
 .header {
-  margin-left: 15px;
-  margin-right: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    margin-left: 15px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .regal_position_modal {
-  padding: 15px;
-  position: absolute;
-  z-index: 1;
-  width: 600px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 8px;
+    padding: 15px;
+    position: absolute;
+    z-index: 1;
+    width: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
 }

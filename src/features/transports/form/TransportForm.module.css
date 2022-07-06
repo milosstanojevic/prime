@@ -1,17 +1,17 @@
 .transport_form_wrapper {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .transport_form_element {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .buttons {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .submit_button {
-  margin-right: 15px;
+    margin-right: 15px;
 }

@@ -1,1 +1,1 @@
-export * from "./apiTransportOrderArticles";
+export * from './apiTransportOrderArticles';

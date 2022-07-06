@@ -1,1 +1,1 @@
-export * from "./apiMerchants";
+export * from './apiMerchants';

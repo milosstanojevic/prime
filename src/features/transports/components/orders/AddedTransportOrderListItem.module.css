@@ -1,8 +1,8 @@
 .page {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .item {
-  padding: 15px;
+    padding: 15px;
 }

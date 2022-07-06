@@ -1,1 +1,1 @@
-export * from "./RegalPositionForm";
+export * from './RegalPositionForm';

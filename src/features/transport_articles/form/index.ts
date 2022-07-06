@@ -1,1 +1,1 @@
-export * from "./TransportArticleForm";
+export * from './TransportArticleForm';

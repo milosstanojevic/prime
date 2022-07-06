@@ -1,11 +1,11 @@
 .select_item_wrapper {
-  display: flex;
-  padding: 5px;
-  justify-content: space-between;
-  cursor: pointer;
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    cursor: pointer;
 }
 
 .select_item_wrapper:hover {
-  background: lightblue;
-  border-radius: 8px;
+    background: lightblue;
+    border-radius: 8px;
 }

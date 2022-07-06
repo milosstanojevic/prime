@@ -1,1 +1,1 @@
-export * from "./TransportOrderArticleProvider";
+export * from './TransportOrderArticleProvider';

@@ -1,1 +1,1 @@
-export * from "./apiWarehouseRegalPositions";
+export * from './apiWarehouseRegalPositions';

@@ -1,17 +1,17 @@
 .input {
-  appearance: none;
-  background: #f9f9f9;
-  border: 2px solid gray;
-  border-radius: 8px;
-  color: black;
-  line-height: 1.25;
-  padding: 5px;
-  width: -webkit-fill-available;
-  width: -moz-available;
+    appearance: none;
+    background: #f9f9f9;
+    border: 2px solid gray;
+    border-radius: 8px;
+    color: black;
+    line-height: 1.25;
+    padding: 5px;
+    width: -webkit-fill-available;
+    width: -moz-available;
 }
 
 .input:focus {
-  background: white;
-  border-color: rebeccapurple;
-  outline: 0;
+    background: white;
+    border-color: rebeccapurple;
+    outline: 0;
 }

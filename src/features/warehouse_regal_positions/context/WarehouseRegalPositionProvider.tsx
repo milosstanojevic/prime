@@ -1,60 +1,60 @@
-import { Article } from "features/articles/types";
-import { WarehouseArticle } from "features/warehouse_articles/types";
-import React from "react";
-import { RegalPosition } from "../types";
+import { Article } from 'features/articles/types';
+import { WarehouseArticle } from 'features/warehouse_articles/types';
+import React from 'react';
+import { RegalPosition } from '../types';
 
 type WarehouseRegalPositionContextType = {
-  regalPosition: RegalPosition;
-  warehouseId: number;
-  regalId: number;
-  articles?: Article[];
-  warehouseArticles?: WarehouseArticle[];
+    regalPosition: RegalPosition;
+    warehouseId: number;
+    regalId: number;
+    articles?: Article[];
+    warehouseArticles?: WarehouseArticle[];
 };
 
 const WarehouseRegalPositionContext = React.createContext<
-  WarehouseRegalPositionContextType | undefined
+    WarehouseRegalPositionContextType | undefined
 >(undefined);
 
 export const useWarehouseRegalPositionContext = () => {
-  const ctx = React.useContext(WarehouseRegalPositionContext);
+    const ctx = React.useContext(WarehouseRegalPositionContext);
 
-  if (ctx === undefined) {
-    throw new Error(
-      `'useWarehouseRegalPositionContext' must be used within a 'WarehouseRegalPositionContextProvider'`
-    );
-  }
+    if (ctx === undefined) {
+        throw new Error(
+            `'useWarehouseRegalPositionContext' must be used within a 'WarehouseRegalPositionContextProvider'`
+        );
+    }
 
-  return ctx;
+    return ctx;
 };
 
 interface IWarehouseRegalPositionProvider {
-  regalPosition: RegalPosition;
-  warehouseId: number;
-  regalId: number;
-  articles?: Article[];
-  warehouseArticles?: WarehouseArticle[];
-  children: React.ReactNode;
+    regalPosition: RegalPosition;
+    warehouseId: number;
+    regalId: number;
+    articles?: Article[];
+    warehouseArticles?: WarehouseArticle[];
+    children: React.ReactNode;
 }
 
 export const WarehouseRegalPositionProvider = ({
-  regalPosition,
-  warehouseId,
-  regalId,
-  articles,
-  warehouseArticles,
-  children,
+    regalPosition,
+    warehouseId,
+    regalId,
+    articles,
+    warehouseArticles,
+    children
 }: IWarehouseRegalPositionProvider) => {
-  return (
-    <WarehouseRegalPositionContext.Provider
-      value={{
-        regalPosition,
-        warehouseId,
-        regalId,
-        articles,
-        warehouseArticles,
-      }}
-    >
-      {children}
-    </WarehouseRegalPositionContext.Provider>
-  );
+    return (
+        <WarehouseRegalPositionContext.Provider
+            value={{
+                regalPosition,
+                warehouseId,
+                regalId,
+                articles,
+                warehouseArticles
+            }}
+        >
+            {children}
+        </WarehouseRegalPositionContext.Provider>
+    );
 };

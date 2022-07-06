@@ -1,1 +1,1 @@
-export * from "./WarehouseRegalPositionProvider";
+export * from './WarehouseRegalPositionProvider';

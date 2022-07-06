@@ -1,41 +1,41 @@
 .components {
-  margin: 10px;
+    margin: 10px;
 }
 
 .component_item {
-  margin: 15px 40px;
+    margin: 15px 40px;
 }
 
 .label {
-  margin-bottom: 10px;
-  font-size: large;
-  font-weight: bold;
-  display: block;
-  opacity: 0.4;
+    margin-bottom: 10px;
+    font-size: large;
+    font-weight: bold;
+    display: block;
+    opacity: 0.4;
 }
 
 .form {
-  width: 50%;
+    width: 50%;
 }
 
 .advanced_menu_wrapper {
-  position: relative;
+    position: relative;
 }
 
 .menu_item {
-  padding: 10px;
-  cursor: pointer;
-  color: lightblue;
+    padding: 10px;
+    cursor: pointer;
+    color: lightblue;
 }
 
 .modal_wrapper {
-  position: absolute;
-  z-index: 1;
-  width: 600px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  background: greenyellow;
-  border-radius: 8px;
+    position: absolute;
+    z-index: 1;
+    width: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    background: greenyellow;
+    border-radius: 8px;
 }

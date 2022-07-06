@@ -1,10 +1,10 @@
 export interface SelectOption {
-  id: number | string,
-  name: string,
-  avatar?: string,
+    id: number | string;
+    name: string;
+    avatar?: string;
 }
 
 export enum SelectMode {
-  single = 'single',
-  multiple = 'multiple',
+    single = 'single',
+    multiple = 'multiple'
 }

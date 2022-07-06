@@ -1,1 +1,1 @@
-export * from "./MerchantProvider";
+export * from './MerchantProvider';

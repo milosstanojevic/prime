@@ -1,1 +1,1 @@
-export * from "./SlideFromTop";
+export * from './SlideFromTop';

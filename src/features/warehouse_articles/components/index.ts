@@ -1,2 +1,2 @@
-export * from "./WarehouseArticlesPage";
-export * from "./WarehouseArticleItem";
+export * from './WarehouseArticlesPage';
+export * from './WarehouseArticleItem';

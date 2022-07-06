@@ -1,25 +1,25 @@
 .item {
-  margin: 10px;
-  padding: 5px;
-  border: 1px solid #fef;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #c16ecf;
-  min-height: 30px;
+    margin: 10px;
+    padding: 5px;
+    border: 1px solid #fef;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #c16ecf;
+    min-height: 30px;
 }
 
 .item:hover {
-  color: #fef;
-  background: #2376ae;
+    color: #fef;
+    background: #2376ae;
 }
 
 .item_element {
-  flex-grow: 1;
-  flex-basis: 0;
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 .last_element {
-  align-items: flex-end;
+    align-items: flex-end;
 }

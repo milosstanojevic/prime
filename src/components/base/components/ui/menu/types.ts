@@ -1,5 +1,5 @@
-import {ReactElement, Ref} from "react";
+import { ReactElement, Ref } from 'react';
 
 export interface ElementWithRef<T> extends ReactElement {
-  ref?: Ref<T>;
+    ref?: Ref<T>;
 }

@@ -1,8 +1,8 @@
 .page {
-  margin: 10px;
+    margin: 10px;
 }
 
 .header {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }

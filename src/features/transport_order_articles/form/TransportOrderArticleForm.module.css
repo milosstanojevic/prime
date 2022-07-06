@@ -1,40 +1,40 @@
 .form_wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: auto;
 }
 
 .form {
-  width: auto;
+    width: auto;
 }
 
 .form_inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
 }
 
 .article_picker {
-  width: 100%;
+    width: 100%;
 }
 
 .quantity_input {
-  margin-top: 15px;
-  border: none;
-  width: 30rem;
+    margin-top: 15px;
+    border: none;
+    width: 30rem;
 }
 
 .cancel_button {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 .form_buttons {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
