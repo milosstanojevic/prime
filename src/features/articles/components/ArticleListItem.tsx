@@ -5,6 +5,7 @@ import { Button, Modal } from "../../../components";
 import { ArticleForm } from "../article";
 import { useArticleContext } from "../context";
 import bars from "../../../components/base/images/bars.png";
+import { Article } from "../types";
 
 export const ArticleListItem: React.FC = () => {
   const { removeArticle, article, updateArticle } = useArticleContext();
@@ -40,7 +41,7 @@ export const ArticleListItem: React.FC = () => {
   }, [id, removeArticle, handleCloseArticleTrash]);
 
   const handleArticleEdit = React.useCallback(
-    (attributes) => {
+    (attributes: Article) => {
       if (id) {
         updateArticle(attributes);
         handleCloseArticleEdit();

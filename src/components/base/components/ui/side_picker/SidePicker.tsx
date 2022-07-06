@@ -53,7 +53,7 @@ export const SidePicker: React.FC<ISidePicker> = ({
   }, [selectedId, options, onChange]);
 
   const handleChoose = React.useCallback(
-    (ids) => {
+    (ids: Array<string | number>) => {
       setSelectedId(ids[0]);
       typeof onChange === "function" && onChange(ids[0]);
     },

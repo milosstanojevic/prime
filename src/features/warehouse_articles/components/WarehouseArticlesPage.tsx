@@ -18,6 +18,7 @@ import styles from "./WarehouseArticlesPage.module.css";
 import { useGetWarehouse, WarehouseNavPills } from "../../warehouses";
 import { useParams } from "react-router-dom";
 import { useGetWarehouseArticles } from "..";
+import { Regal } from "features/warehouse_regals/types";
 
 export const WarehouseArticlesPage: React.FC = () => {
   const params = useParams();
@@ -57,8 +58,8 @@ export const WarehouseArticlesPage: React.FC = () => {
     }
   }, [regals]);
 
-  const handleChange = React.useCallback((id) => {
-    setRegalId(id);
+  const handleChange = React.useCallback((id: string | number) => {
+    setRegalId(+id);
   }, []);
 
   const handleShowModal = React.useCallback(() => {
@@ -70,7 +71,7 @@ export const WarehouseArticlesPage: React.FC = () => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (attributes) => {
+    (attributes: Regal) => {
       mutateAdd.mutate(attributes);
       handleCloseModal();
     },

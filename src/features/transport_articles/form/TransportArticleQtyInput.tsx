@@ -19,7 +19,7 @@ export const TransportArticleQtyInput: React.FC<
   const [value, setValue] = React.useState(0);
 
   const handleChange = React.useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = Number(e.target.value);
       const maxQty = warehouseArticle?.quantity || 0;
       if (Number.isInteger(newValue) && newValue < maxQty && newValue > 0) {

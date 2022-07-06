@@ -21,12 +21,12 @@ export const TransportArticleOptionSelect: React.FC<Props> = ({
     regalId,
   });
 
-  const [selectIds, setSelectIds] = React.useState([]);
+  const [selectIds, setSelectIds] = React.useState<Array<string | number>>([]);
 
   const handleSelectChange = React.useCallback(
-    (ids) => {
+    (ids: Array<number | string>) => {
       setSelectIds(ids);
-      onChange && onChange(ids[0]);
+      onChange && onChange(+ids[0]);
     },
     [onChange]
   );

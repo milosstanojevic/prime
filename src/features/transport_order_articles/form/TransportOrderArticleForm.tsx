@@ -38,7 +38,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
   }, [articleForm]);
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (isValid && typeof onSubmit === "function") {
         onSubmit(decamelizeKeys(articleForm));
@@ -48,7 +48,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
   );
 
   const handleKeyDown = useCallback(
-    (e) => {
+    (e: React.KeyboardEvent<HTMLFormElement>) => {
       if (e.key === KeyCodes.enter) {
         handleSubmit(e);
       } else if (e.key === KeyCodes.escape && typeof onCancel === "function") {
@@ -62,14 +62,17 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
     onCancel && onCancel();
   }, [onCancel]);
 
-  const handleQuantityChange = useCallback((e) => {
-    const value = parseInt(e.target.value);
-    const requestedQuantity = !isNaN(value) ? value : 0;
-    setArticleForm((prevState) => ({ ...prevState, requestedQuantity }));
-  }, []);
+  const handleQuantityChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(e.target.value);
+      const requestedQuantity = !isNaN(value) ? value : 0;
+      setArticleForm((prevState) => ({ ...prevState, requestedQuantity }));
+    },
+    []
+  );
 
-  const handleChange = useCallback((ids) => {
-    const articleId = ids[0];
+  const handleChange = useCallback((ids: Array<string | number>) => {
+    const articleId = +ids[0];
     setArticleForm((prevState) => ({ ...prevState, articleId }));
   }, []);
 

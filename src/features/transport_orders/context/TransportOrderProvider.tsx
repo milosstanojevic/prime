@@ -49,7 +49,7 @@ export const TransportOrderProvider = ({
   }, [mutateDelete, transportOrder]);
 
   const updateTransportOrder = React.useCallback(
-    (attributes) => {
+    (attributes: TransportOrder) => {
       mutateEdit.mutate(attributes);
     },
     [mutateEdit]

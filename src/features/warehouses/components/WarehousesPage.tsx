@@ -4,6 +4,7 @@ import { Button, Modal, Loading } from "../../../components";
 import { WarehouseList } from "./WarehouseList";
 import { WarehouseForm } from "..";
 import { useGetWarehouses, useAddWarehouse } from "../api";
+import { Warehouse } from "../types";
 
 export const WarehousesPage = () => {
   const { data, isLoading } = useGetWarehouses();
@@ -23,7 +24,7 @@ export const WarehousesPage = () => {
   }, []);
 
   const onWarehouseCreate = React.useCallback(
-    (attributes) => {
+    (attributes: Warehouse) => {
       mutationAdd.mutateAsync(attributes);
       handleCloseCreateWarehouseModal();
     },

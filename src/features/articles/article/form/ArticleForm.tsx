@@ -43,18 +43,24 @@ export const ArticleForm: React.FC<IArticleForm> = ({
     return initialFormState;
   });
 
-  const handleChange = React.useCallback((e) => {
-    const { target = {} } = e;
-    const { name, value } = target;
-    setArticleForm((prevState) => ({ ...prevState, [name]: value }));
-  }, []);
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      const { target } = e;
+      const { name, value } = target;
+      setArticleForm((prevState) => ({ ...prevState, [name]: value }));
+    },
+    []
+  );
 
-  const handleUnitChange = React.useCallback((units) => {
-    setArticleForm((prevState) => ({ ...prevState, unit: units[0] }));
-  }, []);
+  const handleUnitChange = React.useCallback(
+    (units: Array<string | number>) => {
+      setArticleForm((prevState) => ({ ...prevState, unit: `${units[0]}` }));
+    },
+    []
+  );
 
   const handleSubmit = React.useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (
         articleForm.name &&

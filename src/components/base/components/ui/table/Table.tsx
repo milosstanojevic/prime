@@ -5,6 +5,7 @@ import { TableLoaderSkeleton } from "./TableLoaderSkeleton";
 interface TableProps {
   headers: string[];
   isLoading?: boolean;
+  children?: React.ReactNode;
 }
 
 export const Table: React.FC<TableProps> = ({

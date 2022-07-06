@@ -5,6 +5,7 @@ import { ArticleList } from "./ArticleList";
 import { Loading } from "../../../components";
 import { ArticleForm } from "..";
 import { useGetArticles, useAddArticle } from "../api";
+import { Article } from "../types";
 
 export const ArticlesPage: React.FC = () => {
   const { data, isLoading } = useGetArticles();
@@ -23,7 +24,7 @@ export const ArticlesPage: React.FC = () => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (attributes) => {
+    (attributes: Article) => {
       mutationAdd.mutateAsync(attributes);
       handleCloseCreateArticle();
     },

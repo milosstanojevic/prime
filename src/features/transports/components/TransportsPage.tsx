@@ -8,6 +8,7 @@ import {
   useGetTransportRoutes,
 } from "..";
 import { TransportListItem } from ".";
+import { Transport } from "../types";
 
 export const TransportsPage = () => {
   const { data: transports, isLoading } = useGetTransportRoutes();
@@ -27,7 +28,7 @@ export const TransportsPage = () => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (attributes) => {
+    (attributes: Transport) => {
       mutateAdd.mutate(attributes);
       handleCloseModal();
     },

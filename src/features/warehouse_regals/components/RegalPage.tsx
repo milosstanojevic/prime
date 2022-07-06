@@ -12,6 +12,7 @@ import {
 } from "../../warehouse_regal_positions";
 import { Article } from "features/articles/types";
 import { WarehouseArticle } from "features/warehouse_articles/types";
+import { RegalPosition } from "features/warehouse_regal_positions/types";
 
 interface IRegalPage {
   regalId: number;
@@ -43,7 +44,7 @@ export const RegalPage: React.FC<IRegalPage> = ({
   }, []);
 
   const handleSubmit = React.useCallback(
-    (attributes) => {
+    (attributes: RegalPosition) => {
       mutateAdd.mutate(attributes);
       handleCloseModal();
     },

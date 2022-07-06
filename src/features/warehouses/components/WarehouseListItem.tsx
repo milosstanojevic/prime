@@ -5,6 +5,7 @@ import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import { useWarehouseContext } from "../context";
 import { WarehouseForm } from "..";
 import bars from "../../../components/base/images/bars.png";
+import { Warehouse } from "../types";
 
 export const WarehouseListItem: React.FC = () => {
   const { warehouse, updateWarehouse } = useWarehouseContext();
@@ -33,7 +34,7 @@ export const WarehouseListItem: React.FC = () => {
   }, [handleCloseWarehouseTrash]);
 
   const handleWarehouseEdit = React.useCallback(
-    (attributes) => {
+    (attributes: Warehouse) => {
       if (id) {
         updateWarehouse(attributes);
         handleCloseWarehouseEdit();

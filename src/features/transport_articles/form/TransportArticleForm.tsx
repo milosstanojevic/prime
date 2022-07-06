@@ -44,7 +44,7 @@ export const TransportArticleForm: React.FC<Props> = ({
     articleId: transportArticle?.articleId || 0,
   }));
 
-  const handleWarehouseChange = React.useCallback((warehouseId) => {
+  const handleWarehouseChange = React.useCallback((warehouseId: number) => {
     setForm((prevState) => ({
       ...prevState,
       warehouseId,
@@ -54,7 +54,7 @@ export const TransportArticleForm: React.FC<Props> = ({
     }));
   }, []);
 
-  const handleRegalChange = React.useCallback((regalId) => {
+  const handleRegalChange = React.useCallback((regalId: number) => {
     setForm((prevState) => ({
       ...prevState,
       regalId,
@@ -63,11 +63,14 @@ export const TransportArticleForm: React.FC<Props> = ({
     }));
   }, []);
 
-  const handleRegalPositionChange = React.useCallback((regalPositionId) => {
-    setForm((prevState) => ({ ...prevState, regalPositionId, quantity: 0 }));
-  }, []);
+  const handleRegalPositionChange = React.useCallback(
+    (regalPositionId: number) => {
+      setForm((prevState) => ({ ...prevState, regalPositionId, quantity: 0 }));
+    },
+    []
+  );
 
-  const handleQtyChange = React.useCallback((quantity) => {
+  const handleQtyChange = React.useCallback((quantity: number) => {
     setForm((prevState) => ({ ...prevState, quantity }));
   }, []);
 

@@ -12,6 +12,7 @@ import { useGetArticles } from "features/articles";
 import styles from "./TransportOrderPage.module.css";
 import { useEditTransportOrder, useGetTransportOrder } from "../api";
 import { getTransportOrderStatusLabel } from "../utils";
+import { TransportOrderArticle } from "features/transport_order_articles/types";
 
 export const TransportOrderPage: React.FC = () => {
   const params = useParams();
@@ -65,7 +66,7 @@ export const TransportOrderPage: React.FC = () => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (attributes) => {
+    (attributes: TransportOrderArticle) => {
       mutateAdd.mutate(attributes);
       handleCloseModal();
     },

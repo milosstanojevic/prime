@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Modal, formatDate, Bubble, Menu } from "../../../components";
 import { TransportForm, useTransportContext } from "..";
 import bars from "../../../components/base/images/bars.png";
+import { Transport } from "../types";
 
 export const TransportListItem = React.memo(() => {
   const { transport, updateTransport, removeTransport } = useTransportContext();
@@ -36,7 +37,7 @@ export const TransportListItem = React.memo(() => {
   }, [handleCloseTransportTrash, removeTransport, id]);
 
   const handleTransportEdit = React.useCallback(
-    (attributes) => {
+    (attributes: Transport) => {
       if (id) {
         updateTransport({ id, ...attributes });
         handleCloseTransportEdit();

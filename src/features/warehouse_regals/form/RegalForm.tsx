@@ -25,27 +25,17 @@ export const RegalForm: React.FC<IRegalForm> = ({
     ...regal,
   });
 
-  const onChange = React.useCallback(
-    ({ name, value }) => {
-      setRegalForm({
-        ...regalForm,
-        [name]: value,
-      });
-    },
-    [setRegalForm, regalForm]
-  );
-
   const handleChange = React.useCallback(
-    (e) => {
-      const { target = {} } = e;
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { target } = e;
       const { name, value } = target;
-      onChange({ name, value });
+      setRegalForm((prevState) => ({ ...prevState, [name]: value }));
     },
-    [onChange]
+    []
   );
 
   const handleSubmit = React.useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (regalForm.name.length > 0 && typeof onSubmit === "function") {
         onSubmit(regalForm);
@@ -55,14 +45,14 @@ export const RegalForm: React.FC<IRegalForm> = ({
   );
 
   const handleKeyDown = React.useCallback(
-    (e) => {
-      if (e.key === KeyCodes.enter && typeof onSubmit === "function") {
-        onSubmit(e);
+    (e: React.KeyboardEvent<HTMLFormElement>) => {
+      if (e.key === KeyCodes.enter) {
+        handleSubmit(e);
       } else if (e.key === KeyCodes.escape && typeof onCancel === "function") {
         onCancel();
       }
     },
-    [onSubmit, onCancel]
+    [handleSubmit, onCancel]
   );
 
   return (

@@ -1,27 +1,35 @@
-import React, {useCallback, useState} from 'react';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
-import {Menu} from "../menu";
-import {Button} from "../buttons";
-import {Bubble} from "../bubble";
+import React from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import { Menu } from "../menu";
+import { Button } from "../buttons";
+import { Bubble } from "../bubble";
+import { format } from "date-fns";
 
-export const DatePicker = () => {
-  const [date, setDate] = useState<Date|undefined>()
+export const DatePicker: React.FC = () => {
+  const [selected, setSelected] = React.useState<Date>();
 
-  const handleDayClick = useCallback((day, { selected }) => {
-    setDate(selected ? undefined : day)
-  }, [])
+  let footer = <p>Please pick a day.</p>;
+  if (selected) {
+    footer = <p>You picked {format(selected, "PP")}.</p>;
+  }
 
   return (
     <Menu
-      target={<Button>{date ? date.toLocaleDateString() : 'Choose Date'}</Button>}
+      target={
+        <Button>
+          {selected ? selected.toLocaleDateString() : "Choose Date"}
+        </Button>
+      }
     >
       <Bubble>
         <DayPicker
-          selectedDays={date}
-          onDayClick={handleDayClick}
+          mode="single"
+          selected={selected}
+          onSelect={setSelected}
+          footer={footer}
         />
       </Bubble>
     </Menu>
-  )
-}
+  );
+};

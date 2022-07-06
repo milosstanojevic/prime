@@ -37,14 +37,17 @@ export const WarehouseForm: FC<IWarehouseForm> = ({
     return initialFormState;
   });
 
-  const handleChange = useCallback((e) => {
-    const { target = {} } = e;
-    const { name, value } = target;
-    setWarehouseForm((prevState) => ({ ...prevState, [name]: value }));
-  }, []);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { target } = e;
+      const { name, value } = target;
+      setWarehouseForm((prevState) => ({ ...prevState, [name]: value }));
+    },
+    []
+  );
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (
         warehouseForm.name &&

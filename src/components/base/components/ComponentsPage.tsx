@@ -61,9 +61,11 @@ const options = [
 
 const ComponentsPage: React.FC = () => {
   const [showModal, setShowModal] = React.useState(false);
-  const [selectIds, setSelectIds] = React.useState([]);
-  const [selectMultipleIds, setSelectMultipleIds] = React.useState([]);
-  const [sidePickerId, setSidePickerId] = React.useState(0);
+  const [selectIds, setSelectIds] = React.useState<Array<number | string>>([]);
+  const [selectMultipleIds, setSelectMultipleIds] = React.useState<
+    Array<number | string>
+  >([]);
+  const [sidePickerId, setSidePickerId] = React.useState<number | string>(0);
 
   const openModal = React.useCallback(() => {
     setShowModal(true);
@@ -73,9 +75,12 @@ const ComponentsPage: React.FC = () => {
     setShowModal(false);
   }, []);
 
-  const handleSelectChange = React.useCallback((ids) => {
-    setSelectIds(ids);
-  }, []);
+  const handleSelectChange = React.useCallback(
+    (ids: Array<string | number>) => {
+      setSelectIds(ids);
+    },
+    []
+  );
 
   const singleSelect = React.useMemo(() => {
     if (selectIds.length) {
@@ -96,11 +101,14 @@ const ComponentsPage: React.FC = () => {
     return <Button>Multi Select...</Button>;
   }, [selectMultipleIds]);
 
-  const handleMultipleSelectChange = React.useCallback((ids) => {
-    setSelectMultipleIds(ids);
-  }, []);
+  const handleMultipleSelectChange = React.useCallback(
+    (ids: Array<string | number>) => {
+      setSelectMultipleIds(ids);
+    },
+    []
+  );
 
-  const handleSidePickerChange = React.useCallback((id) => {
+  const handleSidePickerChange = React.useCallback((id: number | string) => {
     setSidePickerId(id);
   }, []);
 

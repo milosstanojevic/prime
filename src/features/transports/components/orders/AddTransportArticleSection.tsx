@@ -55,7 +55,7 @@ export const AddTransportArticleSection: React.FC<
   }, []);
 
   const handleSave = React.useCallback(
-    (attributes) => {
+    (attributes: any) => {
       mutateAdd.mutate(attributes);
       handleClose();
     },
@@ -63,7 +63,7 @@ export const AddTransportArticleSection: React.FC<
   );
 
   const handleRemove = React.useCallback(
-    async (id) => {
+    async (id: number) => {
       await mutateRemove.mutateAsync(id);
       refetch();
     },

@@ -132,7 +132,9 @@ export const Menu: FC<IMenu> = ({
             className={popperClassName}
             tabIndex={-1}
           >
-            {typeof children === "function" ? children(childProps) : children}
+            {typeof children === "function"
+              ? React.cloneElement(children, [childProps])
+              : children}
           </Popper>
         </Window>
       ) : null}

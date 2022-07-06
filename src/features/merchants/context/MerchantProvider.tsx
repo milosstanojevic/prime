@@ -38,7 +38,7 @@ export const MerchantProvider = ({ merchant, children }: IMerchantProvider) => {
   });
 
   const updateMerchant = React.useCallback(
-    (attributes) => {
+    (attributes: Merchant) => {
       mutateEdit.mutate(attributes);
     },
     [mutateEdit]

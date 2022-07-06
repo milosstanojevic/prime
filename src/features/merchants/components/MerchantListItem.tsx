@@ -5,6 +5,7 @@ import styles from "./MerchantListItem.module.css";
 import { useMerchantContext } from "..";
 import { MerchantForm } from "../form";
 import bars from "../../../components/base/images/bars.png";
+import { Merchant } from "../types";
 
 export const MerchantListItem = React.memo(() => {
   const { merchant, updateMerchant } = useMerchantContext();
@@ -33,7 +34,7 @@ export const MerchantListItem = React.memo(() => {
   }, [handleCloseMerchantTrash]);
 
   const handleMerchantEdit = React.useCallback(
-    (attributes) => {
+    (attributes: Merchant) => {
       if (id) {
         updateMerchant(attributes);
         handleCloseMerchantEdit();

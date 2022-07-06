@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React from "react";
 import { SelectMode, SelectOption } from "./types";
 import { Menu } from "../menu";
 import { ElementWithRef } from "../menu/types";
@@ -29,7 +29,7 @@ interface ISelect {
   disableSearch?: boolean;
 }
 
-export const Select: FC<ISelect> = ({
+export const Select: React.FC<ISelect> = ({
   options,
   target,
   selectedOptionIds = [],
@@ -41,20 +41,20 @@ export const Select: FC<ISelect> = ({
   defaultOption = "",
   disableSearch = false,
 }) => {
-  const [open, setOpen] = useState(defaultOpen);
-  const [search, setSearch] = useState("");
+  const [open, setOpen] = React.useState(defaultOpen);
+  const [search, setSearch] = React.useState("");
 
-  const handleOpen = useCallback(() => {
+  const handleOpen = React.useCallback(() => {
     setOpen(true);
   }, []);
 
-  const handleClose = useCallback(() => {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
     setSearch("");
   }, []);
 
-  const handleChange = useCallback(
-    (newId) => {
+  const handleChange = React.useCallback(
+    (newId: string | number) => {
       if (typeof onChange === "function") {
         if (mode === SelectMode.multiple) {
           const index = selectedOptionIds.findIndex((item) => item === newId);
@@ -74,19 +74,22 @@ export const Select: FC<ISelect> = ({
     [onChange, closeOnAction, mode, selectedOptionIds, handleClose]
   );
 
-  const handleDefaultOptionChange = useCallback(() => {
+  const handleDefaultOptionChange = React.useCallback(() => {
     typeof onChange === "function" && onChange([]);
     if (closeOnAction) {
       handleClose();
     }
   }, [onChange, closeOnAction, handleClose]);
 
-  const handleSearchChange = useCallback((e) => {
-    const newSearch = e.target.value;
-    setSearch(newSearch);
-  }, []);
+  const handleSearchChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newSearch = e?.target?.value;
+      setSearch(newSearch);
+    },
+    []
+  );
 
-  const filteredOptions = useMemo(() => {
+  const filteredOptions = React.useMemo(() => {
     if (search.length > 1) {
       return options.filter((option) => {
         return option.name.toLowerCase().indexOf(search.toLowerCase()) > -1;

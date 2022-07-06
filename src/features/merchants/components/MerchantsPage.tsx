@@ -4,6 +4,7 @@ import { Button, Modal, Loading } from "../../../components";
 import { MerchantList } from "./MerchantList";
 import { MerchantForm } from "../form";
 import { useAddMerchant, useGetMerchants } from "..";
+import { Merchant } from "../types";
 
 export const MerchantsPage = () => {
   const [showMerchantCreate, setShowMerchantCreate] = React.useState(false);
@@ -19,7 +20,7 @@ export const MerchantsPage = () => {
   }, []);
 
   const onMerchantCreate = React.useCallback(
-    (attributes) => {
+    (attributes: Merchant) => {
       mutateAdd.mutate(attributes);
       handleCloseCreateMerchantModal();
     },

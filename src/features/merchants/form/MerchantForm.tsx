@@ -38,14 +38,17 @@ export const MerchantForm: React.FC<IMerchantForm> = ({
     return initialFormState;
   });
 
-  const handleChange = React.useCallback((e) => {
-    const { target = {} } = e;
-    const { name, value } = target;
-    setMerchantForm((prevState) => ({ ...prevState, [name]: value }));
-  }, []);
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      const { target } = e;
+      const { name, value } = target;
+      setMerchantForm((prevState) => ({ ...prevState, [name]: value }));
+    },
+    []
+  );
 
   const handleSubmit = React.useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (
         merchantForm.name &&

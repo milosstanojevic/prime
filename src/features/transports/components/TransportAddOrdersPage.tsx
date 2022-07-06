@@ -14,7 +14,7 @@ import styles from "./TransportAddOrdersPage.module.css";
 export const TransportAddOrdersPage: React.FC = () => {
   const params = useParams();
   const id = Number(params.transportId);
-  const [selectIds, setSelectIds] = React.useState([]);
+  const [selectIds, setSelectIds] = React.useState<Array<string | number>>([]);
   const { data: articles } = useGetArticles();
   const { data: allOrders, refetch } = useGetTransportOrders();
   const { data: transport } = useGetTransportRoute(id);
@@ -47,9 +47,12 @@ export const TransportAddOrdersPage: React.FC = () => {
     return <Button>Select Order...</Button>;
   }, [selectIds, pendingOrders]);
 
-  const handleSelectChange = React.useCallback((ids) => {
-    setSelectIds(ids);
-  }, []);
+  const handleSelectChange = React.useCallback(
+    (ids: Array<string | number>) => {
+      setSelectIds(ids);
+    },
+    []
+  );
 
   const handleBack = React.useCallback(() => {
     navigate(-1);
@@ -58,7 +61,7 @@ export const TransportAddOrdersPage: React.FC = () => {
   const updateOrder = React.useCallback(async () => {
     if (id && selectIds.length) {
       const attributes = {
-        id: selectIds[0],
+        id: +selectIds[0],
         status: 3,
         transport_id: id,
       };
@@ -70,7 +73,7 @@ export const TransportAddOrdersPage: React.FC = () => {
   }, [mutateEditOrder, selectIds, id, refetch]);
 
   const removeOrder = React.useCallback(
-    async (orderId) => {
+    async (orderId: number) => {
       if (orderId > 0) {
         const attributes = {
           id: orderId,
@@ -86,7 +89,7 @@ export const TransportAddOrdersPage: React.FC = () => {
   );
 
   const availableForTransport = React.useCallback(
-    async (orderId, status) => {
+    async (orderId: number, status: number) => {
       if (orderId > 0) {
         const attributes = {
           id: orderId,
@@ -138,7 +141,7 @@ export const TransportAddOrdersPage: React.FC = () => {
       {selectIds.length && id ? (
         <>
           <Button onClick={updateOrder}>Take Order</Button>
-          <OrderForTransport orderId={selectIds[0]} articles={articles} />
+          <OrderForTransport orderId={+selectIds[0]} articles={articles} />
         </>
       ) : null}
     </div>

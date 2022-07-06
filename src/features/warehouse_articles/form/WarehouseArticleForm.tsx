@@ -36,12 +36,12 @@ export const WarehouseArticleForm: React.FC<IWarehouseArticleForm> = ({
     setQuantity(0);
   }, []);
 
-  const handleChange = React.useCallback((ids) => {
-    setArticleId(ids[0]);
+  const handleChange = React.useCallback((ids: Array<string | number>) => {
+    setArticleId(+ids[0]);
   }, []);
 
-  const handleAdd = React.useCallback(
-    (e) => {
+  const handleSubmit = React.useCallback(
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (articleId && regalPositionId && regalId && quantity > 0) {
         const attributes = {
@@ -58,10 +58,13 @@ export const WarehouseArticleForm: React.FC<IWarehouseArticleForm> = ({
     [articleId, regalPositionId, regalId, quantity, mutateAdd]
   );
 
-  const handleQuantityChange = React.useCallback((e) => {
-    const value = parseInt(e.target.value);
-    setQuantity(!isNaN(value) ? value : 0);
-  }, []);
+  const handleQuantityChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(e.target.value);
+      setQuantity(!isNaN(value) ? value : 0);
+    },
+    []
+  );
 
   const target = React.useMemo(() => {
     const article = articles?.find((article) => article.id === articleId);
@@ -76,7 +79,7 @@ export const WarehouseArticleForm: React.FC<IWarehouseArticleForm> = ({
       {!show ? (
         <Button onClick={handleShow}>Add Article</Button>
       ) : (
-        <form className={styles.form} onSubmit={handleAdd}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.form_inner}>
             <Select
               target={target}

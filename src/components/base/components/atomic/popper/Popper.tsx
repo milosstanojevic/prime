@@ -8,7 +8,7 @@ import React, {
   HTMLAttributes,
 } from "react";
 import { createPopper, Instance, State } from "@popperjs/core";
-import {Placement} from "./Placement";
+import { Placement } from "./Placement";
 import useForkRef from "../../../hooks/useForkRef";
 
 interface TransitionProps {
@@ -34,7 +34,10 @@ interface PopperProps {
   placement?: Placement;
 }
 
-export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HTMLDivElement>>(
+export const Popper = forwardRef<
+  HTMLDivElement,
+  PopperProps & HTMLAttributes<HTMLDivElement>
+>(
   (
     {
       children,
@@ -42,7 +45,7 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
       open = false,
       style,
       transition = false,
-      placement: initialPlacement = 'bottom',
+      placement: initialPlacement = "bottom",
       ...rest
     },
     ref
@@ -55,8 +58,8 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
     const handleInnerRef = useForkRef(ownRef, ref);
 
     const handlePopperUpdate = (data: Partial<State>): void => {
-      setPlacement(data.placement || 'bottom');
-    }
+      setPlacement(data.placement || "bottom");
+    };
 
     const handleOpen = useCallback(() => {
       if (!ownRef.current || !anchorEl || !open) {
@@ -67,14 +70,10 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
         popperRef.current.destroy();
       }
 
-      popperRef.current = createPopper(
-        anchorEl,
-        ownRef.current,
-        {
-          placement,
-          onFirstUpdate: handlePopperUpdate,
-        }
-      );
+      popperRef.current = createPopper(anchorEl, ownRef.current, {
+        placement,
+        onFirstUpdate: handlePopperUpdate,
+      });
     }, [anchorEl, open, placement]);
 
     const handleClose = (): void => {
@@ -104,13 +103,13 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
 
     useEffect(() => {
       return (): void => {
-        handleClose()
-      }
+        handleClose();
+      };
     }, []);
 
     useEffect(() => {
       if (!open && !transition) {
-        handleClose()
+        handleClose();
       }
     }, [open, transition]);
 
@@ -142,7 +141,9 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
           ...style,
         }}
       >
-        {typeof children === 'function' ? children(childProps) : children}
+        {typeof children === "function"
+          ? React.cloneElement(children, [childProps])
+          : children}
       </div>
     );
   }
