@@ -1,11 +1,4 @@
-import React, {
-    useCallback,
-    useRef,
-    useEffect,
-    forwardRef,
-    HTMLAttributes,
-    KeyboardEvent
-} from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import FocusLock from 'react-focus-lock';
 import styles from './Window.module.css';
@@ -21,7 +14,10 @@ interface IWindow {
 
 const returnFocus = { preventScroll: true };
 
-export const Window = forwardRef<HTMLDivElement, IWindow & HTMLAttributes<HTMLDivElement>>(
+export const Window = React.forwardRef<
+    HTMLDivElement,
+    IWindow & React.HTMLAttributes<HTMLDivElement>
+>(
     (
         {
             children,
@@ -35,11 +31,11 @@ export const Window = forwardRef<HTMLDivElement, IWindow & HTMLAttributes<HTMLDi
         },
         ref
     ) => {
-        const innerRef = useRef<HTMLDivElement>(null);
+        const innerRef = React.useRef<HTMLDivElement>(null);
         const handleRef = useForkRef(innerRef, ref);
 
-        const handleKeyDown = useCallback(
-            (event: KeyboardEvent<HTMLDivElement>) => {
+        const handleKeyDown = React.useCallback(
+            (event: React.KeyboardEvent<HTMLDivElement>) => {
                 if (!event.defaultPrevented && (event.key === 'Esc' || event.key === 'Escape')) {
                     event.preventDefault();
                     if (onClose) {
@@ -52,14 +48,6 @@ export const Window = forwardRef<HTMLDivElement, IWindow & HTMLAttributes<HTMLDi
             },
             [onClose, onKeyDown]
         );
-
-        useEffect(() => {
-            return (): void => {
-                typeof onClose === 'function' && onClose();
-            };
-            // Dependency is empty because we only want to call onClose when component is unmounted
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
 
         return (
             <Portal>

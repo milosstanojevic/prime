@@ -99,12 +99,6 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
         };
 
         useEffect(() => {
-            return (): void => {
-                handleClose();
-            };
-        }, []);
-
-        useEffect(() => {
             if (!open && !transition) {
                 handleClose();
             }
@@ -131,16 +125,9 @@ export const Popper = forwardRef<HTMLDivElement, PopperProps & HTMLAttributes<HT
         }
 
         return (
-            <div
-                ref={handleRef}
-                {...rest}
-                style={{
-                    ...style
-                }}
-            >
-                {typeof children === 'function'
-                    ? React.cloneElement(children, [childProps])
-                    : children}
+            <div ref={handleRef} {...rest} style={style}>
+                {/* @ts-ignore */}
+                {typeof children === 'function' ? children(childProps) : children}
             </div>
         );
     }

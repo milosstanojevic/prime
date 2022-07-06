@@ -1,19 +1,9 @@
-import React, {
-    useRef,
-    FC,
-    ReactNode,
-    MouseEvent,
-    useState,
-    useCallback,
-    useEffect,
-    useMemo
-} from 'react';
+import React, { useRef, FC, ReactNode, MouseEvent, useState, useCallback, useMemo } from 'react';
 import { Placement } from '@popperjs/core';
 import useForkRef from '../../../hooks/useForkRef';
 import { Popper } from '../../atomic/popper';
 import { Overlay, Window } from '../../atomic';
 import { ElementWithRef } from './types';
-import { useToggle } from '../../../hooks';
 
 interface IMenu {
     /** Menu content */
@@ -54,10 +44,8 @@ export const Menu: FC<IMenu> = ({
     externalControls = []
 }) => {
     const [externalState, setExternalState] = externalControls;
-    const usesExternalState = externalState !== undefined;
-    const [isOpen, handleInternalOpen, handleInternalClose] = useToggle(
-        usesExternalState ? externalState : false
-    );
+    const [isOpen, setIsOpen] = React.useState(false);
+
     const [childNode, setChildNode] = useState<Element | null>();
     const elementRef = useRef<Element | null>(null);
 
@@ -67,34 +55,24 @@ export const Menu: FC<IMenu> = ({
     const handleOpen = useCallback(
         (event: Pick<MouseEvent<Element>, 'preventDefault'>) => {
             event && event.preventDefault();
-            handleInternalOpen();
-            setExternalState && setExternalState(true);
+
+            setExternalState ? setExternalState(true) : setIsOpen(true);
             typeof onOpen === 'function' && onOpen();
         },
-        [onOpen, handleInternalOpen, setExternalState]
+        [onOpen, setExternalState]
     );
 
     const handleClose = useCallback(() => {
         if (typeof onBeforeClose === 'function' && !onBeforeClose()) {
             return;
         }
-        handleInternalClose();
-        setExternalState && setExternalState(false);
+
+        setExternalState ? setExternalState(false) : setIsOpen(false);
         typeof onClose === 'function' && onClose();
-    }, [onClose, onBeforeClose, handleInternalClose, setExternalState]);
-
-    const childProps = {
-        forceClose: handleClose
-    };
-
-    useEffect(() => {
-        if (usesExternalState) {
-            externalState ? handleInternalOpen() : handleInternalClose();
-        }
-    }, [usesExternalState, externalState, handleInternalClose, handleInternalOpen]);
+    }, [onClose, onBeforeClose, setExternalState]);
 
     const open = useMemo(() => {
-        return externalState !== undefined ? externalState : isOpen;
+        return typeof externalState === 'boolean' ? externalState : isOpen;
     }, [externalState, isOpen]);
 
     const targetProps = {
@@ -124,9 +102,7 @@ export const Menu: FC<IMenu> = ({
                         className={popperClassName}
                         tabIndex={-1}
                     >
-                        {typeof children === 'function'
-                            ? React.cloneElement(children, [childProps])
-                            : children}
+                        {children}
                     </Popper>
                 </Window>
             ) : null}
