@@ -12,6 +12,8 @@ import {
   SidePicker,
   DatePicker,
   Loading,
+  List,
+  ListItem,
 } from "./ui";
 
 const options = [
@@ -181,6 +183,42 @@ const ComponentsPage: React.FC = () => {
             </Button>
           </div>
         </Modal>
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>List Row: Normal</div>
+        <List>
+          <ListItem>Text 1</ListItem>
+          <ListItem>Text 2</ListItem>
+          <ListItem>Text 3</ListItem>
+          <ListItem>Text 4</ListItem>
+        </List>
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>List Row: Last Item to the right</div>
+        <List>
+          <ListItem>Text 1</ListItem>
+          <ListItem>Text 2</ListItem>
+          <ListItem>Text 3</ListItem>
+          <ListItem pushRight>Text 4</ListItem>
+        </List>
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>List Row: Evenly adjusted</div>
+        <List evenly>
+          <ListItem>Text 1</ListItem>
+          <ListItem>Text 2</ListItem>
+          <ListItem>Text 3</ListItem>
+          <ListItem>Text 4</ListItem>
+        </List>
+      </div>
+      <div className={styles.component_item}>
+        <div className={styles.label}>List Column: Normal</div>
+        <List isColumn>
+          <ListItem>Text 1</ListItem>
+          <ListItem>Text 2</ListItem>
+          <ListItem>Text 3</ListItem>
+          <ListItem>Text 4</ListItem>
+        </List>
       </div>
     </div>
   );

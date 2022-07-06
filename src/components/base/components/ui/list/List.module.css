@@ -1,0 +1,44 @@
+.list_wrapper {
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 10px;
+  color: gray;
+}
+
+.list_row:hover {
+  background: whitesmoke;
+  color: black;
+  cursor: pointer;
+}
+
+.list_wrapper:focus {
+  background: whitesmoke;
+  color: black;
+}
+
+.list_column {
+  flex-direction: column;
+}
+
+.evenly {
+  justify-content: space-between;
+}
+
+.list_column div:hover {
+  background: whitesmoke;
+  color: black;
+  cursor: pointer;
+}
+
+.list_item {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.list_item_right {
+  margin-left: auto;
+}
