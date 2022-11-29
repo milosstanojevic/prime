@@ -132,7 +132,10 @@ export const usePut = <T, S>(
     return useGenericMutation<T, S>(
         (data) =>
             api.put<S>(
-                hasOwnProperty(data, 'id') && typeof data.id === 'number'
+                typeof data === 'object' &&
+                    data !== null &&
+                    hasOwnProperty(data, 'id') &&
+                    typeof data.id === 'number'
                     ? `${url}/${data.id}`
                     : url,
                 data
