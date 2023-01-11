@@ -2,10 +2,10 @@ import { useFetch, usePost } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { WarehouseArticle } from '../types';
 
-const mainUrl = 'warehouses/:warehouseId/articles';
+const mainUrl = 'warehouse-articles/';
 
-export const useGetWarehouseArticles = (warehouseId: number) =>
-    useFetch<WarehouseArticle[]>(pathToUrl(mainUrl, { warehouseId }));
+export const useGetWarehouseArticles = (warehouseId?: number) =>
+    useFetch<WarehouseArticle[]>(mainUrl, warehouseId ? { warehouse: warehouseId } : undefined);
 
 type Params = {
     articleId: number;
@@ -15,7 +15,7 @@ type Params = {
 };
 export const useGetWarehouseArticleByParams = (params: Params) =>
     useFetch<WarehouseArticle>(
-        `warehouse-article?article_id=${params.articleId}&warehouse_id=${params.warehouseId}&regal_id=${params.regalId}&regal_position_id=${params.regalPositionId}`,
+        `warehouse-articles/query/?article=${params.articleId}&warehouse=${params.warehouseId}&regal=${params.regalId}&regal_position=${params.regalPositionId}`,
         undefined,
         { staleTime: 0, cacheTime: 0 }
     );
@@ -23,12 +23,7 @@ export const useGetWarehouseArticleByParams = (params: Params) =>
 export const useAddWarehouseArticle = (
     warehouseId: number,
     updater: (oldData: WarehouseArticle[], newData: WarehouseArticle) => WarehouseArticle[]
-) =>
-    usePost<WarehouseArticle[], WarehouseArticle>(
-        pathToUrl(mainUrl, { warehouseId }),
-        undefined,
-        updater
-    );
+) => usePost<WarehouseArticle[], WarehouseArticle>(mainUrl, { warehouse: warehouseId }, updater);
 
 export const useGetWarehouseRegalArticles = (warehouseId: number, regalId: number) =>
     useFetch<WarehouseArticle[]>(

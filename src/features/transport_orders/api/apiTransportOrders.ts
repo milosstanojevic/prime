@@ -2,16 +2,16 @@ import { useFetch, usePost, usePut, useDelete } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { TransportOrder } from '../types';
 
-const mainEntityUrl = 'transport-orders';
-const singleEntityUrl = `${mainEntityUrl}/:id`;
+const mainEntityUrl = 'transport-orders/';
+const singleEntityUrl = `${mainEntityUrl}:id/`;
 
-export const useGetTransportOrders = () => useFetch<TransportOrder[]>(pathToUrl(mainEntityUrl));
+export const useGetTransportOrders = () => useFetch<TransportOrder[]>(mainEntityUrl);
 
 export const useGetTransportOrdersByTransportId = (id: number) =>
     useFetch<TransportOrder[]>(`transport-route-orders/${id}`);
 
 export const useGetParentTransportOrders = (parent: string, parentId: number) =>
-    useFetch<TransportOrder[]>(pathToUrl(`${mainEntityUrl}/${parent}/${parentId}`));
+    useFetch<TransportOrder[]>(pathToUrl(mainEntityUrl, { parent, parentId }));
 
 export const useAddTransportOrder = (
     updater?: (oldData: TransportOrder[], newData: TransportOrder) => TransportOrder[]

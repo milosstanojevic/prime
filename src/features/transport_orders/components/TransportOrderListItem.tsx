@@ -2,11 +2,11 @@ import { Button } from 'components';
 import { getTransportOrderStatusLabel, useTransportOrderContext } from 'features/transport_orders';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './MerchantOrderListItem.module.css';
+import styles from './TransportOrderListItem.module.css';
 
-interface MerchantOrderListItemProps {}
+interface TransportOrderListItemProps {}
 
-export const MerchantOrderListItem: React.FC<MerchantOrderListItemProps> = () => {
+export const TransportOrderListItem: React.FC<TransportOrderListItemProps> = () => {
     const { transportOrder, removeTransportOrder } = useTransportOrderContext();
     const { id, status } = transportOrder;
 
@@ -17,6 +17,7 @@ export const MerchantOrderListItem: React.FC<MerchantOrderListItemProps> = () =>
     return (
         <div className={styles.item}>
             <div className={styles.item_element}>{id}</div>
+            <div className={styles.item_element}>{transportOrder.parent}</div>
             <div className={styles.item_element}>{statusLabel}</div>
             <div className={styles.item_element}>
                 <Link to={{ pathname: `/orders/${id}` }}>{`Order-${id}`}</Link>

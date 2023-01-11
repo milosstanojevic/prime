@@ -8,7 +8,7 @@ import { Transport } from '../types';
 
 export const TransportListItem = React.memo(() => {
     const { transport, updateTransport, removeTransport } = useTransportContext();
-    const { id, name, createdAt } = transport;
+    const { id, name, created } = transport;
 
     const [showTransportEdit, setShowTransportEdit] = React.useState(false);
     const [showTransportTrash, setShowTransportTrash] = React.useState(false);
@@ -56,9 +56,7 @@ export const TransportListItem = React.memo(() => {
                     </Link>
                 </div>
                 <div className={styles.item_element}>
-                    {createdAt && createdAt > 0
-                        ? formatDate(createdAt * 1000, 'PPpp')
-                        : 'Undefined'}
+                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
                 </div>
                 <div className={styles.item_element}>
                     <Menu

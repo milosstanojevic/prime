@@ -30,13 +30,6 @@ export const AddTransportArticleSection: React.FC<AddTransportArticleSectionProp
         isLoading: isTransportArticlesLoading
     } = useGetTransportArticles(orderArticleId);
 
-    const {
-        transportArticles = [],
-        regals = [],
-        warehouses = [],
-        regalPositions = []
-    } = data ?? {};
-
     const mutateAdd = useAddTransportArticle(orderArticleId);
     const mutateRemove = useDeleteTransportArticle(orderArticleId);
 
@@ -44,22 +37,14 @@ export const AddTransportArticleSection: React.FC<AddTransportArticleSectionProp
         return isTransportArticlesLoading || mutateAdd.isLoading || mutateRemove.isLoading;
     }, [isTransportArticlesLoading, mutateAdd, mutateRemove]);
 
-    const [show, setShow] = React.useState(false);
-
-    const handleShow = React.useCallback(() => {
-        setShow(true);
-    }, []);
-
-    const handleClose = React.useCallback(() => {
-        setShow(false);
-    }, []);
-
     const handleSave = React.useCallback(
         (attributes: any) => {
-            mutateAdd.mutate(attributes);
-            handleClose();
+            return mutateAdd.mutateAsync({
+                transport_order_article: orderArticleId,
+                ...attributes
+            });
         },
-        [mutateAdd, handleClose]
+        [mutateAdd, orderArticleId]
     );
 
     const handleRemove = React.useCallback(
@@ -72,11 +57,11 @@ export const AddTransportArticleSection: React.FC<AddTransportArticleSectionProp
 
     const orderQuantity = React.useMemo(() => {
         const initialValue = 0;
-        return transportArticles.reduce((prevQuantity, currentTransportArticle) => {
+        return data?.reduce((prevQuantity, currentTransportArticle) => {
             const nextValue = currentTransportArticle.quantity || 0;
             return prevQuantity + nextValue;
         }, initialValue);
-    }, [transportArticles]);
+    }, [data]);
 
     return (
         <div className={styles.wrapper}>
@@ -92,32 +77,29 @@ export const AddTransportArticleSection: React.FC<AddTransportArticleSectionProp
                     'Remove'
                 ]}
             >
-                {transportArticles?.length
-                    ? transportArticles.map((transportArticle) => (
+                {data?.length
+                    ? data.map((transportArticle) => (
                           <TransportArticleListItem
                               key={transportArticle.id}
                               transportArticle={transportArticle}
                               articleName={articleName}
-                              warehouses={warehouses}
-                              regals={regals}
-                              regalPositions={regalPositions}
+                              warehouse={transportArticle?.warehouse}
+                              regal={transportArticle?.regal}
+                              regalPosition={transportArticle?.regal_position}
                               onRemove={handleRemove}
                           />
                       ))
                     : null}
             </Table>
-            {show ? (
-                <div className={styles.form_wrapper}>
-                    <TransportArticleForm
-                        onCancel={handleClose}
-                        transportArticle={{ articleId }}
-                        onSave={handleSave}
-                        className={styles.form}
-                    />
-                </div>
-            ) : (
-                <Button onClick={handleShow}>Add Transport Article</Button>
-            )}
+            <div className={styles.form_wrapper}>
+                <TransportArticleForm
+                    transportArticle={{ article: articleId }}
+                    onSave={handleSave}
+                    className={styles.form}
+                    isSaving={mutateAdd.isLoading}
+                    hideCancel
+                />
+            </div>
         </div>
     );
 };

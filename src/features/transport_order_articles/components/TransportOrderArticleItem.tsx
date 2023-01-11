@@ -17,15 +17,15 @@ export const TransportOrderArticleItem: React.FC = () => {
         <div key={orderArticle.id} className={styles.list_wrapper}>
             <div className={styles.list_item}>{orderArticle.name}</div>
             <div className={styles.list_item}>
-                Ordered: {orderArticle.requestedQuantity} {orderArticle.unit}
+                Ordered: {orderArticle.requested_quantity} {orderArticle.unit}
             </div>
             <div className={styles.list_item}>
-                In transport: {orderArticle.transportQuantity || 0} {orderArticle.unit}
+                In transport: {orderArticle.transport_quantity || 0} {orderArticle.unit}
             </div>
             <div className={styles.list_item}>
                 {getTransportOrderArticleStatus(orderArticle.status)}
             </div>
-            <div className={styles.list_item}>Note: {orderArticle.reason || '-'}</div>
+            {/* <div className={styles.list_item}>Note: {orderArticle.reason || '-'}</div> */}
             {isAddToStockEnabled ? (
                 <div className={styles.list_item}>
                     <Button onClick={addToStock}>Add to Stock</Button>

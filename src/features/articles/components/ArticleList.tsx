@@ -12,8 +12,8 @@ type Props = {
 export const ArticleList: React.FC<Props> = ({ articles }) => {
     const sortedArticles = React.useMemo(() => {
         return (articles || []).sort((a, b) => {
-            if (a.createdAt && b.createdAt) {
-                return descSort(a.createdAt, b.createdAt);
+            if (a.created && b.created) {
+                return descSort(a.created, b.created);
             }
             if (a.name && b.name) {
                 return descSort(a.name, b.name);

@@ -4,28 +4,29 @@ import React, { useState } from 'react';
 import { TransportArticle } from '../types';
 import { TransportArticleOptionSelect } from './TransportArticleOptionSelect';
 import { TransportArticleQtyInput } from './TransportArticleQtyInput';
-import { decamelizeKeys } from 'humps';
 
 type Attributes = {
-    article_id: number;
-    warehouse_id: number;
-    regal_id: number;
-    regal_position_id: number;
+    article: number;
+    warehouse: number;
+    regal: number;
+    regal_position: number;
     quantity: number;
 };
 
 type Props = {
     transportArticle?: TransportArticle;
-    onSave?: (attributes: Attributes) => void;
+    onSave?: (attributes: Attributes) => Promise<any>;
     onCancel?: () => void;
     className?: string;
+    isSaving?: boolean;
+    hideCancel?: boolean;
 };
 
 const initialState = {
-    articleId: 0,
-    warehouseId: 0,
-    regalId: 0,
-    regalPositionId: 0,
+    article: 0,
+    warehouse: 0,
+    regal: 0,
+    regal_position: 0,
     quantity: 0
 };
 
@@ -33,36 +34,42 @@ export const TransportArticleForm: React.FC<Props> = ({
     transportArticle,
     onSave,
     onCancel,
-    className
+    className,
+    isSaving = false,
+    hideCancel = false
 }) => {
-    const { data: article, isLoading } = useGetArticle(transportArticle?.articleId || 0);
+    const { data: article, isLoading } = useGetArticle(transportArticle?.article || 0);
 
-    const [form, setForm] = useState(() => ({
-        ...initialState,
-        articleId: transportArticle?.articleId || 0
-    }));
+    const defaultFormState = React.useMemo(() => {
+        return {
+            ...initialState,
+            article: transportArticle?.article || 0
+        };
+    }, [transportArticle]);
 
-    const handleWarehouseChange = React.useCallback((warehouseId: number) => {
+    const [form, setForm] = useState(() => defaultFormState);
+
+    const handleWarehouseChange = React.useCallback((warehouse: number) => {
         setForm((prevState) => ({
             ...prevState,
-            warehouseId,
-            regalId: 0,
-            regalPositionId: 0,
+            warehouse,
+            regal: 0,
+            regal_position: 0,
             quantity: 0
         }));
     }, []);
 
-    const handleRegalChange = React.useCallback((regalId: number) => {
+    const handleRegalChange = React.useCallback((regal: number) => {
         setForm((prevState) => ({
             ...prevState,
-            regalId,
-            regalPositionId: 0,
+            regal,
+            regal_position: 0,
             quantity: 0
         }));
     }, []);
 
     const handleRegalPositionChange = React.useCallback((regalPositionId: number) => {
-        setForm((prevState) => ({ ...prevState, regalPositionId, quantity: 0 }));
+        setForm((prevState) => ({ ...prevState, regal_position: regalPositionId, quantity: 0 }));
     }, []);
 
     const handleQtyChange = React.useCallback((quantity: number) => {
@@ -71,26 +78,22 @@ export const TransportArticleForm: React.FC<Props> = ({
 
     const show = React.useMemo(() => {
         return {
-            warehouseSelect: form.articleId > 0,
-            regalSelect: form.articleId > 0 && form.warehouseId > 0,
-            regalPositionSelect: form.articleId > 0 && form.warehouseId > 0 && form.regalId > 0,
+            warehouseSelect: form.article > 0,
+            regalSelect: form.article > 0 && form.warehouse > 0,
+            regalPositionSelect: form.article > 0 && form.warehouse > 0 && form.regal > 0,
             qtyInput:
-                form.articleId > 0 &&
-                form.warehouseId > 0 &&
-                form.regalId > 0 &&
-                form.regalPositionId > 0,
+                form.article > 0 && form.warehouse > 0 && form.regal > 0 && form.regal_position > 0,
             saveBtn:
-                form.articleId > 0 &&
-                form.warehouseId > 0 &&
-                form.regalId > 0 &&
-                form.regalPositionId > 0 &&
+                form.article > 0 &&
+                form.warehouse > 0 &&
+                form.regal > 0 &&
+                form.regal_position > 0 &&
                 form.quantity > 0
         };
     }, [form]);
 
     const handleSave = React.useCallback(() => {
-        const attributes = decamelizeKeys(form) as Attributes;
-        onSave && onSave(attributes);
+        onSave && onSave(form).then(() => setForm(defaultFormState));
     }, [form, onSave]);
 
     const itemStyle: React.CSSProperties = {
@@ -105,7 +108,7 @@ export const TransportArticleForm: React.FC<Props> = ({
             <div style={itemStyle}>
                 {show.warehouseSelect ? (
                     <TransportArticleOptionSelect
-                        articleId={form.articleId}
+                        articleId={form.article}
                         onChange={handleWarehouseChange}
                     />
                 ) : (
@@ -115,8 +118,8 @@ export const TransportArticleForm: React.FC<Props> = ({
             <div style={itemStyle}>
                 {show.regalSelect ? (
                     <TransportArticleOptionSelect
-                        articleId={form.articleId}
-                        warehouseId={form.warehouseId}
+                        articleId={form.article}
+                        warehouseId={form.warehouse}
                         onChange={handleRegalChange}
                     />
                 ) : (
@@ -126,9 +129,9 @@ export const TransportArticleForm: React.FC<Props> = ({
             <div style={itemStyle}>
                 {show.regalPositionSelect ? (
                     <TransportArticleOptionSelect
-                        articleId={form.articleId}
-                        warehouseId={form.warehouseId}
-                        regalId={form.regalId}
+                        articleId={form.article}
+                        warehouseId={form.warehouse}
+                        regalId={form.regal}
                         onChange={handleRegalPositionChange}
                     />
                 ) : (
@@ -138,10 +141,10 @@ export const TransportArticleForm: React.FC<Props> = ({
             <div style={itemStyle}>
                 {show.qtyInput ? (
                     <TransportArticleQtyInput
-                        articleId={form.articleId}
-                        warehouseId={form.warehouseId}
-                        regalId={form.regalId}
-                        regalPositionId={form.regalPositionId}
+                        articleId={form.article}
+                        warehouseId={form.warehouse}
+                        regalId={form.regal}
+                        regalPositionId={form.regal_position}
                         onChange={handleQtyChange}
                     />
                 ) : (
@@ -149,12 +152,14 @@ export const TransportArticleForm: React.FC<Props> = ({
                 )}
             </div>
             <div style={{ ...itemStyle, textAlign: 'center' }}>
-                <Button disabled={!show.saveBtn} onClick={handleSave}>
+                <Button disabled={!show.saveBtn || isSaving} onClick={handleSave}>
                     Save
                 </Button>
-                <Button mode="secondary" onClick={onCancel} style={{ marginLeft: '15px' }}>
-                    Cancel
-                </Button>
+                {!hideCancel ? (
+                    <Button mode="secondary" onClick={onCancel} style={{ marginLeft: '15px' }}>
+                        Cancel
+                    </Button>
+                ) : null}
             </div>
         </div>
     );

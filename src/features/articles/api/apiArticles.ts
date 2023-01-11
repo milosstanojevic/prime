@@ -2,8 +2,8 @@ import { useFetch, usePost, usePut, useDelete } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { Article } from '../types';
 
-const mainEntityUrl = 'articles';
-const singleEntityUrl = `${mainEntityUrl}/:id`;
+const mainEntityUrl = 'articles/';
+const singleEntityUrl = `${mainEntityUrl}:id/`;
 
 export const useGetArticles = () => useFetch<Article[]>(pathToUrl(mainEntityUrl));
 

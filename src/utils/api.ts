@@ -1,13 +1,4 @@
 import axios from 'axios';
-import { camelizeKeys } from 'humps';
-
-axios.interceptors.response.use(function (response) {
-    const { data, ...rest } = response;
-    return {
-        ...rest,
-        data: camelizeKeys(data)
-    };
-});
 
 const API_ROOT = process.env.REACT_APP_API_URL || '';
 
@@ -18,7 +9,7 @@ const ROOT_URL = `${URI}${API_ROOT}`;
 const getHeaders = (headers?: Headers) => {
     const additional = headers || {};
     return {
-        Accept: 'application/json',
+        Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
         ...additional
     };

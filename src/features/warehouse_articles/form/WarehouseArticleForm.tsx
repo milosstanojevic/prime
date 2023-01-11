@@ -3,7 +3,6 @@ import styles from './WarehouseArticleForm.module.css';
 import { Button, Input, Select, SelectOption } from '../../../components';
 import { Article } from 'features/articles/types';
 import { useAddWarehouseArticle } from '..';
-import { decamelizeKeys } from 'humps';
 
 interface IWarehouseArticleForm {
     regalId: number;
@@ -45,17 +44,18 @@ export const WarehouseArticleForm: React.FC<IWarehouseArticleForm> = ({
             e.preventDefault();
             if (articleId && regalPositionId && regalId && quantity > 0) {
                 const attributes = {
-                    articleId,
-                    regalId,
-                    regalPositionId,
+                    warehouse: warehouseId,
+                    article: articleId,
+                    regal: regalId,
+                    regal_position: regalPositionId,
                     quantity
                 };
-                mutateAdd.mutate(decamelizeKeys(attributes));
+                mutateAdd.mutate(attributes);
                 setQuantity(0);
                 setArticleId(0);
             }
         },
-        [articleId, regalPositionId, regalId, quantity, mutateAdd]
+        [articleId, regalPositionId, regalId, quantity, mutateAdd, warehouseId]
     );
 
     const handleQuantityChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

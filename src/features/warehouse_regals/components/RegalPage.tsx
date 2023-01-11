@@ -39,10 +39,10 @@ export const RegalPage: React.FC<IRegalPage> = ({
 
     const handleSubmit = React.useCallback(
         (attributes: RegalPosition) => {
-            mutateAdd.mutate(attributes);
+            mutateAdd.mutate({ regal: regalId, ...attributes });
             handleCloseModal();
         },
-        [mutateAdd, handleCloseModal]
+        [mutateAdd, handleCloseModal, regalId]
     );
     return (
         <>

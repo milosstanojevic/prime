@@ -9,7 +9,7 @@ import { Warehouse } from '../types';
 
 export const WarehouseListItem: React.FC = () => {
     const { warehouse, updateWarehouse } = useWarehouseContext();
-    const { id, name, description = '', address = '', createdAt } = warehouse;
+    const { id, name, description = '', address = '', created } = warehouse;
     const [showWarehouseEdit, setShowWarehouseEdit] = React.useState(false);
     const [showWarehouseTrash, setShowWarehouseTrash] = React.useState(false);
 
@@ -55,9 +55,7 @@ export const WarehouseListItem: React.FC = () => {
                     <p dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
                 <div className={styles.item_element}>
-                    {createdAt && createdAt > 0
-                        ? formatDate(createdAt * 1000, 'PPpp')
-                        : 'Undefined'}
+                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
                 </div>
                 <div className={styles.item_element}>
                     <Menu

@@ -19,16 +19,19 @@ const OrderForTransportArticleItem: React.FC<OrderForTransportArticleItemProps> 
             <div className={styles.article_list} onClick={expandArticles}>
                 <div className={styles.article_item}>{orderArticle.name}</div>
                 <div className={styles.article_item}>
-                    Requested: {orderArticle.requestedQuantity} {orderArticle.unit}
+                    Requested: {orderArticle.requested_quantity} {orderArticle.unit}
+                </div>
+                <div className={styles.article_item}>
+                    Transport: {orderArticle.transport_quantity || 0} {orderArticle.unit}
                 </div>
                 <div className={styles.article_item}>{'+'}</div>
             </div>
-            {open && orderArticle.id && orderArticle.articleId ? (
+            {open && orderArticle.id && orderArticle.article ? (
                 <AddTransportArticleSection
                     orderArticleId={orderArticle.id}
-                    articleId={orderArticle.articleId}
+                    articleId={orderArticle.article}
                     articleName={orderArticle.name}
-                    requestedQuantity={orderArticle?.requestedQuantity || 0}
+                    requestedQuantity={orderArticle?.requested_quantity || 0}
                     unit={orderArticle.unit || 'Kg'}
                 />
             ) : null}

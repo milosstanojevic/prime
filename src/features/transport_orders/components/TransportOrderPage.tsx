@@ -11,8 +11,10 @@ import {
 import { useGetArticles } from 'features/articles';
 import styles from './TransportOrderPage.module.css';
 import { useEditTransportOrder, useGetTransportOrder } from '../api';
-import { getTransportOrderStatusLabel } from '../utils';
 import { TransportOrderArticle } from 'features/transport_order_articles/types';
+import TransportOrderStatus from './transport_order_status';
+import { useGetWarehouseArticles } from 'features/warehouse_articles';
+import { Article } from 'features/articles/types';
 
 export const TransportOrderPage: React.FC = () => {
     const params = useParams();
@@ -23,17 +25,32 @@ export const TransportOrderPage: React.FC = () => {
     const { data: orderArticles, isLoading: isOrderArticlesLoading } =
         useGetTransportOrderArticles(id);
     const { data: articles, isLoading: isArticlesLoading } = useGetArticles();
-    const { data: order, isLoading: isOrderLoading } = useGetTransportOrder(id);
+    const { data: warehouseArticles, isLoading: isWarehouseArticlesLoading } =
+        useGetWarehouseArticles();
+    const {
+        data: order,
+        isLoading: isOrderLoading,
+        refetch: refetchTransportOrder
+    } = useGetTransportOrder(id);
 
     const mutateAdd = useAddTransportOrderArticle(id, (oldData, newData) => [...oldData, newData]);
 
-    const [orderStatus, setOrderStatus] = React.useState(order?.status || 1);
+    const [orderStatus, setOrderStatus] = React.useState(order?.status ? +order.status : 1);
 
     const mutateOrderEdit = useEditTransportOrder(undefined, { id });
 
+    const preparedArticles = React.useMemo(() => {
+        let items: Article[] = [];
+        warehouseArticles?.forEach((warehouseArticle) => {
+            const article = articles?.find((article) => article.id === warehouseArticle.article);
+            article && items.push(article);
+        });
+        return items;
+    }, [articles, warehouseArticles]);
+
     React.useEffect(() => {
         if (order) {
-            setOrderStatus(order.status || 1);
+            setOrderStatus(order.status ? +order.status : 1);
         }
     }, [order]);
 
@@ -43,11 +60,12 @@ export const TransportOrderPage: React.FC = () => {
         }
     }, [mutateOrderEdit]);
 
-    const isLoading = isOrderArticlesLoading || isArticlesLoading || isOrderLoading;
+    const isLoading =
+        isOrderArticlesLoading || isArticlesLoading || isOrderLoading || isWarehouseArticlesLoading;
 
     const fullOrderArticles = React.useMemo(() => {
         return orderArticles?.map((article) => {
-            const fullArticle = articles?.find((item) => item.id === article.articleId) || {};
+            const fullArticle = articles?.find((item) => item.id === article.article) || {};
             return { ...fullArticle, ...article };
         });
     }, [articles, orderArticles]);
@@ -62,20 +80,27 @@ export const TransportOrderPage: React.FC = () => {
 
     const handleSubmit = React.useCallback(
         (attributes: TransportOrderArticle) => {
-            mutateAdd.mutate(attributes);
-            handleCloseModal();
+            if (id) {
+                mutateAdd.mutate({ transport_order: +id, ...attributes });
+                handleCloseModal();
+            }
         },
-        [mutateAdd, handleCloseModal]
+        [mutateAdd, handleCloseModal, id]
     );
 
-    const handleSetOrderStatus = useCallback(() => {
-        const attributes = {
-            id,
-            status: orderStatus === 1 ? 2 : 1,
-            transport_id: null
-        };
-        mutateOrderEdit.mutate(attributes);
-    }, [id, mutateOrderEdit, orderStatus]);
+    const handleSetOrderStatus = useCallback(
+        (orderStatus: string) => {
+            const attributes = {
+                id,
+                status: orderStatus,
+                parent: order?.parent,
+                parent_id: order?.parent_id,
+                transport_id: order?.transport || null
+            };
+            mutateOrderEdit.mutateAsync(attributes).then(() => refetchTransportOrder());
+        },
+        [id, mutateOrderEdit, order, refetchTransportOrder]
+    );
 
     const isRemoveArticleDisabled = React.useMemo(() => {
         return orderStatus > 1;
@@ -84,10 +109,6 @@ export const TransportOrderPage: React.FC = () => {
     const isAddArticleDisabled = React.useMemo(() => {
         return orderStatus > 1;
     }, [orderStatus]);
-
-    const isSetStatusDisabled = React.useMemo(() => {
-        return orderStatus > 2 || fullOrderArticles?.length === 0;
-    }, [orderStatus, fullOrderArticles]);
 
     return isLoading ? (
         <Loading />
@@ -101,14 +122,35 @@ export const TransportOrderPage: React.FC = () => {
                         </Button>
                     </div>
                     <div className={styles.header_item}>Order - {id}</div>
-                    <div className={styles.header_item}>
-                        <Button onClick={handleSetOrderStatus} disabled={isSetStatusDisabled}>
-                            Set Order As {orderStatus === 1 ? 'Prepared' : 'Pending'}
-                        </Button>
-                    </div>
                 </div>
                 <div className={styles.order_status}>
-                    {getTransportOrderStatusLabel(orderStatus)}
+                    <TransportOrderStatus
+                        orderStatus={order?.status}
+                        onChange={handleSetOrderStatus}
+                        options={
+                            ['1', '2'].includes(order?.status || '')
+                                ? [
+                                      {
+                                          id: '1',
+                                          name: 'Pending'
+                                      },
+                                      {
+                                          id: '2',
+                                          name: 'Prepared'
+                                      }
+                                  ]
+                                : [
+                                      {
+                                          id: '5',
+                                          name: 'Arrived'
+                                      },
+                                      {
+                                          id: '6',
+                                          name: 'Completed'
+                                      }
+                                  ]
+                        }
+                    />
                 </div>
             </div>
             <Button onClick={handleOpenModal} disabled={isAddArticleDisabled}>
@@ -132,7 +174,7 @@ export const TransportOrderPage: React.FC = () => {
                     <TransportOrderArticleForm
                         onCancel={handleCloseModal}
                         onSubmit={handleSubmit}
-                        articles={articles || []}
+                        articles={preparedArticles || []}
                     />
                 </Bubble>
             </Modal>

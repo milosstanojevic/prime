@@ -15,7 +15,7 @@ export const OrderForTransport: React.FC<Props> = ({ orderId, articles }) => {
 
     const fullOrderArticles = React.useMemo(() => {
         return orderArticles?.map((orderArticle) => {
-            const article = articles?.find((item) => item.id === orderArticle.articleId) || {};
+            const article = articles?.find((item) => item.id === orderArticle.article) || {};
             return { ...article, ...orderArticle };
         });
     }, [articles, orderArticles]);

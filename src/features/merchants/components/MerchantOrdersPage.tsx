@@ -4,7 +4,6 @@ import React from 'react';
 import { MerchantsOrderList } from './MerchantOrdersList';
 import { useNavigate, useParams } from 'react-router-dom';
 import hasOwnProperty from 'utils/hasOwnProperty';
-import { decamelizeKeys } from 'humps';
 
 export const MerchantOrdersPage: React.FC = () => {
     const params = useParams();
@@ -16,7 +15,7 @@ export const MerchantOrdersPage: React.FC = () => {
     const mutateAdd = useAddTransportOrder();
 
     const handleCreateOrder = React.useCallback(async () => {
-        await mutateAdd.mutateAsync(decamelizeKeys({ parent: 'merchant', parentId: id }));
+        await mutateAdd.mutateAsync({ parent: 'merchant', parent_id: id });
     }, [id, mutateAdd]);
 
     React.useEffect(() => {

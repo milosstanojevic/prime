@@ -3,8 +3,8 @@ export interface Merchant {
     name?: string;
     description?: string;
     address?: string;
-    createdAt?: number;
-    updatedAt?: number;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

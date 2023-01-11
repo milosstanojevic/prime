@@ -2,8 +2,8 @@ import { useFetch, usePost, usePut, useDelete } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { Warehouse } from '../types';
 
-const mainEntityUrl = 'warehouses';
-const singleEntityUrl = `${mainEntityUrl}/:id`;
+const mainEntityUrl = 'warehouses/';
+const singleEntityUrl = `${mainEntityUrl}:id/`;
 
 export const useGetWarehouses = () => useFetch<Warehouse[]>(pathToUrl(mainEntityUrl));
 

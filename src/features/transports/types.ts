@@ -1,8 +1,8 @@
 export interface Transport {
     id?: number;
     name?: string;
-    createdAt?: number;
-    updatedAt?: number;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

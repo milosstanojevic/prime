@@ -1,7 +1,7 @@
 import { useAddMerchantArticle } from 'features/merchant_articles';
 import { TransportOrder } from 'features/transport_orders/types';
 import React from 'react';
-import { useDeleteTransportOrderArticle, useEditTransportOrderArticle } from '../api';
+import { useDeleteTransportOrderArticle, useAddToStockTransportOrderArticle } from '../api';
 import { TransportOrderArticle } from '../types';
 
 type TransportOrderArticleContextType = {
@@ -41,17 +41,17 @@ export const TransportOrderArticleProvider = ({
     isRemoveArticleDisabled = false,
     transportOrder
 }: ITransportOrderArticleProvider) => {
-    const mutateAddMerchantArticle = useAddMerchantArticle(transportOrder?.parentId || 0);
+    const mutateAddMerchantArticle = useAddMerchantArticle(transportOrder?.parent_id || 0);
 
     const mutateDelete = useDeleteTransportOrderArticle(
-        orderArticle.transportOrderId || 0,
+        orderArticle.transport_order || 0,
         (oldData, id) => {
             return oldData?.filter((item) => item.id !== id);
         }
     );
 
-    const mutateEdit = useEditTransportOrderArticle(
-        orderArticle.transportOrderId || 0,
+    const mutateAddToStock = useAddToStockTransportOrderArticle(
+        orderArticle.transport_order || 0,
         (oldItems, newItem) => {
             return oldItems?.map((item) =>
                 item.id === newItem.id ? { ...item, ...newItem } : item
@@ -66,24 +66,27 @@ export const TransportOrderArticleProvider = ({
     }, [orderArticle, mutateDelete]);
 
     const addMerchantArticle = React.useCallback(() => {
-        const quantity = orderArticle.transportQuantity || 0;
+        const quantity = orderArticle.transport_quantity || 0;
 
         if (transportOrder?.parent === 'merchant' && quantity > 0) {
             const attributes = {
                 quantity,
-                article_id: orderArticle.articleId
+                article: orderArticle.article,
+                merchant: transportOrder.parent_id
             };
             mutateAddMerchantArticle.mutate(attributes);
         }
     }, [transportOrder, mutateAddMerchantArticle, orderArticle]);
 
     const addToStock = React.useCallback(() => {
-        mutateEdit.mutateAsync({ status: 2, id: orderArticle.id }).then(() => addMerchantArticle());
-    }, [mutateEdit, addMerchantArticle, orderArticle]);
+        mutateAddToStock
+            .mutateAsync({ status: '2', id: orderArticle.id })
+            .then(() => addMerchantArticle());
+    }, [mutateAddToStock, addMerchantArticle, orderArticle]);
 
     const isAddToStockEnabled = React.useMemo(() => {
         const orderStatus = transportOrder?.status || 0;
-        return orderArticle.status === 1 && orderStatus > 3;
+        return orderArticle.status === '1' && orderStatus === '5'; // order article = 1 pending, order status 5 = arrived
     }, [transportOrder, orderArticle]);
 
     return (

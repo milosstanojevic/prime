@@ -3,7 +3,6 @@ import { TransportOrderArticle } from '../types';
 import { Button, Input, KeyCodes, Select, SelectOption } from '../../../components';
 import styles from './TransportOrderArticleForm.module.css';
 import { Article } from 'features/articles/types';
-import { decamelizeKeys } from 'humps';
 
 interface ITransportOrderArticleForm {
     className?: string;
@@ -24,10 +23,10 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
 
     const isValid = React.useMemo<boolean>(() => {
         return (
-            articleForm.articleId !== undefined &&
-            articleForm.articleId > 0 &&
-            articleForm.requestedQuantity !== undefined &&
-            articleForm.requestedQuantity > 0
+            articleForm.article !== undefined &&
+            articleForm.article > 0 &&
+            articleForm.requested_quantity !== undefined &&
+            articleForm.requested_quantity > 0
         );
     }, [articleForm]);
 
@@ -35,7 +34,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
         (e: React.SyntheticEvent) => {
             e.preventDefault();
             if (isValid && typeof onSubmit === 'function') {
-                onSubmit(decamelizeKeys(articleForm));
+                onSubmit(articleForm);
             }
         },
         [onSubmit, isValid, articleForm]
@@ -58,17 +57,17 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
 
     const handleQuantityChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
-        const requestedQuantity = !isNaN(value) ? value : 0;
-        setArticleForm((prevState) => ({ ...prevState, requestedQuantity }));
+        const requested_quantity = !isNaN(value) ? value : 0;
+        setArticleForm((prevState) => ({ ...prevState, requested_quantity }));
     }, []);
 
     const handleChange = useCallback((ids: Array<string | number>) => {
-        const articleId = +ids[0];
-        setArticleForm((prevState) => ({ ...prevState, articleId }));
+        const article = +ids[0];
+        setArticleForm((prevState) => ({ ...prevState, article }));
     }, []);
 
     const target = React.useMemo(() => {
-        const article = articles.find((article) => article.id === articleForm.articleId);
+        const article = articles.find((article) => article.id === articleForm.article);
         if (article) {
             return <Button>{article.name}</Button>;
         }
@@ -84,7 +83,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
             <div className={styles.form_inner}>
                 <Select
                     target={target}
-                    selectedOptionIds={[articleForm.articleId || '']}
+                    selectedOptionIds={[articleForm.article || '']}
                     options={articles as SelectOption[]}
                     onChange={handleChange}
                     closeOnAction
@@ -93,7 +92,7 @@ export const TransportOrderArticleForm: FC<ITransportOrderArticleForm> = ({
                     onChange={handleQuantityChange}
                     name="quantity"
                     type="number"
-                    value={articleForm.requestedQuantity}
+                    value={articleForm.requested_quantity}
                     className={styles.quantity_input}
                     placeholder="Add quantity..."
                 />

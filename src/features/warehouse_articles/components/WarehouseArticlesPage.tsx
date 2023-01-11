@@ -28,7 +28,7 @@ export const WarehouseArticlesPage: React.FC = () => {
 
     const { data: regals, isLoading: isWarehouseRegalsLoading } = useGetWarehouseRegals(id);
 
-    const mutateAdd = useAddWarehouseRegal(id, (oldData, newData) => [...oldData, newData]);
+    const mutateAdd = useAddWarehouseRegal(id, (oldData = [], newData) => [...oldData, newData]);
 
     const [regalId, setRegalId] = React.useState(regals?.length ? regals[0].id : 0);
 
@@ -58,10 +58,10 @@ export const WarehouseArticlesPage: React.FC = () => {
 
     const handleSubmit = React.useCallback(
         (attributes: Regal) => {
-            mutateAdd.mutate(attributes);
+            mutateAdd.mutate({ warehouse: id, ...attributes });
             handleCloseModal();
         },
-        [mutateAdd, handleCloseModal]
+        [mutateAdd, handleCloseModal, id]
     );
 
     return (

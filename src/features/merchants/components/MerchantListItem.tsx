@@ -9,7 +9,7 @@ import { Merchant } from '../types';
 
 export const MerchantListItem = React.memo(() => {
     const { merchant, updateMerchant } = useMerchantContext();
-    const { id, name, description = '', address = '', createdAt } = merchant;
+    const { id, name, description = '', address = '', created } = merchant;
     const [showMerchantEdit, setShowMerchantEdit] = React.useState(false);
     const [showMerchantTrash, setShowMerchantTrash] = React.useState(false);
 
@@ -55,9 +55,7 @@ export const MerchantListItem = React.memo(() => {
                     <p dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
                 <div className={styles.item_element}>
-                    {createdAt && createdAt > 0
-                        ? formatDate(createdAt * 1000, 'PPpp')
-                        : 'Undefined'}
+                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
                 </div>
                 <div className={styles.item_element}>
                     <Menu

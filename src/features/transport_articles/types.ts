@@ -1,12 +1,17 @@
+import { Article } from 'features/articles/types';
+import { Warehouse } from 'features/warehouses/types';
+import { Regal } from 'features/warehouse_regals/types';
+import { RegalPosition } from 'features/warehouse_regal_positions/types';
+
 export interface TransportArticle {
     id?: number;
-    articleId?: number;
-    warehouseId?: number;
-    regalId?: number;
-    regalPositionId?: number;
+    article?: number;
+    warehouse?: Warehouse;
+    regal?: Regal;
+    regal_position?: RegalPosition;
     quantity?: number;
-    createdAt?: number;
-    updatedAt?: number;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

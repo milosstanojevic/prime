@@ -4,9 +4,9 @@ import {
     useMutation,
     useQuery,
     useQueryClient,
-    UseQueryOptions
-} from 'react-query';
-import { QueryFunctionContext } from 'react-query/types/core/types';
+    UseQueryOptions,
+    QueryFunctionContext
+} from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import hasOwnProperty from './hasOwnProperty';
 
@@ -91,7 +91,7 @@ const useGenericMutation = <T, S>(
             const previousData = queryClient.getQueryData([url!, params]);
 
             if (updater) {
-                queryClient.setQueryData<T>([url!, params], (oldData) => {
+                queryClient.setQueryData<T>([url, params], (oldData) => {
                     return updater(oldData!, data);
                 });
             }
@@ -132,11 +132,11 @@ export const usePut = <T, S>(
     return useGenericMutation<T, S>(
         (data) =>
             api.put<S>(
-                typeof data === 'object' &&
-                    data !== null &&
+                data !== null &&
+                    typeof data === 'object' &&
                     hasOwnProperty(data, 'id') &&
                     typeof data.id === 'number'
-                    ? `${url}/${data.id}`
+                    ? `${url}${data.id}/update/`
                     : url,
                 data
             ),
@@ -152,7 +152,7 @@ export const useDelete = <T>(
     updater?: (oldData: T, id: string | number) => T
 ) => {
     return useGenericMutation<T, string | number>(
-        (id) => api.delete(`${url}/${id}`),
+        (id) => api.delete(`${url}${id}/delete/`),
         url,
         params,
         updater

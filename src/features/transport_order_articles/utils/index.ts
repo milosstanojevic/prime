@@ -1,5 +1,5 @@
-export const getTransportOrderArticleStatus = (status?: number) => {
-    if (status === 2) {
+export const getTransportOrderArticleStatus = (status?: string) => {
+    if (status === '2') {
         return 'Added';
     }
 

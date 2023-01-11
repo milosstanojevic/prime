@@ -1,0 +1,35 @@
+.form_wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    background: whitesmoke;
+}
+
+.form {
+    width: auto;
+}
+
+.form_inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+}
+
+.article_picker {
+    width: 100%;
+}
+
+.cancel_button {
+    margin-left: 20px;
+}
+
+.form_buttons {
+    display: flex;
+    align-items: center;
+}

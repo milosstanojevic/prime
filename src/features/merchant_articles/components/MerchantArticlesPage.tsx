@@ -14,7 +14,7 @@ export const MerchantArticlesPage = () => {
     const describedArticles = React.useMemo(() => {
         if (articles && merchantArticles) {
             return merchantArticles.map((merchantArticle) => {
-                const article = articles.find((item) => item.id === merchantArticle.articleId);
+                const article = articles.find((item) => item.id === merchantArticle.article);
                 return article ? { ...article, ...merchantArticle } : merchantArticle;
             });
         }
@@ -27,7 +27,7 @@ export const MerchantArticlesPage = () => {
                 <div className={styles.list_wrapper} key={article.id}>
                     <div className={styles.list_item}>{article.name}</div>
                     <div className={styles.list_item}>{article.description}</div>
-                    <div className={styles.list_item}>{article.barCode}</div>
+                    <div className={styles.list_item}>{article.serial}</div>
                     <div className={styles.list_item}>
                         {article.quantity} {article.unit}
                     </div>

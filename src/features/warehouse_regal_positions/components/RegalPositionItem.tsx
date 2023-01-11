@@ -15,21 +15,21 @@ export const RegalPositionItem = () => {
 
         warehouseArticles?.forEach((warehouseArticle) => {
             if (
-                warehouseArticle.warehouseId === warehouseId &&
-                warehouseArticle.regalId === regalId &&
-                warehouseArticle.regalPositionId === id
+                warehouseArticle.warehouse === warehouseId &&
+                warehouseArticle.regal === regalId &&
+                warehouseArticle.regal_position === id
             ) {
                 positionArticles.push(warehouseArticle);
             }
         });
 
         positionArticles.forEach((positionArticle) => {
-            const article = articles?.find((article) => article.id === positionArticle.articleId);
+            const article = articles?.find((article) => article.id === positionArticle.article);
             if (article) {
                 items.push({
                     id: article.id,
                     name: article.name,
-                    barCode: article.barCode,
+                    serial: article.serial,
                     unit: article.unit,
                     quantity: positionArticle.quantity
                 });

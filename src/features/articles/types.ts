@@ -2,10 +2,10 @@ export interface Article {
     id?: number;
     name?: string;
     description?: string;
-    barCode?: number;
+    serial?: number;
     unit?: string;
-    createdAt?: number;
-    updatedAt?: number;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

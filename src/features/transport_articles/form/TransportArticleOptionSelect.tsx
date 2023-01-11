@@ -44,7 +44,7 @@ export const TransportArticleOptionSelect: React.FC<Props> = ({
     const singleSelect = React.useMemo(() => {
         if (selectIds.length) {
             const option = options?.find(({ id }) => id === selectIds[0]);
-            return <Button>{option ? option.name : 'Not found'}</Button>;
+            return <Button>{option ? option.name : 'Select'}</Button>;
         }
         return <Button>Select {label}...</Button>;
     }, [selectIds, options, label]);

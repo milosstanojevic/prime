@@ -3,7 +3,10 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+    QueryClient as TanstackQueryClient,
+    QueryClientProvider as TanstackQueryClientProvider
+} from '@tanstack/react-query';
 
 const config = {
     defaultOptions: {
@@ -17,15 +20,15 @@ const config = {
     }
 };
 
-const queryClient = new QueryClient(config);
+const queryClient = new TanstackQueryClient(config);
 const container = document.getElementById('root');
 const root = createRoot(container!);
 
 root.render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
+        <TanstackQueryClientProvider client={queryClient}>
             <App />
-        </QueryClientProvider>
+        </TanstackQueryClientProvider>
     </React.StrictMode>
 );
 

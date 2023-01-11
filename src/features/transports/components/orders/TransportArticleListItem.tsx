@@ -9,9 +9,9 @@ import styles from './TransportArticleListItem.module.css';
 interface TransportArticleListItemProps {
     transportArticle: TransportArticle;
     articleName?: string;
-    warehouses: Warehouse[];
-    regals: Regal[];
-    regalPositions: RegalPosition[];
+    warehouse?: Warehouse;
+    regal?: Regal;
+    regalPosition?: RegalPosition;
     onRemove?: (id: number) => void;
 }
 
@@ -19,9 +19,9 @@ export const TransportArticleListItem: React.FC<TransportArticleListItemProps> =
     transportArticle,
     articleName,
     onRemove,
-    warehouses,
-    regals,
-    regalPositions
+    warehouse,
+    regal,
+    regalPosition
 }) => {
     const handleRemove = React.useCallback(() => {
         if (transportArticle?.id && onRemove) {
@@ -30,20 +30,12 @@ export const TransportArticleListItem: React.FC<TransportArticleListItemProps> =
     }, [transportArticle, onRemove]);
 
     const props = React.useMemo(() => {
-        const warehouse = warehouses.find((item) => item.id === transportArticle.warehouseId);
-
-        const regal = regals.find((item) => item.id === transportArticle.regalId);
-
-        const regalPosition = regalPositions.find(
-            (item) => item.id === transportArticle.regalPositionId
-        );
-
         return {
             warehouseName: warehouse?.name || '-',
             regalName: regal?.name || '-',
             regalPositionName: regalPosition?.name || '-'
         };
-    }, [transportArticle, warehouses, regalPositions, regals]);
+    }, [transportArticle, warehouse, regalPosition, regal]);
 
     return (
         <tr>

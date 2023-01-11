@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Input, Select, Textarea } from '../../../../components';
 import styles from './ArticleForm.module.css';
 import { Article } from '../../types';
-import { decamelizeKeys } from 'humps';
 
 interface IArticleForm extends Article {
     className?: string;
@@ -15,7 +14,7 @@ const initialFormState = {
     id: 0,
     name: '',
     description: '',
-    barCode: undefined,
+    serial: undefined,
     unit: 'gr'
 };
 
@@ -26,7 +25,7 @@ export const ArticleForm: React.FC<IArticleForm> = ({
     id = 0,
     name,
     description,
-    barCode,
+    serial,
     unit,
     isSubmitting = false
 }) => {
@@ -36,7 +35,7 @@ export const ArticleForm: React.FC<IArticleForm> = ({
                 id,
                 name,
                 description,
-                barCode,
+                serial,
                 unit
             };
         }
@@ -60,7 +59,7 @@ export const ArticleForm: React.FC<IArticleForm> = ({
         (e: React.SyntheticEvent) => {
             e.preventDefault();
             if (articleForm.name && articleForm.name.length > 0 && typeof onSubmit === 'function') {
-                onSubmit(decamelizeKeys(articleForm));
+                onSubmit(articleForm);
             }
         },
         [onSubmit, articleForm]
@@ -96,11 +95,11 @@ export const ArticleForm: React.FC<IArticleForm> = ({
             </div>
             <div className={styles.article_form_element}>
                 <Input
-                    placeholder="Barcode..."
-                    name="barCode"
-                    id="barcode"
+                    placeholder="Serial..."
+                    name="serial"
+                    id="serial"
                     onChange={handleChange}
-                    value={articleForm.barCode}
+                    value={articleForm.serial}
                 />
             </div>
             <div className={styles.article_form_element}>

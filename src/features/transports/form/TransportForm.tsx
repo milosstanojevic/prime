@@ -5,7 +5,7 @@ import { Transport } from '../types';
 
 const initialFormState = {
     name: '',
-    description: ''
+    description: null
 };
 
 interface ITransportForm {

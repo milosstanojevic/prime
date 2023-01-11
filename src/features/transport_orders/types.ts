@@ -1,11 +1,11 @@
 export interface TransportOrder {
     id?: number;
-    transportId?: number;
+    transport?: number | null;
     parent?: string;
-    parentId?: number;
-    status?: number;
-    createdAt?: number;
-    updatedAt?: number;
+    parent_id?: number;
+    status?: string;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

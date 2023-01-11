@@ -1,11 +1,10 @@
 import { useFetch, usePost, useDelete, usePut } from '../../../utils';
-import { pathToUrl } from '../../../utils/router';
 import { TransportOrderArticle } from '../types';
 
-const mainUrl = 'transport-orders/:transportOrderId/articles';
+const mainUrl = 'transport-order-articles/';
 
 export const useGetTransportOrderArticles = (transportOrderId: number) =>
-    useFetch<TransportOrderArticle[]>(pathToUrl(mainUrl, { transportOrderId }));
+    useFetch<TransportOrderArticle[]>(mainUrl, { transport_order: transportOrderId });
 
 export const useAddTransportOrderArticle = (
     transportOrderId: number,
@@ -15,8 +14,8 @@ export const useAddTransportOrderArticle = (
     ) => TransportOrderArticle[]
 ) =>
     usePost<TransportOrderArticle[], TransportOrderArticle>(
-        pathToUrl(mainUrl, { transportOrderId }),
-        undefined,
+        mainUrl,
+        { transport_order: transportOrderId },
         updater
     );
 
@@ -28,8 +27,21 @@ export const useEditTransportOrderArticle = (
     ) => TransportOrderArticle[]
 ) =>
     usePut<TransportOrderArticle[], TransportOrderArticle>(
-        pathToUrl(mainUrl, { transportOrderId }),
-        undefined,
+        mainUrl,
+        { transport_order: transportOrderId },
+        updater
+    );
+
+export const useAddToStockTransportOrderArticle = (
+    transportOrderId: number,
+    updater?: (
+        oldData: TransportOrderArticle[],
+        newData: TransportOrderArticle
+    ) => TransportOrderArticle[]
+) =>
+    usePut<TransportOrderArticle[], TransportOrderArticle>(
+        `${mainUrl}stock/`,
+        { transport_order: transportOrderId },
         updater
     );
 
@@ -39,9 +51,4 @@ export const useDeleteTransportOrderArticle = (
         oldData: TransportOrderArticle[],
         deletedId: string | number
     ) => TransportOrderArticle[]
-) =>
-    useDelete<TransportOrderArticle[]>(
-        pathToUrl(mainUrl, { transportOrderId }),
-        undefined,
-        updater
-    );
+) => useDelete<TransportOrderArticle[]>(mainUrl, { transport_order: transportOrderId }, updater);

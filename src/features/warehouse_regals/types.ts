@@ -1,9 +1,9 @@
 export interface Regal {
     id?: number;
     name?: string;
-    warehouseId?: number;
-    createdAt?: number;
-    updatedAt?: number;
+    warehouse?: number;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

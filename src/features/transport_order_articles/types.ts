@@ -2,14 +2,14 @@ import { Article } from 'features/articles/types';
 
 export interface TransportOrderArticle extends Article {
     id?: number;
-    transportOrderId?: number;
-    articleId?: number;
-    requestedQuantity?: number;
-    transportQuantity?: number;
+    transport_order?: number;
+    article?: number;
+    requested_quantity?: number;
+    transport_quantity?: number;
     reason?: string;
-    status?: number;
-    createdAt?: number;
-    updatedAt?: number;
+    status?: string;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

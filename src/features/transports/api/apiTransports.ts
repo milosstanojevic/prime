@@ -2,8 +2,8 @@ import { useFetch, usePost, usePut, useDelete } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { Transport } from '../types';
 
-const mainEntityUrl = 'transport-routes';
-const singleEntityUrl = `${mainEntityUrl}/:id`;
+const mainEntityUrl = 'transports/';
+const singleEntityUrl = `${mainEntityUrl}:id/`;
 
 export const useGetTransportRoutes = () => useFetch<Transport[]>(pathToUrl(mainEntityUrl));
 

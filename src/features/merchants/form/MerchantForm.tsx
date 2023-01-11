@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Input, Textarea } from '../../../components';
 import styles from './MechantForm.module.css';
 import { Merchant } from '../types';
-import { decamelizeKeys } from 'humps';
 
 interface IMerchantForm extends Merchant {
     className?: string;
@@ -55,7 +54,7 @@ export const MerchantForm: React.FC<IMerchantForm> = ({
                 merchantForm.name.length > 0 &&
                 typeof onSubmit === 'function'
             ) {
-                onSubmit(decamelizeKeys(merchantForm));
+                onSubmit(merchantForm);
             }
         },
         [onSubmit, merchantForm]

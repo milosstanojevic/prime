@@ -1,9 +1,9 @@
 export interface RegalPosition {
     id?: number;
     name?: string;
-    regalId?: number;
-    createdAt?: number;
-    updatedAt?: number;
+    regal?: number;
+    created?: string;
+    updated?: string;
     createdBy?: string;
     updatedBy?: string;
 }

@@ -12,8 +12,8 @@ type Props = {
 export const WarehouseList: React.FC<Props> = ({ warehouses }) => {
     const sortedWarehouses = React.useMemo(() => {
         return (warehouses || []).sort((a, b) => {
-            if (a.createdAt && b.createdAt) {
-                return descSort(a.createdAt, b.createdAt);
+            if (a.created && b.created) {
+                return descSort(a.created, b.created);
             }
             if (a.name && b.name) {
                 return descSort(a.name, b.name);

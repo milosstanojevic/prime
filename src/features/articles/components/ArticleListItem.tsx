@@ -9,7 +9,7 @@ import { Article } from '../types';
 
 export const ArticleListItem: React.FC = () => {
     const { removeArticle, article, updateArticle } = useArticleContext();
-    const { id, name, barCode, unit, createdAt, updatedAt, description } = article;
+    const { id, name, serial, unit, created, updated, description } = article;
 
     const [showArticleEdit, setShowArticleEdit] = React.useState(false);
     const [showArticleTrash, setShowArticleTrash] = React.useState(false);
@@ -55,17 +55,13 @@ export const ArticleListItem: React.FC = () => {
             <div className={styles.item}>
                 <div className={styles.item_element}>{id}</div>
                 <div className={styles.item_element}>{name}</div>
-                <div className={styles.item_element}>{barCode}</div>
+                <div className={styles.item_element}>{serial}</div>
                 <div className={styles.item_element}>{unit}</div>
                 <div className={styles.item_element}>
-                    {createdAt && createdAt > 0
-                        ? formatDate(createdAt * 1000, 'PPpp')
-                        : 'Undefined'}
+                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
                 </div>
                 <div className={styles.item_element}>
-                    {updatedAt && updatedAt > 0
-                        ? formatDate(updatedAt * 1000, 'PPpp')
-                        : 'Undefined'}
+                    {updated?.length ? formatDate(+updated, 'PPpp') : 'Undefined'}
                 </div>
                 <div className={styles.item_element}>
                     <p dangerouslySetInnerHTML={{ __html: description || '' }} />
