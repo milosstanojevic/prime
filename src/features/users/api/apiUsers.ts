@@ -2,10 +2,12 @@ import { useFetch, usePost, usePut, useDelete } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { User } from '../types';
 
-const mainEntityUrl = 'users';
-const singleEntityUrl = `${mainEntityUrl}/:id`;
+const mainEntityUrl = 'users/';
+const singleEntityUrl = `${mainEntityUrl}:id`;
 
 export const useGetUsers = () => useFetch<User[]>(pathToUrl(mainEntityUrl));
+
+export const useGetLoggedUser = () => useFetch<User>(`${mainEntityUrl}logged-user/`);
 
 export const useAddUser = (updater: (oldData: User[], newData: User) => User[]) =>
     usePost<User[], User>(pathToUrl(mainEntityUrl), undefined, updater);

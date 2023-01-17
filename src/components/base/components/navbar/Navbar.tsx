@@ -1,13 +1,23 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 import styles from './Navbar.module.css';
-import { Menu } from '../menu';
-import { isInDevelopmentMode } from '../../../utils';
-import bars from '../../../images/bars.png';
+import { Menu } from '../ui/menu';
+import { isInDevelopmentMode } from '../../utils';
+import bars from '../../images/bars.png';
+import { useAuthContext } from 'features/auth/context';
+import { Button } from '../ui/buttons';
+import { useLoggedUserContext } from '../../../../context/LoggedUserProvider';
 
-export const Navbar = () => {
+export const Navbar: React.FC = () => {
     const [showResponsiveMenu, setShowResponsiveMenu] = React.useState(false);
+    const { logout } = useAuthContext();
+    const { user } = useLoggedUserContext();
+    const navigate = useNavigate();
+
+    const handleLogout = React.useCallback(() => {
+        logout().finally(() => navigate('/'));
+    }, [navigate, logout]);
 
     const handleShowResponsiveMenu = React.useCallback(() => {
         setShowResponsiveMenu(!showResponsiveMenu);
@@ -51,7 +61,7 @@ export const Navbar = () => {
                     <NavLink
                         // activeClassName={styles.active}
                         className={styles.nav_links}
-                        to="merchants"
+                        to="/merchants"
                     >
                         Merchants
                     </NavLink>
@@ -60,7 +70,7 @@ export const Navbar = () => {
                     <NavLink
                         // activeClassName={styles.active}
                         className={styles.nav_links}
-                        to="articles"
+                        to="/articles"
                     >
                         Articles
                     </NavLink>
@@ -69,7 +79,7 @@ export const Navbar = () => {
                     <NavLink
                         // activeClassName={styles.active}
                         className={styles.nav_links}
-                        to="transport-routes"
+                        to="/transport-routes"
                     >
                         Transports
                     </NavLink>
@@ -78,7 +88,7 @@ export const Navbar = () => {
                     <NavLink
                         // activeClassName={styles.active}
                         className={styles.nav_links}
-                        to="orders"
+                        to="/orders"
                     >
                         Orders
                     </NavLink>
@@ -87,28 +97,31 @@ export const Navbar = () => {
                     <NavLink
                         // activeClassName={styles.active}
                         className={styles.nav_links}
-                        to="users"
+                        to="/users"
                     >
                         Users
                     </NavLink>
                 </li>
                 <li>
                     <div className={styles.nav_links}>
-                        <Menu target={<span>Logged User name</span>}>
+                        <Menu target={<span>{user?.username}</span>}>
                             <div className={styles.menu_wrapper}>
                                 <div className={styles.menu_content}></div>
                             </div>
                             <div className={styles.menu}>
                                 <div className={styles.menu_item}>Profile</div>
                                 <div className={styles.menu_item}>
-                                    <Link to="settings">Settings</Link>
+                                    <Link to="/settings">Settings</Link>
                                 </div>
-                                <div className={styles.menu_item}>Logout</div>
+                                <div className={styles.menu_item}>
+                                    <Button onClick={handleLogout}>Logout</Button>
+                                </div>
                             </div>
                         </Menu>
                     </div>
                 </li>
             </ul>
+            <Outlet />
         </nav>
     );
 };

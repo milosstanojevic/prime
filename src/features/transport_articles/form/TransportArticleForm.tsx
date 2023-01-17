@@ -94,7 +94,7 @@ export const TransportArticleForm: React.FC<Props> = ({
 
     const handleSave = React.useCallback(() => {
         onSave && onSave(form).then(() => setForm(defaultFormState));
-    }, [form, onSave]);
+    }, [form, onSave, defaultFormState]);
 
     const itemStyle: React.CSSProperties = {
         padding: '15px'

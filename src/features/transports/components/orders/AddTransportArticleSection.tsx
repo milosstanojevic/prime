@@ -1,4 +1,4 @@
-import { Button, Table } from 'components';
+import { Table } from 'components';
 import {
     TransportArticleForm,
     useAddTransportArticle,

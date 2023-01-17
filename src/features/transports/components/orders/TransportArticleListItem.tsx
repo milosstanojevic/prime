@@ -35,7 +35,7 @@ export const TransportArticleListItem: React.FC<TransportArticleListItemProps> =
             regalName: regal?.name || '-',
             regalPositionName: regalPosition?.name || '-'
         };
-    }, [transportArticle, warehouse, regalPosition, regal]);
+    }, [warehouse, regalPosition, regal]);
 
     return (
         <tr>
