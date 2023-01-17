@@ -1,16 +1,16 @@
 import axios, { AxiosError } from 'axios';
-import { refreshToken } from 'features/auth';
+import { refreshToken } from '../features/auth';
 import {
     getAccessToken,
     getRefreshToken,
     removeAccessToken,
     removeRefreshToken,
     setAccessToken
-} from 'features/auth/token';
+} from '../features/auth/token';
 
-const API_ROOT = process.env.REACT_APP_API_URL || '';
+const API_ROOT = import.meta.env.VITE_API_URL || '';
 
-const URI = process.env.REACT_APP_URI || '';
+const URI = import.meta.env.VITE_URI || '';
 
 const ROOT_URL = `${URI}${API_ROOT}`;
 

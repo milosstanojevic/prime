@@ -5,7 +5,7 @@ import styles from './Navbar.module.css';
 import { Menu } from '../ui/menu';
 import { isInDevelopmentMode } from '../../utils';
 import bars from '../../images/bars.png';
-import { useAuthContext } from 'features/auth/context';
+import { useAuthContext } from '../../../../features/auth/context';
 import { Button } from '../ui/buttons';
 import { useLoggedUserContext } from '../../../../context/LoggedUserProvider';
 

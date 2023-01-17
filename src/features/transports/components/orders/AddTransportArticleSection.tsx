@@ -1,10 +1,10 @@
-import { Table } from 'components';
+import { Table } from '../../../../components';
 import {
     TransportArticleForm,
     useAddTransportArticle,
     useDeleteTransportArticle,
     useGetTransportArticles
-} from 'features/transport_articles';
+} from '../../../../features/transport_articles';
 import React from 'react';
 import { TransportArticleListItem } from './TransportArticleListItem';
 import styles from './AddTransportArticleSection.module.css';

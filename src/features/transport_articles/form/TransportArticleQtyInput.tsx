@@ -1,5 +1,5 @@
-import { Input, Loading } from 'components';
-import { useGetWarehouseArticleByParams } from 'features/warehouse_articles';
+import { Input, Loading } from '../../../components';
+import { useGetWarehouseArticleByParams } from '../../../features/warehouse_articles';
 import React from 'react';
 
 interface TransportArticleQtyInputProps {

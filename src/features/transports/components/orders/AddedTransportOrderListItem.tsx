@@ -1,7 +1,7 @@
-import { Button } from 'components';
-import { getTransportOrderStatusLabel } from 'features/transport_orders';
-import TransportOrderStatus from 'features/transport_orders/components/transport_order_status';
-import { TransportOrder } from 'features/transport_orders/types';
+import { Button } from '../../../../components';
+import { getTransportOrderStatusLabel } from '../../../../features/transport_orders';
+import TransportOrderStatus from '../../../../features/transport_orders/components/transport_order_status';
+import { TransportOrder } from '../../../../features/transport_orders/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './AddedTransportOrderListItem.module.css';

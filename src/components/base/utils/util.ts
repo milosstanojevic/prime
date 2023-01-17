@@ -1,1 +1,1 @@
-export const isInDevelopmentMode = process.env.NODE_ENV === 'development';
+export const isInDevelopmentMode = import.meta.env.NODE_ENV === 'development';

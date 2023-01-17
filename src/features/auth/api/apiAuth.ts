@@ -1,9 +1,9 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { UserToken, RefreshTokenParams, GrantTokenParams } from '../types';
 
-const API_ROOT = process.env.REACT_APP_URI || '';
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
+const API_ROOT = import.meta.env.VITE_URI || '';
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID || '';
+const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET || '';
 
 export const obtainToken = (attributes: GrantTokenParams) => {
     return axios.post<UserToken>(

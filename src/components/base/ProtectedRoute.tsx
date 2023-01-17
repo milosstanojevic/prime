@@ -1,5 +1,5 @@
-import { useAuthContext } from 'features/auth/context';
-import { LoggedUserProvider } from 'context/LoggedUserProvider';
+import { useAuthContext } from '../../features/auth/context';
+import { LoggedUserProvider } from '../../context/LoggedUserProvider';
 import React, { ReactElement } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Loading, Navbar } from './components';

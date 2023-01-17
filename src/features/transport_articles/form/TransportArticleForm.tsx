@@ -1,5 +1,5 @@
-import { Button, Loading } from 'components';
-import { useGetArticle } from 'features/articles';
+import { Button, Loading } from '../../../components';
+import { useGetArticle } from '../../../features/articles';
 import React, { useState } from 'react';
 import { TransportArticle } from '../types';
 import { TransportArticleOptionSelect } from './TransportArticleOptionSelect';

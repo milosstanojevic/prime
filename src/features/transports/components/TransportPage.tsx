@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './TransportPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetTransportRoute } from '..';
-import { Button } from 'components';
+import { Button } from '../../../components';
 
 export const TransportPage: React.FC = () => {
     const params = useParams();

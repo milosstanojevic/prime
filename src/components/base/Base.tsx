@@ -8,12 +8,12 @@ import { TransportOrderPage, TransportOrdersPage } from '../../features/transpor
 import { UsersPage } from '../../features/users';
 import { TransportOrderItemPage, TransportsPage } from '../../features/transports';
 import { isInDevelopmentMode } from './utils';
-import { WarehouseArticlesPage } from 'features/warehouse_articles';
-import { WarehouseMembers } from 'features/warehouse_members';
-import { WarehouseTransports } from 'features/warehouse_transports';
-import { TransportPage, TransportAddOrdersPage } from 'features/transports';
-import { MerchantArticlesPage } from 'features/merchant_articles';
-import { Login } from 'features/auth';
+import { WarehouseArticlesPage } from '../../features/warehouse_articles';
+import { WarehouseMembers } from '../../features/warehouse_members';
+import { WarehouseTransports } from '../../features/warehouse_transports';
+import { TransportPage, TransportAddOrdersPage } from '../../features/transports';
+import { MerchantArticlesPage } from '../../features/merchant_articles';
+import { Login } from '../../features/auth';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export const Base: React.FC = () => {

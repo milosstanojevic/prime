@@ -1,6 +1,6 @@
-import { Article } from 'features/articles/types';
-import { useGetTransportOrder } from 'features/transport_orders';
-import { useGetTransportOrderArticles } from 'features/transport_order_articles';
+import { Article } from '../../../../features/articles/types';
+import { useGetTransportOrder } from '../../../../features/transport_orders';
+import { useGetTransportOrderArticles } from '../../../../features/transport_order_articles';
 import React from 'react';
 import OrderForTransportArticleItem from './OrderForTransportArticleItem';
 

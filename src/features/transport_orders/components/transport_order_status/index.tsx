@@ -1,4 +1,4 @@
-import { Button, Select } from 'components';
+import { Button, Select } from '../../../../components';
 import React from 'react';
 
 const defaultOptions = [

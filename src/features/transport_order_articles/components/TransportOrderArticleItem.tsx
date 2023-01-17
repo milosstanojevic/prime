@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'components';
+import { Button } from '../../../components';
 import { useTransportOrderArticleContext } from '../context';
 import { getTransportOrderArticleStatus } from '../utils';
 import styles from './TransportOrderArticleItem.module.css';

@@ -1,7 +1,7 @@
 import { setToken, getToken, removeToken } from './main';
 
 const tokenKey = 'at';
-const key = process.env.REACT_APP_ACCESS_TOKEN_KEY || 'default-access-token';
+const key = import.meta.env.VITE_ACCESS_TOKEN_KEY || 'default-access-token';
 
 export const getAccessToken = () => {
     return getToken(tokenKey, key);

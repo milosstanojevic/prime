@@ -1,9 +1,12 @@
-import { Button, Loading } from 'components';
-import { useAddTransportOrder, useGetParentTransportOrders } from 'features/transport_orders';
+import { Button, Loading } from '../../../components';
+import {
+    useAddTransportOrder,
+    useGetParentTransportOrders
+} from '../../../features/transport_orders';
 import React from 'react';
 import { MerchantsOrderList } from './MerchantOrdersList';
 import { useNavigate, useParams } from 'react-router-dom';
-import hasOwnProperty from 'utils/hasOwnProperty';
+import hasOwnProperty from '../../../utils/hasOwnProperty';
 
 export const MerchantOrdersPage: React.FC = () => {
     const params = useParams();

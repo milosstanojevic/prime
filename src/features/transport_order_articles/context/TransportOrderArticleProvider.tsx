@@ -1,5 +1,5 @@
-import { useAddMerchantArticle } from 'features/merchant_articles';
-import { TransportOrder } from 'features/transport_orders/types';
+import { useAddMerchantArticle } from '../../../features/merchant_articles';
+import { TransportOrder } from '../../../features/transport_orders/types';
 import React from 'react';
 import { useDeleteTransportOrderArticle, useAddToStockTransportOrderArticle } from '../api';
 import { TransportOrderArticle } from '../types';

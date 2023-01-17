@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Bubble, Button, Loading, Modal } from 'components';
+import { Bubble, Button, Loading, Modal } from '../../../components';
 import {
     TransportOrderArticleForm,
     TransportOrderArticleItem,
     TransportOrderArticleProvider,
     useAddTransportOrderArticle,
     useGetTransportOrderArticles
-} from 'features/transport_order_articles';
-import { useGetArticles } from 'features/articles';
+} from '../../../features/transport_order_articles';
+import { useGetArticles } from '../../../features/articles';
 import styles from './TransportOrderPage.module.css';
 import { useEditTransportOrder, useGetTransportOrder } from '../api';
-import { TransportOrderArticle } from 'features/transport_order_articles/types';
+import { TransportOrderArticle } from '../../../features/transport_order_articles/types';
 import TransportOrderStatus from './transport_order_status';
-import { useGetWarehouseArticles } from 'features/warehouse_articles';
-import { Article } from 'features/articles/types';
+import { useGetWarehouseArticles } from '../../../features/warehouse_articles';
+import { Article } from '../../../features/articles/types';
 
 export const TransportOrderPage: React.FC = () => {
     const params = useParams();

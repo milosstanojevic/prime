@@ -1,5 +1,5 @@
-import { getTransportOrderStatusLabel } from 'features/transport_orders';
-import { TransportOrder } from 'features/transport_orders/types';
+import { getTransportOrderStatusLabel } from '../../../../features/transport_orders';
+import { TransportOrder } from '../../../../features/transport_orders/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './AddedTransportOrderListItem.module.css';

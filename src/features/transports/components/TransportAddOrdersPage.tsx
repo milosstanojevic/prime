@@ -1,7 +1,7 @@
-import { Button, Select } from 'components';
-import { useGetArticles } from 'features/articles';
-import { useGetTransportOrders, useEditTransportOrder } from 'features/transport_orders';
-import { TransportOrder } from 'features/transport_orders/types';
+import { Button, Select } from '../../../components';
+import { useGetArticles } from '../../../features/articles';
+import { useGetTransportOrders, useEditTransportOrder } from '../../../features/transport_orders';
+import { TransportOrder } from '../../../features/transport_orders/types';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetTransportRoute } from '../api';

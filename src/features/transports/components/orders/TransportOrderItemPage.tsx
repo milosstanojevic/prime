@@ -1,5 +1,5 @@
-import { Button } from 'components';
-import { useGetArticles } from 'features/articles';
+import { Button } from '../../../../components';
+import { useGetArticles } from '../../../../features/articles';
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { OrderForTransport } from './OrderForTransport';

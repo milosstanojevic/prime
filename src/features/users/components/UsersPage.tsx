@@ -1,4 +1,4 @@
-import { Loading } from 'components';
+import { Loading } from '../../../components';
 import React from 'react';
 import { useGetUsers } from '../api';
 import { UserList } from './UserList';

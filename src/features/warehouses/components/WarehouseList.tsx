@@ -3,7 +3,7 @@ import styles from './WarehouseList.module.css';
 import { WarehouseListItem } from './WarehouseListItem';
 import { WarehouseProvider } from '../context';
 import { Warehouse } from '../types';
-import { descSort } from 'features/utils';
+import { descSort } from '../../../features/utils';
 
 type Props = {
     warehouses?: Warehouse[];

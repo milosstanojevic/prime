@@ -1,11 +1,11 @@
-import { Button, Loading, Modal } from 'components';
-import { useGetMerchants } from 'features/merchants';
+import { Button, Loading, Modal } from '../../../components';
+import { useGetMerchants } from '../../../features/merchants';
 import React from 'react';
 import { useGetTransportOrders, useAddTransportOrder } from '../api';
 import { TransportOrder } from '../types';
 import { TransportOrderForm } from './form/TransportOrderForm';
 import { TransportOrderList } from './TransportOrderList';
-import styles from './TransportOrdersPage.module.css'
+import styles from './TransportOrdersPage.module.css';
 
 export const TransportOrdersPage = () => {
     const { data: orders, isLoading, refetch } = useGetTransportOrders();

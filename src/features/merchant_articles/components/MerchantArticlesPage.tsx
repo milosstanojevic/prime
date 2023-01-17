@@ -1,4 +1,4 @@
-import { useGetArticles } from 'features/articles';
+import { useGetArticles } from '../../../features/articles';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetMerchantArticles } from '../api';

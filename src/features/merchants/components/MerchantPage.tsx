@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loading, NavPills } from 'components';
+import { Loading, NavPills } from '../../../components';
 import { Outlet, useParams } from 'react-router-dom';
 import { useGetMerchant } from '..';
 import styles from './MerchantPage.module.css';

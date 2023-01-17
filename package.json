@@ -34,10 +34,8 @@
         "web-vitals": "^3.1.0"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "start": "vite",
+        "build": "vite build"
     },
     "eslintConfig": {
         "extends": [
@@ -63,6 +61,8 @@
         "@types/js-cookie": "^3.0.2",
         "@types/react-router-dom": "^5.3.3",
         "@types/react-transition-group": "^4.4.5",
-        "react-scripts": "^5.0.1"
+        "sass": "^1.57.1",
+        "@vitejs/plugin-react": "^3.0.1",
+        "vite": "^4.0.4"
     }
 }

@@ -1,4 +1,4 @@
-import { Button, Loading, Select } from 'components';
+import { Button, Loading, Select } from '../../../components';
 import React from 'react';
 import { useGetTransportArticleOptions } from '../api';
 

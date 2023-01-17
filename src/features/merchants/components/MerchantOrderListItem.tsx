@@ -1,5 +1,8 @@
-import { Button } from 'components';
-import { getTransportOrderStatusLabel, useTransportOrderContext } from 'features/transport_orders';
+import { Button } from '../../../components';
+import {
+    getTransportOrderStatusLabel,
+    useTransportOrderContext
+} from '../../../features/transport_orders';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './MerchantOrderListItem.module.css';

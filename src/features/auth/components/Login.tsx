@@ -1,4 +1,4 @@
-import { Button, Input, Loading, mainPath } from 'components';
+import { Button, Input, Loading, mainPath } from '../../../components';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context';

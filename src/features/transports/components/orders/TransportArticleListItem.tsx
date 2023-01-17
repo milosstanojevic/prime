@@ -1,8 +1,8 @@
-import { Button } from 'components';
-import { TransportArticle } from 'features/transport_articles/types';
-import { Warehouse } from 'features/warehouses/types';
-import { Regal } from 'features/warehouse_regals/types';
-import { RegalPosition } from 'features/warehouse_regal_positions/types';
+import { Button } from '../../../../components';
+import { TransportArticle } from '../../../../features/transport_articles/types';
+import { Warehouse } from '../../../../features/warehouses/types';
+import { Regal } from '../../../../features/warehouse_regals/types';
+import { RegalPosition } from '../../../../features/warehouse_regal_positions/types';
 import React from 'react';
 import styles from './TransportArticleListItem.module.css';
 
