@@ -44,7 +44,7 @@
     transform: translate(-50%, -50%);
 }
 
-.modal_trash_wrapper {
+.modal_trash_wrapper, .modal_details_wrapper {
     position: absolute;
     z-index: 1;
     top: 50%;

@@ -44,10 +44,11 @@
 .link {
     background: none;
     text-decoration: underline;
+    color: var(--main-theme-color);
 }
 
 .link:hover {
-    color: #4095c6;
+    color: purple;
 }
 
 button:disabled,

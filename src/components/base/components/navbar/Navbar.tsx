@@ -42,7 +42,7 @@ export const Navbar: React.FC = () => {
                         <NavLink
                             // activeClassName={styles.active}
                             className={styles.nav_links}
-                            to="components"
+                            to="/components"
                         >
                             Components
                         </NavLink>

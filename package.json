@@ -4,7 +4,7 @@
     "private": true,
     "dependencies": {
         "@popperjs/core": "^2.11.6",
-        "@tanstack/react-query": "^4.20.4",
+        "@tanstack/react-query": "^4.22.0",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^14.4.3",
@@ -27,6 +27,7 @@
         "react-day-picker": "^8.4.1",
         "react-dom": "^18.2.0",
         "react-focus-lock": "^2.9.2",
+        "react-paginate": "^8.1.4",
         "react-remove-scroll": "^2.5.5",
         "react-router-dom": "^6.6.1",
         "react-transition-group": "^4.4.5",
@@ -61,8 +62,8 @@
         "@types/js-cookie": "^3.0.2",
         "@types/react-router-dom": "^5.3.3",
         "@types/react-transition-group": "^4.4.5",
-        "sass": "^1.57.1",
         "@vitejs/plugin-react": "^3.0.1",
+        "sass": "^1.57.1",
         "vite": "^4.0.4"
     }
 }

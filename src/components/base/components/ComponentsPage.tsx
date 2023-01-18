@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ComponentsPage.module.css';
+
 import {
     Checkbox,
     Input,
@@ -13,7 +14,8 @@ import {
     DatePicker,
     Loading,
     List,
-    ListItem
+    ListItem,
+    Table
 } from './ui';
 
 const options = [
@@ -219,6 +221,32 @@ const ComponentsPage: React.FC = () => {
                     <ListItem>Text 3</ListItem>
                     <ListItem>Text 4</ListItem>
                 </List>
+            </div>
+            <div className={styles.component_item}>
+                <div className={styles.label}>Table</div>
+                <Table headers={['name', 'description', 'edit']}>
+                    <tr>
+                        <td>{`John`}</td>
+                        <td>{`Doctor`}</td>
+                        <td>
+                            <Button>Edit</Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{`Millie`}</td>
+                        <td>{`Apprentice`}</td>
+                        <td>
+                            <Button>Edit</Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{`Del Boy`}</td>
+                        <td>{`Smugger`}</td>
+                        <td>
+                            <Button>Edit</Button>
+                        </td>
+                    </tr>
+                </Table>
             </div>
         </div>
     );

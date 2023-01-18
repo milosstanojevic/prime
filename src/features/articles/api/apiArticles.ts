@@ -1,4 +1,4 @@
-import { useFetch, usePost, usePut, useDelete } from '../../../utils';
+import { useFetch, usePost, usePut, useDelete, PaginationType } from '../../../utils';
 import { pathToUrl } from '../../../utils/router';
 import { Article } from '../types';
 
@@ -6,6 +6,12 @@ const mainEntityUrl = 'articles/';
 const singleEntityUrl = `${mainEntityUrl}:id/`;
 
 export const useGetArticles = () => useFetch<Article[]>(pathToUrl(mainEntityUrl));
+
+export const useGetPaginatedArticles = (params: {
+    limit: number;
+    offset: number;
+    search?: string;
+}) => useFetch<PaginationType<Article>>(pathToUrl(mainEntityUrl), params);
 
 export const useAddArticle = (updater: (oldData: Article[], newData: Article) => Article[]) =>
     usePost<Article[], Article>(pathToUrl(mainEntityUrl), undefined, updater);

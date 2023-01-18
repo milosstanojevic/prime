@@ -1,0 +1,32 @@
+.formWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+    border-bottom-left-radius: 0.4rem;
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 20rem;
+}
+
+.clearBtn {
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+
+    &:hover {
+        background: #ccc;
+    }
+}

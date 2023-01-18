@@ -13,6 +13,7 @@ export const ArticleListItem: React.FC = () => {
 
     const [showArticleEdit, setShowArticleEdit] = React.useState(false);
     const [showArticleTrash, setShowArticleTrash] = React.useState(false);
+    const [showArticleDetails, setShowArticleDetails] = React.useState(false);
     const [menuOpen, setMenuOpen] = React.useState(false);
 
     const handleShowArticleEdit = React.useCallback(() => {
@@ -29,6 +30,14 @@ export const ArticleListItem: React.FC = () => {
 
     const handleCloseArticleTrash = React.useCallback(() => {
         setShowArticleTrash(false);
+    }, []);
+
+    const handleShowArticleDetails = React.useCallback(() => {
+        setShowArticleDetails(true);
+    }, []);
+
+    const handleCloseArticleDetails = React.useCallback(() => {
+        setShowArticleDetails(false);
     }, []);
 
     const handleArticleTrash = React.useCallback(() => {
@@ -52,21 +61,16 @@ export const ArticleListItem: React.FC = () => {
 
     return (
         <>
-            <div className={styles.item}>
-                <div className={styles.item_element}>{id}</div>
-                <div className={styles.item_element}>{name}</div>
-                <div className={styles.item_element}>{serial}</div>
-                <div className={styles.item_element}>{unit}</div>
-                <div className={styles.item_element}>
-                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
-                </div>
-                <div className={styles.item_element}>
-                    {updated?.length ? formatDate(+updated, 'PPpp') : 'Undefined'}
-                </div>
-                <div className={styles.item_element}>
-                    <p dangerouslySetInnerHTML={{ __html: description || '' }} />
-                </div>
-                <div className={styles.item_element}>
+            <tr>
+                <td>
+                    <Button mode="link" onClick={handleShowArticleDetails}>
+                        {name}
+                    </Button>
+                </td>
+                <td>{serial}</td>
+                <td>{unit}</td>
+                <td>{created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}</td>
+                <td>
                     <Menu
                         externalControls={[menuOpen, setMenuOpen]}
                         target={
@@ -84,8 +88,8 @@ export const ArticleListItem: React.FC = () => {
                             </div>
                         </div>
                     </Menu>
-                </div>
-            </div>
+                </td>
+            </tr>
             <Modal open={showArticleEdit} onClose={handleCloseArticleEdit}>
                 <div className={styles.modal_form_wrapper}>
                     <ArticleForm
@@ -104,6 +108,12 @@ export const ArticleListItem: React.FC = () => {
                     <Button type="button" onClick={handleCloseArticleTrash}>
                         Cancel
                     </Button>
+                </div>
+            </Modal>
+            <Modal open={showArticleDetails} onClose={handleCloseArticleDetails}>
+                <div className={styles.modal_details_wrapper}>
+                    <h3>{name}</h3>
+                    <div>Details todo</div>
                 </div>
             </Modal>
         </>

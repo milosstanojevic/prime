@@ -10,3 +10,16 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+:root {
+    /* Pagination */
+    --primary: #23adad;
+    --greyLight: #23adade1;
+    --greyLight-2: #cbe0dd;
+    --greyDark: #2d4848;
+    /* End Pagination */
+    --main-theme-color: #8B008B;
+    --main-light-theme-color:	#F0FFFF;
+    --mobile-small: 460px;
+    --mobile: 720px;
+  }

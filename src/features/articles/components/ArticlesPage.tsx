@@ -1,15 +1,29 @@
 import React from 'react';
 import styles from './ArticlesPage.module.css';
-import { Button, Modal } from '../../../components';
+import { Button, Search, Modal } from '../../../components';
 import { ArticleList } from './ArticleList';
 import { Loading } from '../../../components';
 import { ArticleForm } from '..';
-import { useGetArticles, useAddArticle } from '../api';
+import { useAddArticle, useGetPaginatedArticles } from '../api';
 import { Article } from '../types';
+import { useSearchParams } from 'react-router-dom';
+
+const limit = 10;
 
 export const ArticlesPage: React.FC = () => {
-    const { data, isLoading } = useGetArticles();
-    const mutationAdd = useAddArticle((oldData, newData) => [...oldData, newData]);
+    const [searchParams] = useSearchParams();
+    const offsetParam = searchParams.get('offset');
+    const search = searchParams.get('search');
+    const offset = offsetParam ? +offsetParam : 0;
+
+    const params = {
+        limit,
+        offset,
+        ...(search && { search })
+    };
+
+    const { data, isLoading } = useGetPaginatedArticles(params);
+    const mutationAdd = useAddArticle((oldData = [], newData) => [...oldData, newData]);
 
     const [showCreateArticle, setShowCreateArticle] = React.useState(false);
     const handleShowCreateArticle = React.useCallback(() => {
@@ -31,11 +45,25 @@ export const ArticlesPage: React.FC = () => {
     return (
         <div className={styles.page}>
             <div className={styles.page_header}>
-                <Button mode="primary" onClick={handleShowCreateArticle}>
-                    Create new Article
-                </Button>
+                <div>
+                    <Button mode="primary" onClick={handleShowCreateArticle}>
+                        +
+                    </Button>
+                </div>
+
+                <Search placeholder="Search By Name or Serial..." />
             </div>
-            {isLoading ? <Loading /> : <ArticleList articles={data} />}
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <>
+                    <ArticleList
+                        articles={data?.results}
+                        articleCount={data?.count}
+                        limit={limit}
+                    />
+                </>
+            )}
             <Modal open={showCreateArticle} onClose={handleCloseCreateArticle}>
                 <div className={styles.modal_form_wrapper}>
                     <ArticleForm
