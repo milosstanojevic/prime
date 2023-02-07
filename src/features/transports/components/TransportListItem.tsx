@@ -48,17 +48,15 @@ export const TransportListItem = React.memo(() => {
 
     return (
         <>
-            <div className={styles.item}>
-                <div className={styles.item_element}>#{id}</div>
-                <div className={styles.item_element}>
-                    <Link to={`/transport-routes/${id}`} className={styles.item_element}>
+            <tr>
+                <td>#{id}</td>
+                <td>
+                    <Link to={`/transport-routes/${id}`}>
                         <span>{name}</span>
                     </Link>
-                </div>
-                <div className={styles.item_element}>
-                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
-                </div>
-                <div className={styles.item_element}>
+                </td>
+                <td>{created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}</td>
+                <td>
                     <Menu
                         target={
                             <div>
@@ -75,8 +73,8 @@ export const TransportListItem = React.memo(() => {
                             </div>
                         </Bubble>
                     </Menu>
-                </div>
-            </div>
+                </td>
+            </tr>
             <Modal open={showTransportEdit} onClose={handleCloseTransportEdit}>
                 <div className={styles.modal_form_wrapper}>
                     <TransportForm

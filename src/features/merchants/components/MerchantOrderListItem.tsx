@@ -5,7 +5,6 @@ import {
 } from '../../../features/transport_orders';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './MerchantOrderListItem.module.css';
 
 interface MerchantOrderListItemProps {}
 
@@ -18,15 +17,15 @@ export const MerchantOrderListItem: React.FC<MerchantOrderListItemProps> = () =>
     }, [status]);
 
     return (
-        <div className={styles.item}>
-            <div className={styles.item_element}>{id}</div>
-            <div className={styles.item_element}>{statusLabel}</div>
-            <div className={styles.item_element}>
+        <tr>
+            <td>{id}</td>
+            <td>{statusLabel}</td>
+            <td>
                 <Link to={{ pathname: `/orders/${id}` }}>{`Order-${id}`}</Link>
-            </div>
-            <div className={styles.last_element}>
+            </td>
+            <td>
                 <Button onClick={removeTransportOrder}>Remove</Button>
-            </div>
-        </div>
+            </td>
+        </tr>
     );
 };

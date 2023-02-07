@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './WarehouseList.module.css';
 import { UserListItem } from './UserListItem';
 import { UserProvider } from '../context';
 import { User } from '../types';
+import { Table } from '../../../components';
 
 type Props = {
     users?: User[];
@@ -10,12 +10,12 @@ type Props = {
 
 export const UserList: React.FC<Props> = ({ users }) => {
     return (
-        <div>
+        <Table headers={['User', 'Email', 'Joined']}>
             {users?.map((user) => (
                 <UserProvider key={user.id} user={user}>
                     <UserListItem />
                 </UserProvider>
             ))}
-        </div>
+        </Table>
     );
 };

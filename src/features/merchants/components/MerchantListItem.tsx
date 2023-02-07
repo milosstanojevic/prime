@@ -45,19 +45,17 @@ export const MerchantListItem = React.memo(() => {
 
     return (
         <>
-            <div className={styles.item}>
-                <div className={styles.item_element}>{id}</div>
-                <div className={styles.item_element}>
-                    <Link to={{ pathname: `/merchants/${id}/articles` }}>{name}</Link>
-                </div>
-                <div className={styles.item_element}>{address}</div>
-                <div className={styles.item_element}>
+            <tr>
+                <td>{id}</td>
+                <td>
+                    <Link to={{ pathname: `/merchant/${id}/articles` }}>{name}</Link>
+                </td>
+                <td>{address}</td>
+                <td>
                     <p dangerouslySetInnerHTML={{ __html: description }} />
-                </div>
-                <div className={styles.item_element}>
-                    {created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}
-                </div>
-                <div className={styles.item_element}>
+                </td>
+                <td>{created?.length ? formatDate(+created, 'PPpp') : 'Undefined'}</td>
+                <td>
                     <Menu
                         target={
                             <div>
@@ -74,8 +72,8 @@ export const MerchantListItem = React.memo(() => {
                             </div>
                         </Bubble>
                     </Menu>
-                </div>
-            </div>
+                </td>
+            </tr>
             <Modal open={showMerchantEdit} onClose={handleCloseMerchantEdit}>
                 <div className={styles.modal_form_wrapper}>
                     <MerchantForm

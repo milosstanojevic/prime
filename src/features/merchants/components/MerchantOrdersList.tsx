@@ -1,6 +1,7 @@
-import { TransportOrder } from 'features/transport_orders/types';
 import React from 'react';
+import { Table } from '../../../components';
 import { TransportOrderProvider } from '../../transport_orders';
+import { TransportOrder } from '../../transport_orders/types';
 import { MerchantOrderListItem } from './MerchantOrderListItem';
 
 interface MerchantsOrderListProps {
@@ -15,7 +16,7 @@ export const MerchantsOrderList: React.FC<MerchantsOrderListProps> = ({
     refetchOrders
 }) => {
     return (
-        <div>
+        <Table>
             {orders?.map((merchantOrder) => {
                 return merchantOrder?.parent_id === id ? (
                     <TransportOrderProvider
@@ -27,6 +28,6 @@ export const MerchantsOrderList: React.FC<MerchantsOrderListProps> = ({
                     </TransportOrderProvider>
                 ) : null;
             })}
-        </div>
+        </Table>
     );
 };

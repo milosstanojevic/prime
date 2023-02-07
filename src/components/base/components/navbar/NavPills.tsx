@@ -14,7 +14,7 @@ export const NavPills: React.FC<INavPills> = ({ navs, className }): JSX.Element 
                 <NavLink
                     key={id}
                     to={{ pathname: link }}
-                    // activeClassName={styles.active}
+                    className={({ isActive }) => (isActive ? styles.active : undefined)}
                 >
                     {name}
                 </NavLink>

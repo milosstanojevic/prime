@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './MerchantList.module.css';
 import { MerchantListItem } from './MerchantListItem';
 import { MerchantProvider } from '..';
 import { Merchant } from '../types';
+import { Table } from '../../../components';
 
 type Props = {
     merchants?: Merchant[];
@@ -10,12 +10,12 @@ type Props = {
 
 export const MerchantList: React.FC<Props> = ({ merchants }) => {
     return (
-        <div className={styles.warehouse_list}>
+        <Table>
             {merchants?.map((merchant) => (
                 <MerchantProvider key={merchant.id} merchant={merchant}>
                     <MerchantListItem />
                 </MerchantProvider>
             ))}
-        </div>
+        </Table>
     );
 };

@@ -7,6 +7,7 @@ import React from 'react';
 import { MerchantsOrderList } from './MerchantOrdersList';
 import { useNavigate, useParams } from 'react-router-dom';
 import hasOwnProperty from '../../../utils/hasOwnProperty';
+import MerchantTabs from './MerchantTabs';
 
 export const MerchantOrdersPage: React.FC = () => {
     const params = useParams();
@@ -30,15 +31,18 @@ export const MerchantOrdersPage: React.FC = () => {
     }, [navigate, mutateAdd, refetch]);
 
     return (
-        <div>
-            <Button onClick={handleCreateOrder} disabled={mutateAdd.isLoading}>
-                Create Order
-            </Button>
-            {isLoading ? (
-                <Loading />
-            ) : (
-                <MerchantsOrderList refetchOrders={refetch} orders={orders} id={id} />
-            )}
-        </div>
+        <>
+            <MerchantTabs />
+            <div>
+                <Button onClick={handleCreateOrder} disabled={mutateAdd.isLoading}>
+                    Create Order
+                </Button>
+                {isLoading ? (
+                    <Loading />
+                ) : (
+                    <MerchantsOrderList refetchOrders={refetch} orders={orders} id={id} />
+                )}
+            </div>
+        </>
     );
 };

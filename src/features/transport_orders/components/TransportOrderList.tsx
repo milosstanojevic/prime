@@ -1,6 +1,7 @@
-import { TransportOrder } from 'features/transport_orders/types';
 import React from 'react';
+import { Table } from '../../../components';
 import { TransportOrderProvider } from '../../transport_orders';
+import { TransportOrder } from '../types';
 import { TransportOrderListItem } from './TransportOrderListItem';
 
 interface TransportOrderListProps {
@@ -13,7 +14,7 @@ export const TransportOrderList: React.FC<TransportOrderListProps> = ({
     refetchOrders
 }) => {
     return (
-        <div>
+        <Table>
             {orders?.map((order) => {
                 return (
                     <TransportOrderProvider
@@ -25,6 +26,6 @@ export const TransportOrderList: React.FC<TransportOrderListProps> = ({
                     </TransportOrderProvider>
                 );
             })}
-        </div>
+        </Table>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './TransportsPage.module.css';
-import { Button, Loading, Modal } from '../../../components';
+import { Button, Loading, Modal, Table } from '../../../components';
 import { TransportForm, TransportProvider, useAddTransportRoute, useGetTransportRoutes } from '..';
 import { TransportListItem } from '.';
 import { Transport } from '../types';
@@ -37,13 +37,13 @@ export const TransportsPage = () => {
             {isLoading ? (
                 <Loading />
             ) : (
-                <div className={styles.transport_list}>
+                <Table>
                     {transports?.map((transport) => (
                         <TransportProvider key={transport.id} transport={transport}>
                             <TransportListItem />
                         </TransportProvider>
                     ))}
-                </div>
+                </Table>
             )}
 
             <Modal open={show} onClose={handleCloseModal}>

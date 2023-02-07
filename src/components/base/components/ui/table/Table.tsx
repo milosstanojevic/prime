@@ -22,7 +22,9 @@ export const Table: React.FC<TableProps> = ({
         <TableLoaderSkeleton />
     ) : (
         <div className={styles.table_wrapper}>
-            <table className={styles.table}>
+            <table
+                className={`${styles.table} ${!pagination?.count ? styles.withoutLastBorder : ''}`}
+            >
                 {headers?.length ? (
                     <thead>
                         <tr>

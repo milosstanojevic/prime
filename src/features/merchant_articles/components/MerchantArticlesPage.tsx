@@ -2,7 +2,8 @@ import { useGetArticles } from '../../../features/articles';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetMerchantArticles } from '../api';
-import styles from './MerchantArticlesPage.module.css';
+import MerchantTabs from '../../merchants/components/MerchantTabs';
+import { Table } from '../../../components';
 
 export const MerchantArticlesPage = () => {
     const params = useParams();
@@ -21,18 +22,23 @@ export const MerchantArticlesPage = () => {
         return [];
     }, [articles, merchantArticles]);
     return (
-        <div>
-            <h4>Merchant Articles</h4>
-            {describedArticles.map((article) => (
-                <div className={styles.list_wrapper} key={article.id}>
-                    <div className={styles.list_item}>{article.name}</div>
-                    <div className={styles.list_item}>{article.description}</div>
-                    <div className={styles.list_item}>{article.serial}</div>
-                    <div className={styles.list_item}>
-                        {article.quantity} {article.unit}
-                    </div>
-                </div>
-            ))}
-        </div>
+        <>
+            <MerchantTabs />
+            <div>
+                <h4>Merchant Articles</h4>
+                <Table>
+                    {describedArticles.map((article) => (
+                        <tr key={article.id}>
+                            <td>{article.name}</td>
+                            <td>{article.description}</td>
+                            <td>{article.serial}</td>
+                            <td>
+                                {article.quantity} {article.unit}
+                            </td>
+                        </tr>
+                    ))}
+                </Table>
+            </div>
+        </>
     );
 };

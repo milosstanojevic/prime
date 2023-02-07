@@ -40,8 +40,9 @@ export const Navbar: React.FC = () => {
                 {isInDevelopmentMode ? (
                     <li>
                         <NavLink
-                            // activeClassName={styles.active}
-                            className={styles.nav_links}
+                            className={({ isActive }) => {
+                                return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                            }}
                             to="/components"
                         >
                             Components
@@ -50,17 +51,19 @@ export const Navbar: React.FC = () => {
                 ) : null}
                 <li>
                     <NavLink
-                        // activeClassName={styles.active}
-                        className={styles.nav_links}
-                        to="/"
+                        className={({ isActive }) => {
+                            return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                        }}
+                        to="/warehouses"
                     >
                         Warehouses
                     </NavLink>
                 </li>
                 <li>
                     <NavLink
-                        // activeClassName={styles.active}
-                        className={styles.nav_links}
+                        className={({ isActive }) => {
+                            return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                        }}
                         to="/merchants"
                     >
                         Merchants
@@ -68,8 +71,9 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                     <NavLink
-                        // activeClassName={styles.active}
-                        className={styles.nav_links}
+                        className={({ isActive }) => {
+                            return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                        }}
                         to="/articles"
                     >
                         Articles
@@ -77,8 +81,9 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                     <NavLink
-                        // activeClassName={styles.active}
-                        className={styles.nav_links}
+                        className={({ isActive }) => {
+                            return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                        }}
                         to="/transport-routes"
                     >
                         Transports
@@ -86,8 +91,9 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                     <NavLink
-                        // activeClassName={styles.active}
-                        className={styles.nav_links}
+                        className={({ isActive }) => {
+                            return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                        }}
                         to="/orders"
                     >
                         Orders
@@ -95,8 +101,9 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li>
                     <NavLink
-                        // activeClassName={styles.active}
-                        className={styles.nav_links}
+                        className={({ isActive }) => {
+                            return `${styles.nav_links} ${isActive ? styles.active : ''}`;
+                        }}
                         to="/users"
                     >
                         Users

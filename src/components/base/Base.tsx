@@ -53,30 +53,29 @@ export const Base: React.FC = () => {
                     }
                 />
                 <Route
-                    path="merchants/:id"
+                    path="merchant/:id"
                     element={
                         <ProtectedRoute>
                             <MerchantPage />
                         </ProtectedRoute>
                     }
-                >
-                    <Route
-                        path="articles"
-                        element={
-                            <ProtectedRoute>
-                                <MerchantArticlesPage />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="orders"
-                        element={
-                            <ProtectedRoute>
-                                <MerchantOrdersPage />
-                            </ProtectedRoute>
-                        }
-                    />
-                </Route>
+                />
+                <Route
+                    path="merchant/:id/articles"
+                    element={
+                        <ProtectedRoute>
+                            <MerchantArticlesPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="merchant/:id/orders"
+                    element={
+                        <ProtectedRoute>
+                            <MerchantOrdersPage />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route
                     path="articles"
                     element={

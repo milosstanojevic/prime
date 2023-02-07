@@ -5,7 +5,8 @@ import {
     getRefreshToken,
     removeAccessToken,
     removeRefreshToken,
-    setAccessToken
+    setAccessToken,
+    setRefreshToken
 } from '../features/auth/token';
 
 const API_ROOT = import.meta.env.VITE_API_URL || '';
@@ -41,6 +42,7 @@ instance.interceptors.response.use(
 
         if (err.response) {
             // Access Token was expired
+            console.log(err, 'error');
             if (err.response.status === 401 && !originalConfig._retry) {
                 originalConfig._retry = true;
                 const refreshTokenParam = getRefreshToken();
@@ -49,7 +51,7 @@ instance.interceptors.response.use(
                     const rs = await refreshToken({ refresh_token: refreshTokenParam || '' });
                     const { access_token, refresh_token } = rs.data;
                     access_token && setAccessToken(access_token);
-                    refresh_token && setAccessToken(refresh_token);
+                    refresh_token && setRefreshToken(refresh_token);
 
                     return instance(originalConfig);
                 } catch (_error) {
@@ -64,8 +66,15 @@ instance.interceptors.response.use(
                 }
             }
 
+            if (err.response.status === 401 && originalConfig._retry) {
+                removeAccessToken();
+                removeRefreshToken();
+                window.location.replace('/');
+                return Promise.reject(err.response.data);
+            }
+
             if (err.response.status === 400) {
-                console.log(err, 'OPAAAA');
+                console.log(err, 'Error');
             }
 
             if (err.response.status === 403 && err.response.data) {

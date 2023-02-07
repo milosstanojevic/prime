@@ -1,4 +1,4 @@
-import { Article } from 'features/articles/types';
+import { Article } from '../articles/types';
 
 export interface TransportOrderArticle extends Article {
     id?: number;

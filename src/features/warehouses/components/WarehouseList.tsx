@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './WarehouseList.module.css';
 import { WarehouseListItem } from './WarehouseListItem';
 import { WarehouseProvider } from '../context';
 import { Warehouse } from '../types';
 import { descSort } from '../../../features/utils';
+import { Table } from '../../../components';
 
 type Props = {
     warehouses?: Warehouse[];
@@ -23,12 +23,12 @@ export const WarehouseList: React.FC<Props> = ({ warehouses }) => {
     }, [warehouses]);
 
     return (
-        <div className={styles.warehouse_list}>
+        <Table>
             {sortedWarehouses.map((warehouse) => (
                 <WarehouseProvider key={warehouse.id} warehouse={warehouse}>
                     <WarehouseListItem />
                 </WarehouseProvider>
             ))}
-        </div>
+        </Table>
     );
 };
